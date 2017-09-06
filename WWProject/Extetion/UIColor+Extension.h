@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  UIColor+Extension.h
 //  WWProject
 //
 //  Created by zcl_kingsoft on 2017/9/6.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
+@interface UIColor (Extension)
 
++ (UIColor *)colorWithHexString:(NSString *)stringToConvert;
 
 @end
-

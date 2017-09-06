@@ -1,0 +1,20 @@
+//
+//  WWProject-Prefix.pch
+//  WWProject
+//
+//  Created by zcl_kingsoft on 2017/9/6.
+//  Copyright © 2017年 zcl_kingsoft. All rights reserved.
+//
+
+#ifndef WWProject_Prefix_pch
+#define WWProject_Prefix_pch
+
+#import "UIColor+Extension.h"
+#import "UIView+Frame.h"
+#import "UIImageView+WebCache.h"
+
+#define kScreen_Bounds [UIScreen mainScreen].bounds
+#define kScreen_Height [UIScreen mainScreen].bounds.size.height
+#define kScreen_Width [UIScreen mainScreen].bounds.size.width
+
+#endif /* WWProject_Prefix_pch */
