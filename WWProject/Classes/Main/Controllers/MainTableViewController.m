@@ -23,7 +23,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    
+    [self mm_setupHeaderView];
 }
 
 
@@ -41,7 +41,12 @@
 #pragma mark - private
 - (void)mm_refreshBannerView
 {
-    
+    [self.bannerView reload];
+}
+
+- (void)mm_setupHeaderView
+{
+    self.tableView.tableHeaderView = self.bannerView;
 }
 
 #pragma mark - setter & getter
@@ -55,7 +60,7 @@
         data2.imageUrl = @"http://pic35.photophoto.cn/20150601/0038038082361163_b.jpg";
         _bannerView.bannerList = @[data1, data2];
         _bannerView.tapBlock = ^(BannerData *bannerData) {
-            NSLog(@"");
+            NSLog(@"tap url: %@", bannerData.imageUrl);
         };
     }
     

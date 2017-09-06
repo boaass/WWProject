@@ -9,6 +9,9 @@
 #import "BannerView.h"
 #import "AutoSlideScrollView.h"
 
+@implementation BannerData
+@end
+
 @interface BannerView ()
 
 @property (nonatomic, strong) NSMutableArray <UIImageView *> * reuseViews;
@@ -19,9 +22,9 @@
 @implementation BannerView
 
 #pragma mark - public
-- (void)configBannerList:(NSArray <BannerData *> *)bannerList
+- (void)setBannerList:(NSArray<BannerData *> *)bannerList
 {
-    self.bannerList = bannerList;
+    _bannerList = bannerList;
     
     [self reload];
 }
@@ -43,10 +46,10 @@
     NSInteger currentPageIndex = self.autoSlideSV.currentPageIndex;
     if (pageIndex == currentPageIndex) {
         imageView = self.reuseViews[1];
-    }else if (pageIndex == currentPageIndex + 1
+    } else if (pageIndex == currentPageIndex + 1
               || (labs(pageIndex - currentPageIndex) > 1 && pageIndex < currentPageIndex)){
         imageView = self.reuseViews[2];
-    }else{
+    } else{
         imageView = self.reuseViews[0];
     }
     return imageView;
@@ -96,7 +99,7 @@
             UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width,self.height)];
             view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
             view.clipsToBounds = YES;
-            view.contentMode = UIViewContentModeScaleAspectFill;
+            view.contentMode = UIViewContentModeScaleToFill;
             [_reuseViews addObject:view];
         }
     }
