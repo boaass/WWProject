@@ -10,7 +10,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (Frame)
+@interface UIView (Extension)
 @property (nonatomic, assign) CGFloat x;
 @property (nonatomic, assign) CGFloat y;
 @property (nonatomic, assign) CGFloat centerX;
@@ -23,5 +23,7 @@
 @property (nonatomic, assign) CGFloat bottom;
 @property (nonatomic, assign) CGFloat left;
 @property (nonatomic, assign) CGFloat right;
+
+- (void)setSubScrollsToTop:(BOOL)scrollsToTop;
 
 @end

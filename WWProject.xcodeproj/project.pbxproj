@@ -21,7 +21,7 @@
 		77390FB61F5FEB790072324B /* MainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FAE1F5FEB790072324B /* MainTableViewController.m */; };
 		77390FB71F5FEB790072324B /* RootTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB31F5FEB790072324B /* RootTabBarViewController.m */; };
 		77390FBA1F5FED850072324B /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB91F5FED850072324B /* BannerView.m */; };
-		77390FBD1F5FFAA70072324B /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FBC1F5FFAA70072324B /* UIView+Frame.m */; };
+		77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FBC1F5FFAA70072324B /* UIView+Extension.m */; };
 		89ABAB314383FCE8A9FC6E74 /* libPods-WWProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81015F922E1019DEA8FAC9 /* libPods-WWProject.a */; };
 /* End PBXBuildFile section */
 
@@ -74,8 +74,8 @@
 		77390FB31F5FEB790072324B /* RootTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTabBarViewController.m; sourceTree = "<group>"; };
 		77390FB81F5FED850072324B /* BannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerView.h; sourceTree = "<group>"; };
 		77390FB91F5FED850072324B /* BannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
-		77390FBB1F5FFAA70072324B /* UIView+Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Frame.h"; sourceTree = "<group>"; };
-		77390FBC1F5FFAA70072324B /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
+		77390FBB1F5FFAA70072324B /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		77390FBC1F5FFAA70072324B /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		7F6303957A4A0C96FEE96A4C /* Pods-WWProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WWProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WWProject/Pods-WWProject.debug.xcconfig"; sourceTree = "<group>"; };
 		9A81015F922E1019DEA8FAC9 /* libPods-WWProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WWProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -213,8 +213,8 @@
 			children = (
 				77390F9C1F5FE9130072324B /* UIColor+Extension.h */,
 				77390F9D1F5FE9130072324B /* UIColor+Extension.m */,
-				77390FBB1F5FFAA70072324B /* UIView+Frame.h */,
-				77390FBC1F5FFAA70072324B /* UIView+Frame.m */,
+				77390FBB1F5FFAA70072324B /* UIView+Extension.h */,
+				77390FBC1F5FFAA70072324B /* UIView+Extension.m */,
 			);
 			path = Extetion;
 			sourceTree = "<group>";
@@ -511,7 +511,7 @@
 				77390F451F5FCFBE0072324B /* AppDelegate.m in Sources */,
 				77390FBA1F5FED850072324B /* BannerView.m in Sources */,
 				77390F421F5FCFBE0072324B /* main.m in Sources */,
-				77390FBD1F5FFAA70072324B /* UIView+Frame.m in Sources */,
+				77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

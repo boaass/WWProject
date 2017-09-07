@@ -9,10 +9,15 @@
 #import "MainTableViewController.h"
 #import "BannerView.h"
 #import "XTSegmentControl.h"
+#import "iCarousel.h"
 
-@interface MainTableViewController ()
+@interface MainTableViewController () <iCarouselDelegate, iCarouselDataSource>
 
 @property (nonatomic, strong) BannerView *bannerView;
+@property (nonatomic, strong) XTSegmentControl *segmentControl;
+@property (nonatomic, strong) iCarousel *carousel;
+
+@property (nonatomic, strong) NSArray *articleInfoList;
 
 @end
 
@@ -38,6 +43,48 @@
     return 0;
 }
 
+#pragma mark - iCarouselDelegate
+- (void)carouselDidScroll:(iCarousel *)carousel
+{
+    if (self.segmentControl) {
+        float offset = carousel.scrollOffset;
+        if (offset > 0) {
+            [self.segmentControl moveIndexWithProgress:offset];
+        }
+    }
+}
+
+- (void)carouselCurrentItemIndexDidChange:(iCarousel *)carousel
+{
+    if (self.segmentControl) {
+        self.segmentControl.currentIndex = carousel.currentItemIndex;
+    }
+    
+    [carousel.visibleItemViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj setSubScrollsToTop:obj == carousel.currentItemView];
+    }];
+}
+
+#pragma mark - iCarouselDataSource
+- (NSInteger)numberOfItemsInCarousel:(iCarousel *)carousel
+{
+    return self.articleInfoList.count;
+}
+
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(nullable UIView *)view
+{
+    UILabel *label = (UILabel *)view;
+    if (label) {
+        label.text = self.articleInfoList[index];
+    } else {
+        label = [[UILabel alloc] initWithFrame:carousel.bounds];
+        label.text = self.articleInfoList[index];
+    }
+    
+    [label setSubScrollsToTop:index == carousel.currentItemIndex];
+    return label;
+}
+
 #pragma mark - private
 - (void)mm_refreshBannerView
 {
@@ -46,10 +93,24 @@
 
 - (void)mm_setupHeaderView
 {
-    self.tableView.tableHeaderView = self.bannerView;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, self.bannerView.height+self.segmentControl.height)];
+    [view addSubview:self.bannerView];
+    [view addSubview:self.segmentControl];
+    self.tableView.tableHeaderView = view;
+    
+    [self.carousel reloadData];
 }
 
 #pragma mark - setter & getter
+- (NSArray *)articleInfoList
+{
+    if (!_articleInfoList) {
+        _articleInfoList = [[NSArray alloc] initWithObjects:@"1", @"2", @"3", @"4",  @"5", @"6", @"7", nil];
+    }
+    
+    return _articleInfoList;
+}
+
 - (BannerView *)bannerView
 {
     if (!_bannerView) {
@@ -65,6 +126,42 @@
     }
     
     return _bannerView;
+}
+
+- (XTSegmentControl *)segmentControl
+{
+    if (!_segmentControl) {
+        __weak typeof(self) weakSelf = self;
+        _segmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), kScreen_Width, 70) Items:self.articleInfoList showRightButton:YES selectedBlock:^(NSInteger index) {
+            [weakSelf.carousel scrollToItemAtIndex:index animated:NO];
+        }];
+        
+        _segmentControl.rightButtonBlock = ^(CGRect rightButtomRect) {
+            NSLog(@"按钮点击");
+        };
+        
+        [self.view addSubview:_segmentControl];
+    }
+    
+    return _segmentControl;
+}
+
+- (iCarousel *)carousel
+{
+    if (!_carousel) {
+        _carousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segmentControl.frame), kScreen_Width, self.view.height - CGRectGetMaxY(self.segmentControl.frame))];
+        _carousel.delegate = self;
+        _carousel.dataSource = self;
+        _carousel.decelerationRate = 1.0;
+        _carousel.scrollSpeed = 1.0;
+        _carousel.type = iCarouselTypeLinear;
+        _carousel.pagingEnabled = YES;
+        _carousel.clipsToBounds = YES;
+        _carousel.bounceDistance = 0.2;
+        [self.view addSubview:_carousel];
+    }
+    
+    return _carousel;
 }
 
 @end

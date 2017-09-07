@@ -10,7 +10,7 @@
 
 #define XTSegmentControlItemFont (15)
 
-#define XTSegmentControlHspace (0)
+#define XTSegmentControlHspace (12)
 
 #define XTSegmentControlLineHeight (2)
 
@@ -18,29 +18,66 @@
 
 #define XTSegmentControlIconWidth (50.0)
 
-#define XTSegmentControlIconSpace (4)
+#define XTSegmentControlItemCount 4
+
+typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
+{
+    XTSegmentControlItemTypeTitle = 0,
+    XTSegmentControlItemTypeIconUrl
+};
 
 @interface XTSegmentControlItem : UIView
 
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic , strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *titleIconView;
+@property (nonatomic, assign) XTSegmentControlItemType type;
 
+
+- (void)setSelected:(BOOL)selected;
 @end
 
 @implementation XTSegmentControlItem
 
-- (id)initWithFrame:(CGRect)frame title:(NSString *)title
+- (id)initWithFrame:(CGRect)frame title:(NSString *)title type:(XTSegmentControlItemType)type
 {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor clearColor];
+        _type = type;
+        switch (_type) {
+            case XTSegmentControlItemTypeTitle:
+            default:
+            {
+                _titleLabel = ({
+                    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(XTSegmentControlHspace, 0, CGRectGetWidth(self.bounds) - 2 * XTSegmentControlHspace, CGRectGetHeight(self.bounds))];
+                    label.font = [UIFont systemFontOfSize:XTSegmentControlItemFont];
+                    label.textAlignment = NSTextAlignmentCenter;
+                    label.text = title;
+                    label.textColor = [UIColor colorWithHexString:@"0x222222"];
+                    label.backgroundColor = [UIColor clearColor];
+                    label;
+                });
+                [self addSubview:_titleLabel];
+            }
+                break;
+        }
     }
     return self;
 }
 
-- (void)resetTitle:(NSString *)title
+- (void)setSelected:(BOOL)selected
 {
-    if (_titleLabel) {
-        _titleLabel.text = title;
+    switch (_type) {
+        case XTSegmentControlItemTypeIconUrl:
+        {
+        }
+            break;
+        default:
+        {
+            if (_titleLabel) {
+                [_titleLabel setTextColor:(selected? [UIColor colorWithHexString:@"0x3bbd79"]:[UIColor colorWithHexString:@"0x222222"])];
+            }
+        }
+            break;
     }
 }
 
@@ -50,6 +87,7 @@
 
 @property (nonatomic , strong) UIScrollView *contentView;
 
+@property(nonatomic,strong)UIButton *rightButton;
 @property (nonatomic , strong) UIView *leftShadowView;
 
 @property (nonatomic , strong) UIView *rightShadowView;
@@ -64,43 +102,59 @@
 
 @property (nonatomic , copy) XTSegmentControlBlock block;
 
+//是否显示左边
+@property(nonatomic,assign)BOOL showRightButton;
+
 @end
 
-@implementation XTSegmentControl
+static const CGFloat rightButtonWidth=40;
 
-- (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem withIcon:(BOOL)isIcon
-{
-    if (self = [super initWithFrame:frame]) {
-        [self initUIWith:isIcon Items:titleItem];
-    }
-    return self;
-}
+@implementation XTSegmentControl
 
 - (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem
 {
     if (self = [super initWithFrame:frame]) {
-        [self initUIWith:NO Items:titleItem];
+        _contentView = ({
+            
+            UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+            
+            scrollView.width=self.showRightButton?self.bounds.size.width-rightButtonWidth:self.bounds.size.width;
+            scrollView.backgroundColor = [UIColor clearColor];
+            scrollView.delegate = self;
+            scrollView.showsHorizontalScrollIndicator = NO;
+            scrollView.scrollsToTop = NO;
+            [self addSubview:scrollView];
+            
+            UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doTap:)];
+            [scrollView addGestureRecognizer:tapGes];
+            [tapGes requireGestureRecognizerToFail:scrollView.panGestureRecognizer];
+            scrollView;
+        });
+        
+        if (self.showRightButton) {
+            if (self.rightButton==nil) {
+                self.rightButton=[[UIButton alloc]initWithFrame:CGRectMake(self.bounds.size.width-rightButtonWidth, self.bounds.origin.y, rightButtonWidth, self.bounds.size.height)];
+                self.rightButton.adjustsImageWhenDisabled = NO;
+                [self.rightButton setImage:[UIImage imageNamed:@"icon_more"] forState:UIControlStateNormal];
+                [self.rightButton addTarget:self action:@selector(sortButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+                [self addSubview:self.rightButton];
+            }
+        }
+
+        
+        [self initItemsWithTitleArray:titleItem];
+        
     }
     return self;
 }
 
-- (void)initUIWith:(BOOL)isIcon Items:(NSArray *)titleItem
+-(void)sortButtonClick:(id)sender
 {
-    _contentView = ({
-        UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
-        scrollView.backgroundColor = [UIColor clearColor];
-        scrollView.delegate = self;
-        scrollView.showsHorizontalScrollIndicator = NO;
-        scrollView.scrollsToTop = NO;
-        [self addSubview:scrollView];
-        
-        UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doTap:)];
-        [scrollView addGestureRecognizer:tapGes];
-        [tapGes requireGestureRecognizerToFail:scrollView.panGestureRecognizer];
-        scrollView;
-    });
-    
-    [self initItemsWithTitleArray:titleItem withIcon:isIcon];
+    UIButton *rightButtom=(UIButton *)sender;
+    if(self.rightButtonBlock)
+    {
+        self.rightButtonBlock(rightButtom.frame);
+    }
 }
 
 - (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem delegate:(id<XTSegmentControlDelegate>)delegate
@@ -111,16 +165,9 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem withIcon:(BOOL)isIcon selectedBlock:(XTSegmentControlBlock)selectedHandle
+- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem showRightButton:(BOOL)isShowButton selectedBlock:(XTSegmentControlBlock)selectedHandle
 {
-    if (self = [self initWithFrame:frame Items:titleItem withIcon:isIcon]) {
-        self.block = selectedHandle;
-    }
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem selectedBlock:(XTSegmentControlBlock)selectedHandle
-{
+    self.showRightButton=isShowButton;
     if (self = [self initWithFrame:frame Items:titleItem]) {
         self.block = selectedHandle;
     }
@@ -138,7 +185,6 @@
         CGRect rect = [obj CGRectValue];
         
         if (CGRectContainsPoint(rect, point)) {
-            
             [weakSelf selectIndex:idx];
             
             [weakSelf transformAction:idx];
@@ -160,28 +206,36 @@
     }
 }
 
-- (void)initItemsWithTitleArray:(NSArray *)titleArray withIcon:(BOOL)isIcon
+- (void)initItemsWithTitleArray:(NSArray *)titleArray
 {
     _itemFrames = @[].mutableCopy;
     _items = @[].mutableCopy;
     float y = 0;
     float height = CGRectGetHeight(self.bounds);
-
+    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:XTSegmentControlItemFont]};
+    
     NSObject *obj = [titleArray firstObject];
     if ([obj isKindOfClass:[NSString class]]) {
         for (int i = 0; i < titleArray.count; i++) {
+            NSString *title = titleArray[i];
+            CGSize size = [title sizeWithAttributes:attributes];
+            
             float x = i > 0 ? CGRectGetMaxX([_itemFrames[i-1] CGRectValue]) : 0;
-            float width = kScreen_Width/titleArray.count;
+            float width = 2 * XTSegmentControlHspace + size.width;
             CGRect rect = CGRectMake(x, y, width, height);
+            CGFloat minW = (kScreen_Width - XTSegmentControlHspace)/XTSegmentControlItemCount;
+            if (rect.size.width < minW) {
+                rect = CGRectMake(rect.origin.x, rect.origin.y, minW, rect.size.height);
+            }
             [_itemFrames addObject:[NSValue valueWithCGRect:rect]];
         }
         
         for (int i = 0; i < titleArray.count; i++) {
             CGRect rect = [_itemFrames[i] CGRectValue];
             NSString *title = titleArray[i];
-            XTSegmentControlItem *item = [[XTSegmentControlItem alloc] initWithFrame:rect title:title];
-            if (!isIcon && i == 0) {
-//                [item setSelected:YES];
+            XTSegmentControlItem *item = [[XTSegmentControlItem alloc] initWithFrame:rect title:title type:XTSegmentControlItemTypeTitle];
+            if (i == 0) {
+                [item setSelected:YES];
             }
             [_items addObject:item];
             [_contentView addSubview:item];
@@ -189,150 +243,120 @@
 
     }
     
-    [_contentView setContentSize:CGSizeMake(CGRectGetMaxX([[_itemFrames lastObject] CGRectValue]), CGRectGetHeight(self.bounds))];
+    [_contentView setContentSize:CGSizeMake(CGRectGetMaxX([[_itemFrames lastObject] CGRectValue])+(self.showRightButton?rightButtonWidth:0), CGRectGetHeight(self.bounds))];
     self.currentIndex = 0;
     [self selectIndex:0];
-    if (isIcon) {
-        [self selectIndex:-1];
-        for (int i=1; i<_itemFrames.count; i++) {
-            CGRect rect = [_itemFrames[i] CGRectValue];
-            
-            UIView *lineView  = [[UIView alloc] initWithFrame:CGRectMake(
-                                                                         CGRectGetMinX(rect),
-                                                                         (CGRectGetHeight(rect) - 14) * 0.5,
-                                                                         1,
-                                                                         14)];
-            lineView.backgroundColor = [UIColor colorWithHexString:@"0xdddddd"];
-            [self addSubview:lineView];
-        }
-    }
 }
 
 - (void)addRedLine
 {
     if (!_lineView) {
         CGRect rect = [_itemFrames[0] CGRectValue];
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(
-                                                             CGRectGetMinX(rect),
-                                                             CGRectGetHeight(rect) - XTSegmentControlLineHeight,
-                                                             CGRectGetWidth(rect) - 2 * XTSegmentControlHspace,
-                                                             XTSegmentControlLineHeight)];
+        _lineView = [[UIView alloc] initWithFrame:CGRectMake(XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight)];
         _lineView.backgroundColor = [UIColor colorWithHexString:@"0x3bbd79"];
         [_contentView addSubview:_lineView];
-       
+        
         UIView *bottomLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(rect)-0.5, CGRectGetWidth(self.bounds), 0.5)];
         bottomLineView.backgroundColor = [UIColor colorWithHexString:@"0xc8c7cc"];
         [self addSubview:bottomLineView];
     }
 }
 
-- (void)setTitle:(NSString *)title withIndex:(NSInteger)index
-{
-    XTSegmentControlItem *curItem = [_items objectAtIndex:index];
-    [curItem resetTitle:title];
-}
-
 - (void)selectIndex:(NSInteger)index
 {
     [self addRedLine];
-    if (index < 0) {
-        _currentIndex = -1;
-        _lineView.hidden = TRUE;
-//        for (XTSegmentControlItem *curItem in _items) {
-//            [curItem setSelected:NO];
-//        }
-    } else {
-        _lineView.hidden = FALSE;
-    
-        if (index != _currentIndex) {
-//            XTSegmentControlItem *curItem = [_items objectAtIndex:index];
-            CGRect rect = [_itemFrames[index] CGRectValue];
-            CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
-            if (_currentIndex < 0) {
-                _lineView.frame = lineRect;
-//                [curItem setSelected:YES];
-                _currentIndex = index;
-            } else {
-                [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
-                    _lineView.frame = lineRect;
-                } completion:^(BOOL finished) {
-                    [_items enumerateObjectsUsingBlock:^(XTSegmentControlItem *item, NSUInteger idx, BOOL *stop) {
-//                        [item setSelected:NO];
-                    }];
-//                    [curItem setSelected:YES];
-                    _currentIndex = index;
-                }];
-            }
-        }
-        [self setScrollOffset:index];
+    if (index != self.currentIndex) {
+        self.currentIndex = index;
+//        XTSegmentControlItem *curItem = [_items objectAtIndex:index];
+        CGRect rect = [_itemFrames[index] CGRectValue];
+        CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
+        [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
+            _lineView.frame = lineRect;
+        } completion:^(BOOL finished) {
+//            [_items enumerateObjectsUsingBlock:^(XTSegmentControlItem *item, NSUInteger idx, BOOL *stop) {
+//                [item setSelected:NO];
+//            }];
+//            [curItem setSelected:YES];
+            
+            [self setScrollOffset:index];
+        }];
     }
 }
 
 - (void)moveIndexWithProgress:(float)progress
 {
-    progress = MAX(0, MIN(progress, _items.count));
-    
-    float delta = progress - _currentIndex;
-
-    CGRect origionRect = [_itemFrames[_currentIndex] CGRectValue];;
+    CGRect origionRect = [_itemFrames[self.currentIndex] CGRectValue];
     
     CGRect origionLineRect = CGRectMake(CGRectGetMinX(origionRect) + XTSegmentControlHspace, CGRectGetHeight(origionRect) - XTSegmentControlLineHeight, CGRectGetWidth(origionRect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
     
-    CGRect rect;
+    //增加下划线滚动的效果
+    [UIView animateWithDuration:0.5 animations:^{
+        _lineView.frame = origionLineRect;
+    } completion:nil];
     
-    if (delta > 0) {
-//        如果delta大于1的话，不能简单的用相邻item间距的乘法来计算距离
-        if (delta > 1) {
-            self.currentIndex += floorf(delta);
-            delta -= floorf(delta);
-            origionRect = [_itemFrames[_currentIndex] CGRectValue];;
-            origionLineRect = CGRectMake(CGRectGetMinX(origionRect) + XTSegmentControlHspace, CGRectGetHeight(origionRect) - XTSegmentControlLineHeight, CGRectGetWidth(origionRect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
-        }
-
-        
-        
-        if (_currentIndex == _itemFrames.count - 1) {
-            return;
-        }
-        
-        rect = [_itemFrames[_currentIndex + 1] CGRectValue];
-        
-        CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
-        
-        CGRect moveRect = CGRectZero;
-        
-        moveRect.size = CGSizeMake(CGRectGetWidth(origionLineRect) + delta * (CGRectGetWidth(lineRect) - CGRectGetWidth(origionLineRect)), CGRectGetHeight(lineRect));
-        moveRect.origin = CGPointMake(CGRectGetMidX(origionLineRect) + delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)) - CGRectGetMidX(moveRect), CGRectGetMidY(origionLineRect) - CGRectGetMidY(moveRect));
-        _lineView.frame = moveRect;
-    } else if (delta < 0){
-        
-        if (_currentIndex == 0) {
-            return;
-        }
-        rect = [_itemFrames[_currentIndex - 1] CGRectValue];
-        CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
-        CGRect moveRect = CGRectZero;
-        moveRect.size = CGSizeMake(CGRectGetWidth(origionLineRect) - delta * (CGRectGetWidth(lineRect) - CGRectGetWidth(origionLineRect)), CGRectGetHeight(lineRect));
-        moveRect.origin = CGPointMake(CGRectGetMidX(origionLineRect) - delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)) - CGRectGetMidX(moveRect), CGRectGetMidY(origionLineRect) - CGRectGetMidY(moveRect));
-        _lineView.frame = moveRect;
-        if (delta < -1) {
-            self.currentIndex -= 1;
-        }
-    }    
+    [self setScrollOffset:(int)progress];
+//    [self setScrollOffset:(int)progress];
+    
+//    progress = MAX(0, MIN(progress, _items.count));
+//    
+//    float delta = progress - _currentIndex;
+//    
+//    CGRect origionRect = [_itemFrames[_currentIndex] CGRectValue];;
+//    
+//    CGRect origionLineRect = CGRectMake(CGRectGetMinX(origionRect) + XTSegmentControlHspace, CGRectGetHeight(origionRect) - XTSegmentControlLineHeight, CGRectGetWidth(origionRect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
+//    
+//    CGRect rect;
+//    
+//    if (delta > 0) {
+//        //        如果delta大于1的话，不能简单的用相邻item间距的乘法来计算距离
+//        if (delta > 1) {
+//            self.currentIndex += floorf(delta);
+//            delta -= floorf(delta);
+//            origionRect = [_itemFrames[_currentIndex] CGRectValue];;
+//            origionLineRect = CGRectMake(CGRectGetMinX(origionRect) + XTSegmentControlHspace, CGRectGetHeight(origionRect) - XTSegmentControlLineHeight, CGRectGetWidth(origionRect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
+//        }
+//        
+//        
+//        
+//        if (_currentIndex == _itemFrames.count - 1) {
+//            return;
+//        }
+//        
+//        rect = [_itemFrames[_currentIndex + 1] CGRectValue];
+//        
+//        CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
+//        
+//        CGRect moveRect = CGRectZero;
+//        
+//        moveRect.size = CGSizeMake(CGRectGetWidth(origionLineRect) + delta * (CGRectGetWidth(lineRect) - CGRectGetWidth(origionLineRect)), CGRectGetHeight(lineRect));
+//        moveRect.origin = CGPointMake(CGRectGetMidX(origionLineRect) + delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)) - CGRectGetMidX(moveRect), CGRectGetMidY(origionLineRect) - CGRectGetMidY(moveRect));
+//        _lineView.frame = moveRect;
+//    } else if (delta < 0){
+//        
+//        if (_currentIndex == 0) {
+//            return;
+//        }
+//        rect = [_itemFrames[_currentIndex - 1] CGRectValue];
+//        CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
+//        CGRect moveRect = CGRectZero;
+//        moveRect.size = CGSizeMake(CGRectGetWidth(origionLineRect) - delta * (CGRectGetWidth(lineRect) - CGRectGetWidth(origionLineRect)), CGRectGetHeight(lineRect));
+//        moveRect.origin = CGPointMake(CGRectGetMidX(origionLineRect) - delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)) - CGRectGetMidX(moveRect), CGRectGetMidY(origionLineRect) - CGRectGetMidY(moveRect));
+//        _lineView.frame = moveRect;
+//        if (delta < -1) {
+//            self.currentIndex -= 1;
+//        }
+//    }
 }
 
 - (void)setCurrentIndex:(NSInteger)currentIndex
 {
-    currentIndex = MAX(0, MIN(currentIndex, _items.count));
-    
     if (currentIndex != _currentIndex) {
-//        XTSegmentControlItem *preItem = [_items objectAtIndex:_currentIndex];
-//        XTSegmentControlItem *curItem = [_items objectAtIndex:currentIndex];
-//        [preItem setSelected:NO];
-//        [curItem setSelected:YES];
+        XTSegmentControlItem *preItem = [_items objectAtIndex:_currentIndex];
+        XTSegmentControlItem *curItem = [_items objectAtIndex:currentIndex];
+        [preItem setSelected:NO];
+        [curItem setSelected:YES];
         _currentIndex = currentIndex;
     }
-    [self setScrollOffset:currentIndex];
 }
 
 - (void)endMoveIndex:(NSInteger)index
@@ -342,31 +366,21 @@
 
 - (void)setScrollOffset:(NSInteger)index
 {
-    if (_contentView.contentSize.width <= kScreen_Width) {
-        return;
+    CGFloat minW = (kScreen_Width - XTSegmentControlHspace)/XTSegmentControlItemCount;
+    
+    // 当前偏移量换算成index
+    NSUInteger offsetIndex = self.contentView.contentOffset.x/minW;
+    // 最大可视的index
+    NSUInteger maxOffsetIndex = offsetIndex + XTSegmentControlItemCount - 1;
+    if (index < offsetIndex) {
+        [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
+            [self.contentView setContentOffset:CGPointMake(self.contentView.contentOffset.x-minW, self.contentView.contentOffset.y)];
+        }];
+    } else if (index > maxOffsetIndex) {
+        [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
+            [self.contentView setContentOffset:CGPointMake(self.contentView.contentOffset.x+minW, self.contentView.contentOffset.y)];
+        }];
     }
-    
-    CGRect rect = [_itemFrames[index] CGRectValue];
-
-    float midX = CGRectGetMidX(rect);
-    
-    float offset = 0;
-    
-    float contentWidth = _contentView.contentSize.width;
-    
-    float halfWidth = CGRectGetWidth(self.bounds) / 2.0;
-    
-    if (midX < halfWidth) {
-        offset = 0;
-    }else if (midX > contentWidth - halfWidth){
-        offset = contentWidth - 2 * halfWidth;
-    }else{
-        offset = midX - halfWidth;
-    }
-    
-    [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
-        [_contentView setContentOffset:CGPointMake(offset, 0) animated:NO];
-    }];
 }
 
 int ExceMinIndex(float f)
@@ -377,6 +391,5 @@ int ExceMinIndex(float f)
     }
     return i;
 }
-
 @end
 

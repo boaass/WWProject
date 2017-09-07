@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 Coding. All rights reserved.
 //
 
-#import "UIView+Frame.h"
+#import "UIView+Extension.h"
 
-@implementation UIView (Frame)
+@implementation UIView (Extension)
 
 - (void)setX:(CGFloat)x
 {
@@ -132,6 +132,16 @@
 - (CGFloat)right
 {
     return self.frame.origin.x + self.frame.size.width;
+}
+
+- (void)setSubScrollsToTop:(BOOL)scrollsToTop
+{
+    [[self subviews] enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL *stop) {
+        if ([obj isKindOfClass:[UIScrollView class]]) {
+            [(UIScrollView *)obj setScrollEnabled:scrollsToTop];
+            *stop = YES;
+        }
+    }];
 }
 
 @end

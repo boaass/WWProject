@@ -30,8 +30,7 @@ typedef void(^XTSegmentControlBlock)(NSInteger index);
 
 - (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem delegate:(id <XTSegmentControlDelegate>)delegate;
 
-- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem selectedBlock:(XTSegmentControlBlock)selectedHandle;
-- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem withIcon:(BOOL)isIcon selectedBlock:(XTSegmentControlBlock)selectedHandle;
+- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem showRightButton:(BOOL)isShowButton selectedBlock:(XTSegmentControlBlock)selectedHandle;
 
 - (void)selectIndex:(NSInteger)index;
 
@@ -39,6 +38,9 @@ typedef void(^XTSegmentControlBlock)(NSInteger index);
 
 - (void)endMoveIndex:(NSInteger)index;
 
-- (void)setTitle:(NSString *)title withIndex:(NSInteger)index;
+- (void)setScrollOffset:(NSInteger)index;
+
+//当有右边按键时 进行响应事件
+@property (nonatomic,copy) void(^rightButtonBlock)(CGRect rightButtomRect);
 
 @end

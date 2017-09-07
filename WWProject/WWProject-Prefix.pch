@@ -10,7 +10,7 @@
 #define WWProject_Prefix_pch
 
 #import "UIColor+Extension.h"
-#import "UIView+Frame.h"
+#import "UIView+Extension.h"
 #import "UIImageView+WebCache.h"
 
 #define kScreen_Bounds [UIScreen mainScreen].bounds
