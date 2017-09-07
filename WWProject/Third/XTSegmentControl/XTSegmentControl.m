@@ -102,12 +102,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 
 @property (nonatomic , copy) XTSegmentControlBlock block;
 
-//是否显示左边
-@property(nonatomic,assign)BOOL showRightButton;
-
 @end
-
-static const CGFloat rightButtonWidth=40;
 
 @implementation XTSegmentControl
 
@@ -118,7 +113,7 @@ static const CGFloat rightButtonWidth=40;
             
             UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
             
-            scrollView.width=self.showRightButton?self.bounds.size.width-rightButtonWidth:self.bounds.size.width;
+            scrollView.width=self.bounds.size.width;
             scrollView.backgroundColor = [UIColor clearColor];
             scrollView.delegate = self;
             scrollView.showsHorizontalScrollIndicator = NO;
@@ -130,17 +125,6 @@ static const CGFloat rightButtonWidth=40;
             [tapGes requireGestureRecognizerToFail:scrollView.panGestureRecognizer];
             scrollView;
         });
-        
-        if (self.showRightButton) {
-            if (self.rightButton==nil) {
-                self.rightButton=[[UIButton alloc]initWithFrame:CGRectMake(self.bounds.size.width-rightButtonWidth, self.bounds.origin.y, rightButtonWidth, self.bounds.size.height)];
-                self.rightButton.adjustsImageWhenDisabled = NO;
-                [self.rightButton setImage:[UIImage imageNamed:@"icon_more"] forState:UIControlStateNormal];
-                [self.rightButton addTarget:self action:@selector(sortButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-                [self addSubview:self.rightButton];
-            }
-        }
-
         
         [self initItemsWithTitleArray:titleItem];
         
@@ -165,9 +149,8 @@ static const CGFloat rightButtonWidth=40;
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem showRightButton:(BOOL)isShowButton selectedBlock:(XTSegmentControlBlock)selectedHandle
+- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem selectedBlock:(XTSegmentControlBlock)selectedHandle
 {
-    self.showRightButton=isShowButton;
     if (self = [self initWithFrame:frame Items:titleItem]) {
         self.block = selectedHandle;
     }
@@ -243,7 +226,7 @@ static const CGFloat rightButtonWidth=40;
 
     }
     
-    [_contentView setContentSize:CGSizeMake(CGRectGetMaxX([[_itemFrames lastObject] CGRectValue])+(self.showRightButton?rightButtonWidth:0), CGRectGetHeight(self.bounds))];
+    [_contentView setContentSize:CGSizeMake(CGRectGetMaxX([[_itemFrames lastObject] CGRectValue]), CGRectGetHeight(self.bounds))];
     self.currentIndex = 0;
     [self selectIndex:0];
 }
@@ -267,17 +250,11 @@ static const CGFloat rightButtonWidth=40;
     [self addRedLine];
     if (index != self.currentIndex) {
         self.currentIndex = index;
-//        XTSegmentControlItem *curItem = [_items objectAtIndex:index];
         CGRect rect = [_itemFrames[index] CGRectValue];
         CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
         [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
             _lineView.frame = lineRect;
         } completion:^(BOOL finished) {
-//            [_items enumerateObjectsUsingBlock:^(XTSegmentControlItem *item, NSUInteger idx, BOOL *stop) {
-//                [item setSelected:NO];
-//            }];
-//            [curItem setSelected:YES];
-            
             [self setScrollOffset:index];
         }];
     }
@@ -295,57 +272,6 @@ static const CGFloat rightButtonWidth=40;
     } completion:nil];
     
     [self setScrollOffset:(int)progress];
-//    [self setScrollOffset:(int)progress];
-    
-//    progress = MAX(0, MIN(progress, _items.count));
-//    
-//    float delta = progress - _currentIndex;
-//    
-//    CGRect origionRect = [_itemFrames[_currentIndex] CGRectValue];;
-//    
-//    CGRect origionLineRect = CGRectMake(CGRectGetMinX(origionRect) + XTSegmentControlHspace, CGRectGetHeight(origionRect) - XTSegmentControlLineHeight, CGRectGetWidth(origionRect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
-//    
-//    CGRect rect;
-//    
-//    if (delta > 0) {
-//        //        如果delta大于1的话，不能简单的用相邻item间距的乘法来计算距离
-//        if (delta > 1) {
-//            self.currentIndex += floorf(delta);
-//            delta -= floorf(delta);
-//            origionRect = [_itemFrames[_currentIndex] CGRectValue];;
-//            origionLineRect = CGRectMake(CGRectGetMinX(origionRect) + XTSegmentControlHspace, CGRectGetHeight(origionRect) - XTSegmentControlLineHeight, CGRectGetWidth(origionRect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
-//        }
-//        
-//        
-//        
-//        if (_currentIndex == _itemFrames.count - 1) {
-//            return;
-//        }
-//        
-//        rect = [_itemFrames[_currentIndex + 1] CGRectValue];
-//        
-//        CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
-//        
-//        CGRect moveRect = CGRectZero;
-//        
-//        moveRect.size = CGSizeMake(CGRectGetWidth(origionLineRect) + delta * (CGRectGetWidth(lineRect) - CGRectGetWidth(origionLineRect)), CGRectGetHeight(lineRect));
-//        moveRect.origin = CGPointMake(CGRectGetMidX(origionLineRect) + delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)) - CGRectGetMidX(moveRect), CGRectGetMidY(origionLineRect) - CGRectGetMidY(moveRect));
-//        _lineView.frame = moveRect;
-//    } else if (delta < 0){
-//        
-//        if (_currentIndex == 0) {
-//            return;
-//        }
-//        rect = [_itemFrames[_currentIndex - 1] CGRectValue];
-//        CGRect lineRect = CGRectMake(CGRectGetMinX(rect) + XTSegmentControlHspace, CGRectGetHeight(rect) - XTSegmentControlLineHeight, CGRectGetWidth(rect) - 2 * XTSegmentControlHspace, XTSegmentControlLineHeight);
-//        CGRect moveRect = CGRectZero;
-//        moveRect.size = CGSizeMake(CGRectGetWidth(origionLineRect) - delta * (CGRectGetWidth(lineRect) - CGRectGetWidth(origionLineRect)), CGRectGetHeight(lineRect));
-//        moveRect.origin = CGPointMake(CGRectGetMidX(origionLineRect) - delta * (CGRectGetMidX(lineRect) - CGRectGetMidX(origionLineRect)) - CGRectGetMidX(moveRect), CGRectGetMidY(origionLineRect) - CGRectGetMidY(moveRect));
-//        _lineView.frame = moveRect;
-//        if (delta < -1) {
-//            self.currentIndex -= 1;
-//        }
-//    }
 }
 
 - (void)setCurrentIndex:(NSInteger)currentIndex
@@ -368,15 +294,16 @@ static const CGFloat rightButtonWidth=40;
 {
     CGFloat minW = (kScreen_Width - XTSegmentControlHspace)/XTSegmentControlItemCount;
     
-    // 当前偏移量换算成index
-    NSUInteger offsetIndex = self.contentView.contentOffset.x/minW;
+    // 当前偏移量换算成index, 手动滑动contentView时会使 contentOffset.x 少一个XTSegmentControlHspace
+    NSUInteger offsetIndex = (self.contentView.contentOffset.x+XTSegmentControlHspace)/minW;
     // 最大可视的index
-    NSUInteger maxOffsetIndex = offsetIndex + XTSegmentControlItemCount - 1;
-    if (index < offsetIndex) {
+    NSUInteger maxOffsetIndex = (offsetIndex + XTSegmentControlItemCount - 1);
+    
+    if (index < offsetIndex || (index == offsetIndex && index != 0)) {
         [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
             [self.contentView setContentOffset:CGPointMake(self.contentView.contentOffset.x-minW, self.contentView.contentOffset.y)];
         }];
-    } else if (index > maxOffsetIndex) {
+    } else if (index > maxOffsetIndex || (index == maxOffsetIndex && index != self.items.count-1)) {
         [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{
             [self.contentView setContentOffset:CGPointMake(self.contentView.contentOffset.x+minW, self.contentView.contentOffset.y)];
         }];

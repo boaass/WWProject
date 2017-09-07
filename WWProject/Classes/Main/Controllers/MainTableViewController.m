@@ -132,7 +132,7 @@
 {
     if (!_segmentControl) {
         __weak typeof(self) weakSelf = self;
-        _segmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), kScreen_Width, 70) Items:self.articleInfoList showRightButton:YES selectedBlock:^(NSInteger index) {
+        _segmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), kScreen_Width, 70) Items:self.articleInfoList selectedBlock:^(NSInteger index) {
             [weakSelf.carousel scrollToItemAtIndex:index animated:NO];
         }];
         
