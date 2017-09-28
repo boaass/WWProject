@@ -7,5 +7,6 @@ pod 'Ono'
 pod 'iCarousel'
 pod 'RDVTabBarController'
 pod 'SDWebImage'
+pod 'hpple'
 
 end

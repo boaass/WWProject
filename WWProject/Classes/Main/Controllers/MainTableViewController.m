@@ -16,7 +16,6 @@
 @property (nonatomic, strong) BannerView *bannerView;
 @property (nonatomic, strong) XTSegmentControl *segmentControl;
 @property (nonatomic, strong) iCarousel *carousel;
-
 @property (nonatomic, strong) NSArray *articleInfoList;
 
 @end

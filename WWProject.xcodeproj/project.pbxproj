@@ -22,6 +22,19 @@
 		77390FB71F5FEB790072324B /* RootTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB31F5FEB790072324B /* RootTabBarViewController.m */; };
 		77390FBA1F5FED850072324B /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB91F5FED850072324B /* BannerView.m */; };
 		77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FBC1F5FFAA70072324B /* UIView+Extension.m */; };
+		8061F9641F7D44B600E7F4C8 /* NSURLRequest+KOGNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9441F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.m */; };
+		8061F9651F7D44B600E7F4C8 /* KOGAPIProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9481F7D44B500E7F4C8 /* KOGAPIProxy.m */; };
+		8061F9661F7D44B600E7F4C8 /* KOGAPIBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F94B1F7D44B500E7F4C8 /* KOGAPIBaseManager.m */; };
+		8061F9671F7D44B600E7F4C8 /* KOGURLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F94E1F7D44B500E7F4C8 /* KOGURLResponse.m */; };
+		8061F9681F7D44B600E7F4C8 /* KOGRequestGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9511F7D44B500E7F4C8 /* KOGRequestGenerator.m */; };
+		8061F9691F7D44B600E7F4C8 /* KOGService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9551F7D44B500E7F4C8 /* KOGService.m */; };
+		8061F96A1F7D44B600E7F4C8 /* KOGServiceFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9571F7D44B500E7F4C8 /* KOGServiceFactory.m */; };
+		8061F96B1F7D44B600E7F4C8 /* KOGAppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F95B1F7D44B500E7F4C8 /* KOGAppContext.m */; };
+		8061F96C1F7D44B600E7F4C8 /* KOGNetworkingConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8061F95E1F7D44B500E7F4C8 /* KOGNetworkingConfiguration.plist */; };
+		8061F9711F7D45B100E7F4C8 /* WWMainPageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9701F7D45B100E7F4C8 /* WWMainPageService.m */; };
+		8061F9741F7D583800E7F4C8 /* WWMainPageAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9731F7D583800E7F4C8 /* WWMainPageAPIManager.m */; };
+		8061F9781F7D5E6700E7F4C8 /* WWMainPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9771F7D5E6700E7F4C8 /* WWMainPageModel.m */; };
+		8061F97B1F7D607B00E7F4C8 /* WWArticleItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F97A1F7D607B00E7F4C8 /* WWArticleItemModel.m */; };
 		89ABAB314383FCE8A9FC6E74 /* libPods-WWProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81015F922E1019DEA8FAC9 /* libPods-WWProject.a */; };
 /* End PBXBuildFile section */
 
@@ -77,6 +90,33 @@
 		77390FBB1F5FFAA70072324B /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		77390FBC1F5FFAA70072324B /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		7F6303957A4A0C96FEE96A4C /* Pods-WWProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WWProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WWProject/Pods-WWProject.debug.xcconfig"; sourceTree = "<group>"; };
+		8061F9431F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+KOGNetworking.h"; sourceTree = "<group>"; };
+		8061F9441F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+KOGNetworking.m"; sourceTree = "<group>"; };
+		8061F9471F7D44B500E7F4C8 /* KOGAPIProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGAPIProxy.h; sourceTree = "<group>"; };
+		8061F9481F7D44B500E7F4C8 /* KOGAPIProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOGAPIProxy.m; sourceTree = "<group>"; };
+		8061F94A1F7D44B500E7F4C8 /* KOGAPIBaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGAPIBaseManager.h; sourceTree = "<group>"; };
+		8061F94B1F7D44B500E7F4C8 /* KOGAPIBaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOGAPIBaseManager.m; sourceTree = "<group>"; };
+		8061F94D1F7D44B500E7F4C8 /* KOGURLResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGURLResponse.h; sourceTree = "<group>"; };
+		8061F94E1F7D44B500E7F4C8 /* KOGURLResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOGURLResponse.m; sourceTree = "<group>"; };
+		8061F9501F7D44B500E7F4C8 /* KOGRequestGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGRequestGenerator.h; sourceTree = "<group>"; };
+		8061F9511F7D44B500E7F4C8 /* KOGRequestGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOGRequestGenerator.m; sourceTree = "<group>"; };
+		8061F9521F7D44B500E7F4C8 /* KOGNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGNetworking.h; sourceTree = "<group>"; };
+		8061F9541F7D44B500E7F4C8 /* KOGService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGService.h; sourceTree = "<group>"; };
+		8061F9551F7D44B500E7F4C8 /* KOGService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOGService.m; sourceTree = "<group>"; };
+		8061F9561F7D44B500E7F4C8 /* KOGServiceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGServiceFactory.h; sourceTree = "<group>"; };
+		8061F9571F7D44B500E7F4C8 /* KOGServiceFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOGServiceFactory.m; sourceTree = "<group>"; };
+		8061F95A1F7D44B500E7F4C8 /* KOGAppContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGAppContext.h; sourceTree = "<group>"; };
+		8061F95B1F7D44B500E7F4C8 /* KOGAppContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOGAppContext.m; sourceTree = "<group>"; };
+		8061F95D1F7D44B500E7F4C8 /* KOGNetworkingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGNetworkingConfiguration.h; sourceTree = "<group>"; };
+		8061F95E1F7D44B500E7F4C8 /* KOGNetworkingConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KOGNetworkingConfiguration.plist; sourceTree = "<group>"; };
+		8061F96F1F7D45B100E7F4C8 /* WWMainPageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWMainPageService.h; sourceTree = "<group>"; };
+		8061F9701F7D45B100E7F4C8 /* WWMainPageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWMainPageService.m; sourceTree = "<group>"; };
+		8061F9721F7D583800E7F4C8 /* WWMainPageAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWMainPageAPIManager.h; sourceTree = "<group>"; };
+		8061F9731F7D583800E7F4C8 /* WWMainPageAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWMainPageAPIManager.m; sourceTree = "<group>"; };
+		8061F9761F7D5E6700E7F4C8 /* WWMainPageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWMainPageModel.h; sourceTree = "<group>"; };
+		8061F9771F7D5E6700E7F4C8 /* WWMainPageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWMainPageModel.m; sourceTree = "<group>"; };
+		8061F9791F7D607B00E7F4C8 /* WWArticleItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWArticleItemModel.h; sourceTree = "<group>"; };
+		8061F97A1F7D607B00E7F4C8 /* WWArticleItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWArticleItemModel.m; sourceTree = "<group>"; };
 		9A81015F922E1019DEA8FAC9 /* libPods-WWProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WWProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -193,6 +233,7 @@
 		77390F911F5FE3720072324B /* Third */ = {
 			isa = PBXGroup;
 			children = (
+				8061F9401F7D44B500E7F4C8 /* KOGNetworking */,
 				77390F921F5FE3720072324B /* XTSegmentControl */,
 				77390F9F1F5FEA640072324B /* AutoSlideScrollView */,
 			);
@@ -287,6 +328,7 @@
 			children = (
 				77390FB11F5FEB790072324B /* Controllers */,
 				77390FB41F5FEB790072324B /* Views */,
+				8061F9751F7D5E3300E7F4C8 /* Models */,
 			);
 			path = Root;
 			sourceTree = "<group>";
@@ -296,6 +338,8 @@
 			children = (
 				77390FB21F5FEB790072324B /* RootTabBarViewController.h */,
 				77390FB31F5FEB790072324B /* RootTabBarViewController.m */,
+				8061F9721F7D583800E7F4C8 /* WWMainPageAPIManager.h */,
+				8061F9731F7D583800E7F4C8 /* WWMainPageAPIManager.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -305,6 +349,141 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		8061F9401F7D44B500E7F4C8 /* KOGNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				8061F9411F7D44B500E7F4C8 /* KOGNetworking */,
+				8061F9581F7D44B500E7F4C8 /* KOGNetworkingCustoms */,
+			);
+			path = KOGNetworking;
+			sourceTree = "<group>";
+		};
+		8061F9411F7D44B500E7F4C8 /* KOGNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				8061F9421F7D44B500E7F4C8 /* Category */,
+				8061F9451F7D44B500E7F4C8 /* Components */,
+				8061F94F1F7D44B500E7F4C8 /* Generators */,
+				8061F9521F7D44B500E7F4C8 /* KOGNetworking.h */,
+				8061F9531F7D44B500E7F4C8 /* Services */,
+			);
+			path = KOGNetworking;
+			sourceTree = "<group>";
+		};
+		8061F9421F7D44B500E7F4C8 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				8061F9431F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.h */,
+				8061F9441F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		8061F9451F7D44B500E7F4C8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8061F9461F7D44B500E7F4C8 /* APIProxy */,
+				8061F9491F7D44B500E7F4C8 /* BaseAPIManager */,
+				8061F94C1F7D44B500E7F4C8 /* URLResponse */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		8061F9461F7D44B500E7F4C8 /* APIProxy */ = {
+			isa = PBXGroup;
+			children = (
+				8061F9471F7D44B500E7F4C8 /* KOGAPIProxy.h */,
+				8061F9481F7D44B500E7F4C8 /* KOGAPIProxy.m */,
+			);
+			path = APIProxy;
+			sourceTree = "<group>";
+		};
+		8061F9491F7D44B500E7F4C8 /* BaseAPIManager */ = {
+			isa = PBXGroup;
+			children = (
+				8061F94A1F7D44B500E7F4C8 /* KOGAPIBaseManager.h */,
+				8061F94B1F7D44B500E7F4C8 /* KOGAPIBaseManager.m */,
+			);
+			path = BaseAPIManager;
+			sourceTree = "<group>";
+		};
+		8061F94C1F7D44B500E7F4C8 /* URLResponse */ = {
+			isa = PBXGroup;
+			children = (
+				8061F94D1F7D44B500E7F4C8 /* KOGURLResponse.h */,
+				8061F94E1F7D44B500E7F4C8 /* KOGURLResponse.m */,
+			);
+			path = URLResponse;
+			sourceTree = "<group>";
+		};
+		8061F94F1F7D44B500E7F4C8 /* Generators */ = {
+			isa = PBXGroup;
+			children = (
+				8061F9501F7D44B500E7F4C8 /* KOGRequestGenerator.h */,
+				8061F9511F7D44B500E7F4C8 /* KOGRequestGenerator.m */,
+			);
+			path = Generators;
+			sourceTree = "<group>";
+		};
+		8061F9531F7D44B500E7F4C8 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				8061F9541F7D44B500E7F4C8 /* KOGService.h */,
+				8061F9551F7D44B500E7F4C8 /* KOGService.m */,
+				8061F9561F7D44B500E7F4C8 /* KOGServiceFactory.h */,
+				8061F9571F7D44B500E7F4C8 /* KOGServiceFactory.m */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8061F9581F7D44B500E7F4C8 /* KOGNetworkingCustoms */ = {
+			isa = PBXGroup;
+			children = (
+				8061F9591F7D44B500E7F4C8 /* AppContext */,
+				8061F95C1F7D44B500E7F4C8 /* Configurations */,
+				8061F95F1F7D44B500E7F4C8 /* CustomServices */,
+			);
+			path = KOGNetworkingCustoms;
+			sourceTree = "<group>";
+		};
+		8061F9591F7D44B500E7F4C8 /* AppContext */ = {
+			isa = PBXGroup;
+			children = (
+				8061F95A1F7D44B500E7F4C8 /* KOGAppContext.h */,
+				8061F95B1F7D44B500E7F4C8 /* KOGAppContext.m */,
+			);
+			path = AppContext;
+			sourceTree = "<group>";
+		};
+		8061F95C1F7D44B500E7F4C8 /* Configurations */ = {
+			isa = PBXGroup;
+			children = (
+				8061F95D1F7D44B500E7F4C8 /* KOGNetworkingConfiguration.h */,
+				8061F95E1F7D44B500E7F4C8 /* KOGNetworkingConfiguration.plist */,
+			);
+			path = Configurations;
+			sourceTree = "<group>";
+		};
+		8061F95F1F7D44B500E7F4C8 /* CustomServices */ = {
+			isa = PBXGroup;
+			children = (
+				8061F96F1F7D45B100E7F4C8 /* WWMainPageService.h */,
+				8061F9701F7D45B100E7F4C8 /* WWMainPageService.m */,
+			);
+			path = CustomServices;
+			sourceTree = "<group>";
+		};
+		8061F9751F7D5E3300E7F4C8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8061F9761F7D5E6700E7F4C8 /* WWMainPageModel.h */,
+				8061F9771F7D5E6700E7F4C8 /* WWMainPageModel.m */,
+				8061F9791F7D607B00E7F4C8 /* WWArticleItemModel.h */,
+				8061F97A1F7D607B00E7F4C8 /* WWArticleItemModel.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		95031C038BB518C598328C83 /* Frameworks */ = {
@@ -427,6 +606,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8061F96C1F7D44B600E7F4C8 /* KOGNetworkingConfiguration.plist in Resources */,
 				77390F501F5FCFBE0072324B /* LaunchScreen.storyboard in Resources */,
 				77390F4D1F5FCFBE0072324B /* Assets.xcassets in Resources */,
 			);
@@ -461,7 +641,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E9670D52407B9F6DDE2E989F /* [CP] Embed Pods Frameworks */ = {
@@ -502,16 +682,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				77390FB61F5FEB790072324B /* MainTableViewController.m in Sources */,
+				8061F9781F7D5E6700E7F4C8 /* WWMainPageModel.m in Sources */,
+				8061F9681F7D44B600E7F4C8 /* KOGRequestGenerator.m in Sources */,
+				8061F9741F7D583800E7F4C8 /* WWMainPageAPIManager.m in Sources */,
 				77390F951F5FE3720072324B /* XTSegmentControl.m in Sources */,
 				77390FA51F5FEA640072324B /* NSTimer+Addition.m in Sources */,
+				8061F97B1F7D607B00E7F4C8 /* WWArticleItemModel.m in Sources */,
+				8061F9711F7D45B100E7F4C8 /* WWMainPageService.m in Sources */,
 				77390F9E1F5FE9130072324B /* UIColor+Extension.m in Sources */,
 				77390FA41F5FEA640072324B /* AutoSlideScrollView.m in Sources */,
+				8061F96A1F7D44B600E7F4C8 /* KOGServiceFactory.m in Sources */,
+				8061F9661F7D44B600E7F4C8 /* KOGAPIBaseManager.m in Sources */,
 				77390FB71F5FEB790072324B /* RootTabBarViewController.m in Sources */,
+				8061F9651F7D44B600E7F4C8 /* KOGAPIProxy.m in Sources */,
 				77390FB51F5FEB790072324B /* FavoriteTableViewController.m in Sources */,
 				77390F451F5FCFBE0072324B /* AppDelegate.m in Sources */,
+				8061F9641F7D44B600E7F4C8 /* NSURLRequest+KOGNetworking.m in Sources */,
 				77390FBA1F5FED850072324B /* BannerView.m in Sources */,
 				77390F421F5FCFBE0072324B /* main.m in Sources */,
 				77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */,
+				8061F9691F7D44B600E7F4C8 /* KOGService.m in Sources */,
+				8061F96B1F7D44B600E7F4C8 /* KOGAppContext.m in Sources */,
+				8061F9671F7D44B600E7F4C8 /* KOGURLResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

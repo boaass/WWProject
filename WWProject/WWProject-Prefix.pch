@@ -13,6 +13,8 @@
 #import "UIView+Extension.h"
 #import "UIImageView+WebCache.h"
 
+#import "KOGAPIBaseManager.h"
+
 #define kScreen_Bounds [UIScreen mainScreen].bounds
 #define kScreen_Height [UIScreen mainScreen].bounds.size.height
 #define kScreen_Width [UIScreen mainScreen].bounds.size.width
