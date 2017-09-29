@@ -62,16 +62,44 @@
 - (void)managerCallAPIDidSuccess:(KOGAPIBaseManager *)manager
 {
     TFHpple *hpple = [[TFHpple alloc] initWithHTMLData:manager.response.responseData];
-    NSArray *items = [hpple searchWithXPathQuery:@"//a[@class='sd-slider-item']"];
-    for (TFHppleElement *element in items) {
+    
+    // 获取轮播图信息
+    NSArray *carouselItems = [hpple searchWithXPathQuery:@"//a[@class='sd-slider-item']"];
+    NSMutableArray *carouselImages = [NSMutableArray array];
+    for (TFHppleElement *element in carouselItems) {
         TFHpple *elementHpple = [[TFHpple alloc] initWithHTMLData:[element.raw dataUsingEncoding:NSUTF8StringEncoding]];
-        NSLog(@"%@", [[elementHpple peekAtSearchWithXPathQuery:@"//img"] objectForKey:@"src"]);
-        NSLog(@"%@", [[elementHpple peekAtSearchWithXPathQuery:@"//p"] objectForKey:@"title"]);
-//        NSLog(@"%@", element.raw);
+        WWArticleItemModel *model = [[WWArticleItemModel alloc] init];
+        model.title = [element objectForKey:@"title"];
+        model.bigImageUrl = [[elementHpple peekAtSearchWithXPathQuery:@"//img"] objectForKey:@"src"];
+        model.contentUrl = [[elementHpple peekAtSearchWithXPathQuery:@"//a"] objectForKey:@"href"];
+        [carouselImages addObject:model];
+        NSLog(@"model: %@", model);
     }
     
+    // 获取标签信息
+    NSString *baseTagUrl = @"http://weixin.sogou.com/pcindex/pc";
+    NSArray *tagItems1 = [hpple searchWithXPathQuery:@"//div[@class='fieed-box']/a"];
+    NSArray *tagItems2 = [hpple searchWithXPathQuery:@"//div[@class='tab-box-pop']/a"];
+    NSArray *tagItems = [tagItems1 arrayByAddingObjectsFromArray:tagItems2];
+    NSMutableDictionary *tags = [NSMutableDictionary dictionary];
+    for (TFHppleElement *element in tagItems) {
+        NSString *tag = [element text];
+        NSString *pcIndex = [element objectForKey:@"id"];
+        if ([pcIndex isEqualToString:@"more_anchor"]) {
+            continue;
+        }
+        NSString *url = [[baseTagUrl stringByAppendingPathComponent:pcIndex] stringByAppendingPathComponent:pcIndex];
+        [tags setObject:url forKey:tag];
+    }
+    
+    // 热词
+    
+    WWMainPageModel *model = [[WWMainPageModel alloc] init];
+    model.carouselImages = [carouselImages copy];
+    model.tags = [tags copy];
+    
     if (self.block) {
-        self.block(manager);
+        self.block(self);
     }
     NSLog(@"success");
 }
@@ -79,7 +107,7 @@
 - (void)managerCallAPIDidFailed:(KOGAPIBaseManager *)manager
 {
     if (self.block) {
-        self.block(manager);
+        self.block(self);
     }
     NSLog(@"failed");
 }

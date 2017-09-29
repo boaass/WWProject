@@ -49,7 +49,7 @@
 
 - (void)ww_loadData
 {
-    [self.manager loadDataWithBlock:^(KOGAPIBaseManager *manager) {
+    [self.manager loadDataWithBlock:^(WWMainPageAPIManager *manager) {
         
     }];
 }

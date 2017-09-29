@@ -8,9 +8,14 @@
 
 #import "KOGAPIBaseManager.h"
 
+@class WWMainPageAPIManager;
+@class WWMainPageModel;
 
-typedef void(^CompleteBlock)(KOGAPIBaseManager *);
+typedef void(^CompleteBlock)(WWMainPageAPIManager *);
+
 @interface WWMainPageAPIManager : KOGAPIBaseManager
+
+@property (nonatomic, strong) WWMainPageModel *model;
 
 - (void)loadDataWithBlock:(CompleteBlock)block;
 

@@ -12,7 +12,7 @@
 @interface WWMainPageModel : NSObject
 
 // 轮播图及对应url
-@property (nonatomic, strong) NSDictionary <NSString *, WWArticleItemModel *> *carouselImages;
+@property (nonatomic, strong) NSArray <WWArticleItemModel *> *carouselImages;
 // 标签及对应url
 @property (nonatomic, strong) NSDictionary <NSString *, NSString *> *tags;
 // 热词及对应热度
