@@ -112,6 +112,8 @@ const NSString * const kKOGAPIBaseManagerRequestID = @"k_kog_api_base_manager_re
 {
     self.isLoading = NO;
     self.response = response;
+    self.errorType = KOGAPIManagerErrorTypeSuccess;
+    self.error = nil;
     
     if (response.content) {
         self.fetchedRawData = [response.content copy];

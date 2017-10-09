@@ -22,7 +22,12 @@
 		77390FB71F5FEB790072324B /* RootTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB31F5FEB790072324B /* RootTabBarViewController.m */; };
 		77390FBA1F5FED850072324B /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB91F5FED850072324B /* BannerView.m */; };
 		77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FBC1F5FFAA70072324B /* UIView+Extension.m */; };
-		800D5E4A1F81EF7F003CFEAD /* WWHotwordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 800D5E491F81EF7F003CFEAD /* WWHotwordModel.m */; };
+		77C898581F8B6E970046EA13 /* WWArticleInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898571F8B6E970046EA13 /* WWArticleInfoManager.m */; };
+		77C898591F8B76860046EA13 /* WWMainPageAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */; };
+		77C8985D1F8B7CB90046EA13 /* WWMainPageTagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8985C1F8B7CB90046EA13 /* WWMainPageTagModel.m */; };
+		77C898651F8B7D580046EA13 /* WWHotwordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898611F8B7D580046EA13 /* WWHotwordModel.m */; };
+		77C898661F8B7D580046EA13 /* WWArticleItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898641F8B7D580046EA13 /* WWArticleItemModel.m */; };
+		77C898691F8B7DA50046EA13 /* WWMainPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898681F8B7DA40046EA13 /* WWMainPageModel.m */; };
 		8061F9641F7D44B600E7F4C8 /* NSURLRequest+KOGNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9441F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.m */; };
 		8061F9651F7D44B600E7F4C8 /* KOGAPIProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9481F7D44B500E7F4C8 /* KOGAPIProxy.m */; };
 		8061F9661F7D44B600E7F4C8 /* KOGAPIBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F94B1F7D44B500E7F4C8 /* KOGAPIBaseManager.m */; };
@@ -33,9 +38,6 @@
 		8061F96B1F7D44B600E7F4C8 /* KOGAppContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F95B1F7D44B500E7F4C8 /* KOGAppContext.m */; };
 		8061F96C1F7D44B600E7F4C8 /* KOGNetworkingConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8061F95E1F7D44B500E7F4C8 /* KOGNetworkingConfiguration.plist */; };
 		8061F9711F7D45B100E7F4C8 /* WWMainPageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9701F7D45B100E7F4C8 /* WWMainPageService.m */; };
-		8061F9741F7D583800E7F4C8 /* WWMainPageAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9731F7D583800E7F4C8 /* WWMainPageAPIManager.m */; };
-		8061F9781F7D5E6700E7F4C8 /* WWMainPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9771F7D5E6700E7F4C8 /* WWMainPageModel.m */; };
-		8061F97B1F7D607B00E7F4C8 /* WWArticleItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F97A1F7D607B00E7F4C8 /* WWArticleItemModel.m */; };
 		89ABAB314383FCE8A9FC6E74 /* libPods-WWProject.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A81015F922E1019DEA8FAC9 /* libPods-WWProject.a */; };
 /* End PBXBuildFile section */
 
@@ -90,9 +92,19 @@
 		77390FB91F5FED850072324B /* BannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
 		77390FBB1F5FFAA70072324B /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		77390FBC1F5FFAA70072324B /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		77C898541F8B6DB50046EA13 /* WWMainPageAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMainPageAPIManager.h; sourceTree = "<group>"; };
+		77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWMainPageAPIManager.m; sourceTree = "<group>"; };
+		77C898561F8B6E970046EA13 /* WWArticleInfoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWArticleInfoManager.h; sourceTree = "<group>"; };
+		77C898571F8B6E970046EA13 /* WWArticleInfoManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWArticleInfoManager.m; sourceTree = "<group>"; };
+		77C8985B1F8B7CB90046EA13 /* WWMainPageTagModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMainPageTagModel.h; sourceTree = "<group>"; };
+		77C8985C1F8B7CB90046EA13 /* WWMainPageTagModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWMainPageTagModel.m; sourceTree = "<group>"; };
+		77C898611F8B7D580046EA13 /* WWHotwordModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWHotwordModel.m; sourceTree = "<group>"; };
+		77C898621F8B7D580046EA13 /* WWArticleItemModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWArticleItemModel.h; sourceTree = "<group>"; };
+		77C898631F8B7D580046EA13 /* WWHotwordModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWHotwordModel.h; sourceTree = "<group>"; };
+		77C898641F8B7D580046EA13 /* WWArticleItemModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWArticleItemModel.m; sourceTree = "<group>"; };
+		77C898671F8B7DA40046EA13 /* WWMainPageModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMainPageModel.h; sourceTree = "<group>"; };
+		77C898681F8B7DA40046EA13 /* WWMainPageModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWMainPageModel.m; sourceTree = "<group>"; };
 		7F6303957A4A0C96FEE96A4C /* Pods-WWProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WWProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WWProject/Pods-WWProject.debug.xcconfig"; sourceTree = "<group>"; };
-		800D5E481F81EF7F003CFEAD /* WWHotwordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWHotwordModel.h; sourceTree = "<group>"; };
-		800D5E491F81EF7F003CFEAD /* WWHotwordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWHotwordModel.m; sourceTree = "<group>"; };
 		8061F9431F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+KOGNetworking.h"; sourceTree = "<group>"; };
 		8061F9441F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+KOGNetworking.m"; sourceTree = "<group>"; };
 		8061F9471F7D44B500E7F4C8 /* KOGAPIProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGAPIProxy.h; sourceTree = "<group>"; };
@@ -114,12 +126,6 @@
 		8061F95E1F7D44B500E7F4C8 /* KOGNetworkingConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KOGNetworkingConfiguration.plist; sourceTree = "<group>"; };
 		8061F96F1F7D45B100E7F4C8 /* WWMainPageService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWMainPageService.h; sourceTree = "<group>"; };
 		8061F9701F7D45B100E7F4C8 /* WWMainPageService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWMainPageService.m; sourceTree = "<group>"; };
-		8061F9721F7D583800E7F4C8 /* WWMainPageAPIManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWMainPageAPIManager.h; sourceTree = "<group>"; };
-		8061F9731F7D583800E7F4C8 /* WWMainPageAPIManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWMainPageAPIManager.m; sourceTree = "<group>"; };
-		8061F9761F7D5E6700E7F4C8 /* WWMainPageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWMainPageModel.h; sourceTree = "<group>"; };
-		8061F9771F7D5E6700E7F4C8 /* WWMainPageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWMainPageModel.m; sourceTree = "<group>"; };
-		8061F9791F7D607B00E7F4C8 /* WWArticleItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWArticleItemModel.h; sourceTree = "<group>"; };
-		8061F97A1F7D607B00E7F4C8 /* WWArticleItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWArticleItemModel.m; sourceTree = "<group>"; };
 		9A81015F922E1019DEA8FAC9 /* libPods-WWProject.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WWProject.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -304,6 +310,8 @@
 			children = (
 				77390FAC1F5FEB790072324B /* Controllers */,
 				77390FAF1F5FEB790072324B /* Views */,
+				77C8985A1F8B7CAF0046EA13 /* Models */,
+				77C898531F8B6DB50046EA13 /* Tools */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -341,8 +349,6 @@
 			children = (
 				77390FB21F5FEB790072324B /* RootTabBarViewController.h */,
 				77390FB31F5FEB790072324B /* RootTabBarViewController.m */,
-				8061F9721F7D583800E7F4C8 /* WWMainPageAPIManager.h */,
-				8061F9731F7D583800E7F4C8 /* WWMainPageAPIManager.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -352,6 +358,32 @@
 			children = (
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		77C898531F8B6DB50046EA13 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				77C898541F8B6DB50046EA13 /* WWMainPageAPIManager.h */,
+				77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */,
+				77C898561F8B6E970046EA13 /* WWArticleInfoManager.h */,
+				77C898571F8B6E970046EA13 /* WWArticleInfoManager.m */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		77C8985A1F8B7CAF0046EA13 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				77C898621F8B7D580046EA13 /* WWArticleItemModel.h */,
+				77C898641F8B7D580046EA13 /* WWArticleItemModel.m */,
+				77C898631F8B7D580046EA13 /* WWHotwordModel.h */,
+				77C898611F8B7D580046EA13 /* WWHotwordModel.m */,
+				77C898671F8B7DA40046EA13 /* WWMainPageModel.h */,
+				77C898681F8B7DA40046EA13 /* WWMainPageModel.m */,
+				77C8985B1F8B7CB90046EA13 /* WWMainPageTagModel.h */,
+				77C8985C1F8B7CB90046EA13 /* WWMainPageTagModel.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		8061F9401F7D44B500E7F4C8 /* KOGNetworking */ = {
@@ -481,12 +513,6 @@
 		8061F9751F7D5E3300E7F4C8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8061F9761F7D5E6700E7F4C8 /* WWMainPageModel.h */,
-				8061F9771F7D5E6700E7F4C8 /* WWMainPageModel.m */,
-				8061F9791F7D607B00E7F4C8 /* WWArticleItemModel.h */,
-				8061F97A1F7D607B00E7F4C8 /* WWArticleItemModel.m */,
-				800D5E481F81EF7F003CFEAD /* WWHotwordModel.h */,
-				800D5E491F81EF7F003CFEAD /* WWHotwordModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -646,7 +672,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		E9670D52407B9F6DDE2E989F /* [CP] Embed Pods Frameworks */ = {
@@ -687,29 +713,31 @@
 			buildActionMask = 2147483647;
 			files = (
 				77390FB61F5FEB790072324B /* MainTableViewController.m in Sources */,
-				800D5E4A1F81EF7F003CFEAD /* WWHotwordModel.m in Sources */,
-				8061F9781F7D5E6700E7F4C8 /* WWMainPageModel.m in Sources */,
 				8061F9681F7D44B600E7F4C8 /* KOGRequestGenerator.m in Sources */,
-				8061F9741F7D583800E7F4C8 /* WWMainPageAPIManager.m in Sources */,
 				77390F951F5FE3720072324B /* XTSegmentControl.m in Sources */,
 				77390FA51F5FEA640072324B /* NSTimer+Addition.m in Sources */,
-				8061F97B1F7D607B00E7F4C8 /* WWArticleItemModel.m in Sources */,
+				77C898691F8B7DA50046EA13 /* WWMainPageModel.m in Sources */,
 				8061F9711F7D45B100E7F4C8 /* WWMainPageService.m in Sources */,
 				77390F9E1F5FE9130072324B /* UIColor+Extension.m in Sources */,
 				77390FA41F5FEA640072324B /* AutoSlideScrollView.m in Sources */,
 				8061F96A1F7D44B600E7F4C8 /* KOGServiceFactory.m in Sources */,
 				8061F9661F7D44B600E7F4C8 /* KOGAPIBaseManager.m in Sources */,
+				77C898651F8B7D580046EA13 /* WWHotwordModel.m in Sources */,
 				77390FB71F5FEB790072324B /* RootTabBarViewController.m in Sources */,
 				8061F9651F7D44B600E7F4C8 /* KOGAPIProxy.m in Sources */,
 				77390FB51F5FEB790072324B /* FavoriteTableViewController.m in Sources */,
 				77390F451F5FCFBE0072324B /* AppDelegate.m in Sources */,
+				77C898661F8B7D580046EA13 /* WWArticleItemModel.m in Sources */,
 				8061F9641F7D44B600E7F4C8 /* NSURLRequest+KOGNetworking.m in Sources */,
 				77390FBA1F5FED850072324B /* BannerView.m in Sources */,
+				77C898581F8B6E970046EA13 /* WWArticleInfoManager.m in Sources */,
 				77390F421F5FCFBE0072324B /* main.m in Sources */,
 				77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */,
 				8061F9691F7D44B600E7F4C8 /* KOGService.m in Sources */,
 				8061F96B1F7D44B600E7F4C8 /* KOGAppContext.m in Sources */,
 				8061F9671F7D44B600E7F4C8 /* KOGURLResponse.m in Sources */,
+				77C8985D1F8B7CB90046EA13 /* WWMainPageTagModel.m in Sources */,
+				77C898591F8B76860046EA13 /* WWMainPageAPIManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

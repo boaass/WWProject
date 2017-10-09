@@ -10,11 +10,8 @@
 #import "RDVTabBarItem.h"
 #import "MainTableViewController.h"
 #import "FavoriteTableViewController.h"
-#import "WWMainPageAPIManager.h"
 
 @interface RootTabBarViewController ()
-
-@property (nonatomic, strong) WWMainPageAPIManager *manager;
 
 @end
 
@@ -26,7 +23,6 @@
     
     [self ww_setupChildrenVCs];
     [self ww_setupCustomTabBarItems];
-    [self ww_loadData];
 }
 
 #pragma mark - private
@@ -45,23 +41,6 @@
         [item setTitle:[tabBarItemTitles objectAtIndex:index]];
         index++;
     }
-}
-
-- (void)ww_loadData
-{
-    [self.manager loadDataWithBlock:^(WWMainPageAPIManager *manager) {
-        
-    }];
-}
-
-#pragma mark - getter & setter
-- (WWMainPageAPIManager *)manager
-{
-    if (!_manager) {
-        _manager = [[WWMainPageAPIManager alloc] init];
-    }
-    
-    return _manager;
 }
 
 @end
