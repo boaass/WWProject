@@ -11,6 +11,7 @@
 #import "TFHpple.h"
 #import "WWMainPageModel.h"
 #import "WWArticleItemModel.h"
+#import "WWHotwordModel.h"
 
 @interface WWMainPageAPIManager () <KOGAPIManager, KOGAPIManagerParamSource, KOGAPIManagerCallBackDelegate>
 
@@ -93,10 +94,31 @@
     }
     
     // 热词
+    NSMutableArray *topwords = [NSMutableArray array];
+    NSArray *topwordItems = [hpple searchWithXPathQuery:@"//ol[@id='topwords']/li"];
+    for (TFHppleElement *element in topwordItems) {
+        TFHpple *elementHpple = [[TFHpple alloc] initWithHTMLData:[element.raw dataUsingEncoding:NSUTF8StringEncoding]];
+        TFHppleElement *aElement = [elementHpple peekAtSearchWithXPathQuery:@"//a"];
+        TFHppleElement *spanElement = [elementHpple peekAtSearchWithXPathQuery:@"//span/span"];
+        WWHotwordModel *model = [[WWHotwordModel alloc] init];
+        model.title = [aElement objectForKey:@"title"];
+        model.contentUrl = [aElement objectForKey:@"href"];
+        NSString *percentStr = [[[spanElement objectForKey:@"style"] componentsSeparatedByString:@":"] lastObject];
+        model.hotPercent = [[percentStr substringToIndex:[percentStr length]-1] floatValue]/100;
+        [topwords addObject:model];
+    }
+    
+    // 搜索
+    TFHppleElement *baseUrlElement = [hpple peekAtSearchWithXPathQuery:@"//a[@uigs='search_logo']"];
+    NSString *searchBaseUrl = [baseUrlElement objectForKey:@"href"];
+    TFHppleElement *actionElement = [hpple peekAtSearchWithXPathQuery:@"//form[@name='searchForm']"];
+    NSString *action = [actionElement objectForKey:@"action"];
     
     WWMainPageModel *model = [[WWMainPageModel alloc] init];
     model.carouselImages = [carouselImages copy];
     model.tags = [tags copy];
+    model.hotWords = topwords;
+    model.accountSearchUrl = [searchBaseUrl stringByAppendingPathComponent:action];
     
     if (self.block) {
         self.block(self);

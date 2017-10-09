@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "WWArticleItemModel.h"
+#import "WWHotwordModel.h"
 
 @interface WWMainPageModel : NSObject
 
@@ -16,7 +17,7 @@
 // 标签及对应url
 @property (nonatomic, strong) NSDictionary <NSString *, NSString *> *tags;
 // 热词及对应热度
-@property (nonatomic, strong) NSDictionary <NSString *, NSString *> *hotWords;
+@property (nonatomic, strong) NSArray <WWHotwordModel *> *hotWords;
 // 公众号搜索地址
 @property (nonatomic, strong) NSString *accountSearchUrl;
 // 文章搜索地址

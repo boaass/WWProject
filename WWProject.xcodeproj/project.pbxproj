@@ -22,6 +22,7 @@
 		77390FB71F5FEB790072324B /* RootTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB31F5FEB790072324B /* RootTabBarViewController.m */; };
 		77390FBA1F5FED850072324B /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB91F5FED850072324B /* BannerView.m */; };
 		77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FBC1F5FFAA70072324B /* UIView+Extension.m */; };
+		800D5E4A1F81EF7F003CFEAD /* WWHotwordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 800D5E491F81EF7F003CFEAD /* WWHotwordModel.m */; };
 		8061F9641F7D44B600E7F4C8 /* NSURLRequest+KOGNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9441F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.m */; };
 		8061F9651F7D44B600E7F4C8 /* KOGAPIProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F9481F7D44B500E7F4C8 /* KOGAPIProxy.m */; };
 		8061F9661F7D44B600E7F4C8 /* KOGAPIBaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8061F94B1F7D44B500E7F4C8 /* KOGAPIBaseManager.m */; };
@@ -90,6 +91,8 @@
 		77390FBB1F5FFAA70072324B /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		77390FBC1F5FFAA70072324B /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		7F6303957A4A0C96FEE96A4C /* Pods-WWProject.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WWProject.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WWProject/Pods-WWProject.debug.xcconfig"; sourceTree = "<group>"; };
+		800D5E481F81EF7F003CFEAD /* WWHotwordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWHotwordModel.h; sourceTree = "<group>"; };
+		800D5E491F81EF7F003CFEAD /* WWHotwordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWHotwordModel.m; sourceTree = "<group>"; };
 		8061F9431F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLRequest+KOGNetworking.h"; sourceTree = "<group>"; };
 		8061F9441F7D44B500E7F4C8 /* NSURLRequest+KOGNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+KOGNetworking.m"; sourceTree = "<group>"; };
 		8061F9471F7D44B500E7F4C8 /* KOGAPIProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOGAPIProxy.h; sourceTree = "<group>"; };
@@ -482,6 +485,8 @@
 				8061F9771F7D5E6700E7F4C8 /* WWMainPageModel.m */,
 				8061F9791F7D607B00E7F4C8 /* WWArticleItemModel.h */,
 				8061F97A1F7D607B00E7F4C8 /* WWArticleItemModel.m */,
+				800D5E481F81EF7F003CFEAD /* WWHotwordModel.h */,
+				800D5E491F81EF7F003CFEAD /* WWHotwordModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -682,6 +687,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77390FB61F5FEB790072324B /* MainTableViewController.m in Sources */,
+				800D5E4A1F81EF7F003CFEAD /* WWHotwordModel.m in Sources */,
 				8061F9781F7D5E6700E7F4C8 /* WWMainPageModel.m in Sources */,
 				8061F9681F7D44B600E7F4C8 /* KOGRequestGenerator.m in Sources */,
 				8061F9741F7D583800E7F4C8 /* WWMainPageAPIManager.m in Sources */,
