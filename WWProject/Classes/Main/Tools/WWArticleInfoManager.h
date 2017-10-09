@@ -15,7 +15,7 @@ typedef void(^CompleteBlock)(WWArticleInfoManager *);
 
 @interface WWArticleInfoManager : KOGAPIBaseManager
 
-@property (nonatomic, strong, readonly) NSString *methodName;
+@property (nonatomic, strong, readonly) NSString *method;
 @property (nonatomic, strong, readonly) NSArray <WWArticleItemModel *> *articleInfo;
 
 - (void)loadDataWithUrl:(NSString *)methodName block:(CompleteBlock)block;

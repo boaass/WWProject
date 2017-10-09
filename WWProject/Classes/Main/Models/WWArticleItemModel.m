@@ -17,9 +17,10 @@
     model.title = self.title;
     model.bigImageUrl = self.bigImageUrl;
     model.author = self.author;
-    model.time = self.time;
+    model.timeStamp = self.timeStamp;
     model.overview = self.overview;
     model.contentUrl = self.contentUrl;
+    model.authorMainUrl = self.authorMainUrl;
     
     return model;
 }
@@ -30,9 +31,10 @@
     [aCoder encodeObject:_title forKey:@"title"];
     [aCoder encodeObject:_bigImageUrl forKey:@"bigImageUrl"];
     [aCoder encodeObject:_author forKey:@"author"];
-    [aCoder encodeObject:_time forKey:@"time"];
+    [aCoder encodeObject:_timeStamp forKey:@"timeStamp"];
     [aCoder encodeObject:_overview forKey:@"overview"];
     [aCoder encodeObject:_contentUrl forKey:@"contentUrl"];
+    [aCoder encodeObject:_authorMainUrl forKey:@"authorMainUrl"];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -41,9 +43,10 @@
         _title = [aDecoder decodeObjectForKey:@"title"];
         _bigImageUrl = [aDecoder decodeObjectForKey:@"bigImageUrl"];
         _author = [aDecoder decodeObjectForKey:@"author"];
-        _time = [aDecoder decodeObjectForKey:@"time"];
+        _timeStamp = [aDecoder decodeObjectForKey:@"timeStamp"];
         _overview = [aDecoder decodeObjectForKey:@"overview"];
         _contentUrl = [aDecoder decodeObjectForKey:@"contentUrl"];
+        _authorMainUrl = [aDecoder decodeObjectForKey:@"authorMainUrl"];
     }
     
     return self;
@@ -51,7 +54,7 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"{title:%@, bigImageUrl:%@, author:%@, time:%@, overview:%@, contentUrl:%@}", self.title, self.bigImageUrl, self.author, self.time, self.overview, self.contentUrl];;
+    return [NSString stringWithFormat:@"{title:%@, bigImageUrl:%@, author:%@, timeStamp:%@, overview:%@, contentUrl:%@, authorMainUrl:%@}", self.title, self.bigImageUrl, self.author, self.timeStamp, self.overview, self.contentUrl, self.authorMainUrl];
 }
 
 @end

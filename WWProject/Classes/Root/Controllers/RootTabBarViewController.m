@@ -8,7 +8,7 @@
 
 #import "RootTabBarViewController.h"
 #import "RDVTabBarItem.h"
-#import "MainTableViewController.h"
+#import "MainViewController.h"
 #import "FavoriteTableViewController.h"
 
 @interface RootTabBarViewController ()
@@ -28,7 +28,7 @@
 #pragma mark - private
 - (void)ww_setupChildrenVCs
 {
-    MainTableViewController *mainTVC = [[MainTableViewController alloc] init];
+    MainViewController *mainTVC = [[MainViewController alloc] init];
     FavoriteTableViewController *favoriteTVC = [[FavoriteTableViewController alloc] init];
     [self setViewControllers:@[mainTVC, favoriteTVC]];
 }

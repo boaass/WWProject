@@ -16,11 +16,13 @@
 @property (nonatomic, strong) NSString *bigImageUrl;
 // 作者
 @property (nonatomic, strong) NSString *author;
-// 发布时间
-@property (nonatomic, strong) NSString *time;
+// 发布时间戳
+@property (nonatomic, strong) NSString *timeStamp;
 // 概述
 @property (nonatomic, strong) NSString *overview;
 // 正文链接
 @property (nonatomic, strong) NSString *contentUrl;
+// 作者主页
+@property (nonatomic, strong) NSString *authorMainUrl;
 
 @end

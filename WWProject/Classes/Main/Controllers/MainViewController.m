@@ -6,7 +6,7 @@
 //  Copyright © 2017年 zcl_kingsoft. All rights reserved.
 //
 
-#import "MainTableViewController.h"
+#import "MainViewController.h"
 #import "BannerView.h"
 #import "XTSegmentControl.h"
 #import "iCarousel.h"
@@ -14,8 +14,9 @@
 #import "WWArticleItemModel.h"
 #import "WWMainPageModel.h"
 #import "WWMainPageTagModel.h"
+#import "WWTagTableView.h"
 
-@interface MainTableViewController () <iCarouselDelegate, iCarouselDataSource>
+@interface MainViewController () <iCarouselDelegate, iCarouselDataSource>
 
 @property (nonatomic, strong) WWMainPageAPIManager *manager;
 @property (nonatomic, strong) BannerView *bannerView;
@@ -26,7 +27,7 @@
 
 @end
 
-@implementation MainTableViewController
+@implementation MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,18 +35,6 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [self ww_loadData];
-}
-
-
-#pragma mark - TableDiewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    return 0;
 }
 
 #pragma mark - iCarouselDelegate
@@ -78,17 +67,17 @@
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(nullable UIView *)view
 {
-    UILabel *label = (UILabel *)view;
+    WWTagTableView *tableView = (WWTagTableView *)view;
     WWMainPageTagModel *model = self.tags[index];
-    if (label) {
-        label.text = model.url;
+    if (view) {
+        [tableView loadWithMethodName:model.url];
     } else {
-        label = [[UILabel alloc] initWithFrame:carousel.bounds];
-        label.text = model.url;
+        tableView = [[WWTagTableView alloc] initWithFrame:carousel.bounds];
+        [tableView loadWithMethodName:model.url];
     }
     
-    [label setSubScrollsToTop:index == carousel.currentItemIndex];
-    return label;
+    [tableView setSubScrollsToTop:index == carousel.currentItemIndex];
+    return tableView;
 }
 
 #pragma mark - private
@@ -102,7 +91,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, self.bannerView.height+self.segmentControl.height)];
     [view addSubview:self.bannerView];
     [view addSubview:self.segmentControl];
-    self.tableView.tableHeaderView = view;
+    [self.view addSubview:view];
     
     [self.carousel reloadData];
 }
