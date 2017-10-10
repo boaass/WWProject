@@ -22,6 +22,7 @@
 		77390FB71F5FEB790072324B /* RootTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB31F5FEB790072324B /* RootTabBarViewController.m */; };
 		77390FBA1F5FED850072324B /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB91F5FED850072324B /* BannerView.m */; };
 		77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FBC1F5FFAA70072324B /* UIView+Extension.m */; };
+		774994881F8C6869001F9E36 /* WWImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 774994871F8C6869001F9E36 /* WWImageView.m */; };
 		77C898581F8B6E970046EA13 /* WWArticleInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898571F8B6E970046EA13 /* WWArticleInfoManager.m */; };
 		77C898591F8B76860046EA13 /* WWMainPageAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */; };
 		77C8985D1F8B7CB90046EA13 /* WWMainPageTagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8985C1F8B7CB90046EA13 /* WWMainPageTagModel.m */; };
@@ -93,6 +94,8 @@
 		77390FB91F5FED850072324B /* BannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
 		77390FBB1F5FFAA70072324B /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
 		77390FBC1F5FFAA70072324B /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		774994861F8C6869001F9E36 /* WWImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWImageView.h; sourceTree = "<group>"; };
+		774994871F8C6869001F9E36 /* WWImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWImageView.m; sourceTree = "<group>"; };
 		77C898541F8B6DB50046EA13 /* WWMainPageAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMainPageAPIManager.h; sourceTree = "<group>"; };
 		77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWMainPageAPIManager.m; sourceTree = "<group>"; };
 		77C898561F8B6E970046EA13 /* WWArticleInfoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWArticleInfoManager.h; sourceTree = "<group>"; };
@@ -335,6 +338,8 @@
 				77390FB91F5FED850072324B /* BannerView.m */,
 				80A219281F8BB46F003E3361 /* WWTagTableView.h */,
 				80A219291F8BB46F003E3361 /* WWTagTableView.m */,
+				774994861F8C6869001F9E36 /* WWImageView.h */,
+				774994871F8C6869001F9E36 /* WWImageView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -741,6 +746,7 @@
 				77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */,
 				8061F9691F7D44B600E7F4C8 /* KOGService.m in Sources */,
 				8061F96B1F7D44B600E7F4C8 /* KOGAppContext.m in Sources */,
+				774994881F8C6869001F9E36 /* WWImageView.m in Sources */,
 				8061F9671F7D44B600E7F4C8 /* KOGURLResponse.m in Sources */,
 				77C8985D1F8B7CB90046EA13 /* WWMainPageTagModel.m in Sources */,
 				77C898591F8B76860046EA13 /* WWMainPageAPIManager.m in Sources */,

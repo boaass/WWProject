@@ -129,6 +129,7 @@
         for (WWArticleItemModel *model in self.carouselImages) {
             BannerData *data = [[BannerData alloc] init];
             data.imageUrl = model.bigImageUrl;
+            data.title = model.title;
             [bannerList addObject:data];
         }
         _bannerView.bannerList = [bannerList copy];

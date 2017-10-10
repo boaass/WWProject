@@ -70,7 +70,7 @@
     for (TFHppleElement *element in carouselItems) {
         TFHpple *elementHpple = [[TFHpple alloc] initWithHTMLData:[element.raw dataUsingEncoding:NSUTF8StringEncoding]];
         WWArticleItemModel *model = [[WWArticleItemModel alloc] init];
-        model.title = [element objectForKey:@"title"];
+        model.title = [[elementHpple peekAtSearchWithXPathQuery:@"//p"] objectForKey:@"title"];
         model.bigImageUrl = [[elementHpple peekAtSearchWithXPathQuery:@"//img"] objectForKey:@"src"];
         model.contentUrl = [[elementHpple peekAtSearchWithXPathQuery:@"//a"] objectForKey:@"href"];
         [carouselImages addObject:model];

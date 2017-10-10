@@ -8,13 +8,14 @@
 
 #import "BannerView.h"
 #import "AutoSlideScrollView.h"
+#import "WWImageView.h"
 
 @implementation BannerData
 @end
 
 @interface BannerView ()
 
-@property (nonatomic, strong) NSMutableArray <UIImageView *> * reuseViews;
+@property (nonatomic, strong) NSMutableArray <WWImageView *> * reuseViews;
 @property (nonatomic, strong) AutoSlideScrollView *autoSlideSV;
 
 @end
@@ -40,9 +41,9 @@
 }
 
 #pragma mark - private
-- (UIImageView *)ww_reuseViewForIndex:(NSInteger)pageIndex
+- (WWImageView *)ww_reuseViewForIndex:(NSInteger)pageIndex
 {
-    UIImageView *imageView;
+    WWImageView *imageView;
     NSInteger currentPageIndex = self.autoSlideSV.currentPageIndex;
     if (pageIndex == currentPageIndex) {
         imageView = self.reuseViews[1];
@@ -70,9 +71,9 @@
         
         _autoSlideSV.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex) {
             if (weakSelf.bannerList.count > pageIndex) {
-                UIImageView *imageView = [weakSelf ww_reuseViewForIndex:pageIndex];
+                WWImageView *imageView = [weakSelf ww_reuseViewForIndex:pageIndex];
                 BannerData *bannerData = weakSelf.bannerList[pageIndex];
-                [imageView sd_setImageWithURL:[NSURL URLWithString:bannerData.imageUrl]];
+                [imageView configImageUrl:bannerData.imageUrl title:bannerData.title];
                 return imageView;
             } else {
                 return [[UIView alloc] init];
@@ -91,12 +92,12 @@
     return _autoSlideSV;
 }
 
-- (NSMutableArray<UIImageView *> *)reuseViews
+- (NSMutableArray<WWImageView *> *)reuseViews
 {
     if (!_reuseViews) {
         _reuseViews = [[NSMutableArray alloc] initWithCapacity:3];
         for (int i = 0; i < 3; i++) {
-            UIImageView *view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.width,self.height)];
+            WWImageView *view = [[WWImageView alloc] initWithFrame:CGRectMake(0, 0, self.width,self.height)];
             view.backgroundColor = [UIColor colorWithHexString:@"0xe5e5e5"];
             view.clipsToBounds = YES;
             view.contentMode = UIViewContentModeScaleToFill;
