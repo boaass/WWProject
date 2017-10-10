@@ -24,6 +24,7 @@
 @property (nonatomic, strong) iCarousel *carousel;
 @property (nonatomic, strong) NSArray <WWArticleItemModel *> *carouselImages;
 @property (nonatomic, strong) NSArray <WWMainPageTagModel *> *tags;
+@property (nonatomic, strong) NSMutableArray <WWTagTableView *> *validViewPool;
 
 @end
 
@@ -67,15 +68,15 @@
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(nullable UIView *)view
 {
-    WWTagTableView *tableView = (WWTagTableView *)view;
+    WWTagTableView *tableView = nil;
     WWMainPageTagModel *model = self.tags[index];
-    if (view) {
-        [tableView loadWithMethodName:model.url];
-    } else {
+    if (self.validViewPool.count <= index) {
         tableView = [[WWTagTableView alloc] initWithFrame:carousel.bounds];
         [tableView loadWithMethodName:model.url];
+        [self.validViewPool insertObject:tableView atIndex:index];
+    } else {
+        tableView = [self.validViewPool objectAtIndex:index];
     }
-    
     [tableView setSubScrollsToTop:index == carousel.currentItemIndex];
     return tableView;
 }
@@ -179,6 +180,14 @@
     }
     
     return _carousel;
+}
+
+- (NSMutableArray<WWTagTableView *> *)validViewPool
+{
+    if (!_validViewPool) {
+        _validViewPool = [NSMutableArray array];
+    }
+    return _validViewPool;
 }
 
 @end

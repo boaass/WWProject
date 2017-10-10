@@ -20,6 +20,6 @@ typedef void(^CompleteBlock)(WWArticleInfoManager *);
 
 - (void)loadDataWithUrl:(NSString *)methodName block:(CompleteBlock)block;
 
-- (void)nextPage;
+- (void)nextPage:(CompleteBlock)block;
 
 @end

@@ -8,5 +8,6 @@ pod 'iCarousel'
 pod 'RDVTabBarController'
 pod 'SDWebImage'
 pod 'hpple'
+pod 'MJRefresh'
 
 end

@@ -10,6 +10,7 @@
 #import "WWArticleInfoManager.h"
 #import "WWArticleItemModel.h"
 #import "WWMainTableViewCell.h"
+#import "MJRefresh.h"
 
 @interface WWTagTableView () <UITableViewDelegate, UITableViewDataSource>
 
@@ -27,6 +28,15 @@
     if (self = [super initWithFrame:frame]) {
         self.delegate = self;
         self.dataSource = self;
+        
+        __weak typeof(self) weakSelf = self;
+        self.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+            [weakSelf loadWithMethodName:weakSelf.methodName];
+        }];
+        
+        self.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            [weakSelf ww_loadNext];
+        }];
     }
     
     return self;
@@ -39,7 +49,19 @@
     
     __weak typeof(self) weakSelf = self;
     [self.manager loadDataWithUrl:self.methodName block:^(WWArticleInfoManager *manager) {
+        [weakSelf.mj_header endRefreshing];
         weakSelf.articleInfo = manager.articleInfo;
+        [weakSelf reloadData];
+    }];
+}
+
+#pragma mark - private
+- (void)ww_loadNext
+{
+    __weak typeof(self) weakSelf = self;
+    [self.manager nextPage:^(WWArticleInfoManager *manager) {
+        [weakSelf.mj_footer endRefreshing];
+        weakSelf.articleInfo = [weakSelf.articleInfo arrayByAddingObjectsFromArray:manager.articleInfo];
         [weakSelf reloadData];
     }];
 }

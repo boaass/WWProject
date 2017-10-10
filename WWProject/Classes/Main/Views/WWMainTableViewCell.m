@@ -66,7 +66,7 @@
     self.overwriteLabel.text = self.model.overview;
     self.authorLabel.text = self.model.author;
     NSDateFormatter *format = [[NSDateFormatter alloc] init];
-    [format setDateFormat:@"yyyy/MM/dd"];
+    [format setDateFormat:@"yyyy/MM/dd HH:mm"];
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[self.model.timeStamp integerValue]];
     NSString *timeStr = [format stringFromDate:date];
     self.timeLabel.text = timeStr;

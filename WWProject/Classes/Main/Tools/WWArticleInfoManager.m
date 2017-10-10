@@ -15,6 +15,8 @@
 
 @property (nonatomic, strong, readwrite) NSArray <WWArticleItemModel *> *articleInfo;
 @property (nonatomic, strong, readwrite) NSString *method;
+@property (nonatomic, assign) NSInteger pageIndex;
+@property (nonatomic, strong) NSString *nextPageMethod;
 @property (nonatomic, strong) CompleteBlock block;
 
 @end
@@ -36,14 +38,22 @@
 - (void)loadDataWithUrl:(NSString *)methodName block:(CompleteBlock)block
 {
     self.method = methodName;
+    NSMutableArray *comStrArr = [NSMutableArray arrayWithArray:[self.method componentsSeparatedByString:@"/"]];
+    NSString *rStr = [self.method stringByReplacingOccurrencesOfString:@".html" withString:@""];
+    self.pageIndex = [[rStr substringFromIndex:rStr.length-1] integerValue];
+    [comStrArr replaceObjectAtIndex:comStrArr.count-1 withObject:[NSString stringWithFormat:@"%ld.html", self.pageIndex+1]];
+    self.nextPageMethod = [comStrArr componentsJoinedByString:@"/"];
+    
     self.block = block;
     
     [self loadData];
 }
 
-- (void)nextPage
+- (void)nextPage:(CompleteBlock)block
 {
-    
+    [self loadDataWithUrl:self.nextPageMethod block:^(WWArticleInfoManager *manager) {
+        block(manager);
+    }];
 }
 
 #pragma mark - KOGAPIManager
