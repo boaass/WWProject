@@ -9,6 +9,7 @@
 #import "WWTagTableView.h"
 #import "WWArticleInfoManager.h"
 #import "WWArticleItemModel.h"
+#import "WWMainTableViewCell.h"
 
 @interface WWTagTableView () <UITableViewDelegate, UITableViewDataSource>
 
@@ -44,7 +45,10 @@
 }
 
 #pragma mark - UITableViewDelegate
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 100;
+}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -54,15 +58,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *tableViewCellIndetifier = @"WWTagTableViewCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableViewCellIndetifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableViewCellIndetifier];
-    }
-    
+    WWMainTableViewCell *cell = [WWMainTableViewCell cellWithTableView:tableView];
     WWArticleItemModel *model = self.articleInfo[indexPath.row];
-    cell.textLabel.text = model.title;
-    
+    cell.model = model;
     return cell;
 }
 
