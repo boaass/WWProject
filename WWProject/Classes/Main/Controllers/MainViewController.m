@@ -15,6 +15,7 @@
 #import "WWMainPageModel.h"
 #import "WWMainPageTagModel.h"
 #import "WWTagTableView.h"
+#import "WWSearchViewController.h"
 
 @interface MainViewController () <iCarouselDelegate, iCarouselDataSource>
 
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) NSArray <WWArticleItemModel *> *carouselImages;
 @property (nonatomic, strong) NSArray <WWMainPageTagModel *> *tags;
 @property (nonatomic, strong) NSMutableArray <WWTagTableView *> *validViewPool;
+@property (nonatomic, strong) WWSearchViewController *searchVC;
 
 @end
 
@@ -34,8 +36,23 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    [self ww_setupNavigationBar];
     [self ww_loadData];
+}
+
+#pragma mark - private
+- (void)ww_setupNavigationBar
+{
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(rightBarButtonAction)];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+}
+
+#pragma mark - selector
+- (void)rightBarButtonAction
+{
+    NSLog(@"right");
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.searchVC];
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 #pragma mark - iCarouselDelegate
@@ -109,6 +126,8 @@
         WWMainPageModel *model = manager.model;
         weakSelf.carouselImages = model.carouselImages;
         weakSelf.tags = model.tags;
+        self.searchVC.accountSearchUrl = model.accountSearchUrl;
+        self.searchVC.articleSearchUrl = model.articleSearchUrl;
         [weakSelf ww_setupHeaderView];
     }];
 }
@@ -188,6 +207,14 @@
         _validViewPool = [NSMutableArray array];
     }
     return _validViewPool;
+}
+
+- (WWSearchViewController *)searchVC
+{
+    if (!_searchVC) {
+        _searchVC = [[WWSearchViewController alloc] init];
+    }
+    return _searchVC;
 }
 
 @end

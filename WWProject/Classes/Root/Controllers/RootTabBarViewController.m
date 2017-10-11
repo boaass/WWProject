@@ -10,8 +10,11 @@
 #import "RDVTabBarItem.h"
 #import "MainViewController.h"
 #import "FavoriteTableViewController.h"
+#import "WWMainNavigationController.h"
 
 @interface RootTabBarViewController ()
+
+@property (nonatomic, strong) NSArray *titles;
 
 @end
 
@@ -29,18 +32,27 @@
 - (void)ww_setupChildrenVCs
 {
     MainViewController *mainTVC = [[MainViewController alloc] init];
+    mainTVC.title = [self.titles firstObject];
+    WWMainNavigationController *mainNavController = [[WWMainNavigationController alloc] initWithRootViewController:mainTVC];
     FavoriteTableViewController *favoriteTVC = [[FavoriteTableViewController alloc] init];
-    [self setViewControllers:@[mainTVC, favoriteTVC]];
+    [self setViewControllers:@[mainNavController, favoriteTVC]];
 }
 
 - (void)ww_setupCustomTabBarItems
 {
-    NSArray *tabBarItemTitles = @[@"发现", @"我的收藏"];
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[self tabBar] items]) {
-        [item setTitle:[tabBarItemTitles objectAtIndex:index]];
+        [item setTitle:[self.titles objectAtIndex:index]];
         index++;
     }
+}
+
+- (NSArray *)titles
+{
+    if (!_titles) {
+        _titles = [NSArray arrayWithObjects:@"发现", @"我的收藏", nil];
+    }
+    return _titles;
 }
 
 @end
