@@ -54,12 +54,13 @@
 }
 
 #pragma mark - UITextViewDelegate
-- (void)textFieldDidEndEditing:(UITextField *)textField
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     self.searchContent = textField.text;
     if (self.block) {
         self.block(self);
     }
+    return YES;
 }
 
 #pragma mark - setter & getter

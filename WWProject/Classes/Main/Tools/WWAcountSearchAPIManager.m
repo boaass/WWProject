@@ -83,34 +83,42 @@
 #pragma mark - KOGAPIManagerCallBackDelegate
 - (void)managerCallAPIDidSuccess:(KOGAPIBaseManager *)manager
 {
+    NSMutableArray *accountInfos = [NSMutableArray array];
     TFHpple *hpple = [[TFHpple alloc] initWithHTMLData:manager.response.responseData];
-    NSArray *accountElements = [hpple searchWithXPathQuery:@"//ul[@class='news-list2']"];
+    NSArray *accountElements = [hpple searchWithXPathQuery:@"//ul[@class='news-list2']/li"];
     for (TFHppleElement *element in accountElements) {
         TFHpple *accountHpple = [[TFHpple alloc] initWithXMLData:[element.raw dataUsingEncoding:NSUTF8StringEncoding]];
         NSString *iconUrl = [[accountHpple peekAtSearchWithXPathQuery:@"//img"] objectForKey:@"src"];
-        NSString *emAuthor = [[accountHpple peekAtSearchWithXPathQuery:@"//em"] text];
-        NSString *suffixAuthor = [[accountHpple peekAtSearchWithXPathQuery:@"//p[@class='tit']/a"] text];
-        NSString *author = [emAuthor stringByAppendingString:suffixAuthor];
+        NSString *author = [[[accountHpple peekAtSearchWithXPathQuery:@"//p[@class='tit']/a"] texts] componentsJoinedByString:@""];
         NSString *authorMainUrl = [[accountHpple peekAtSearchWithXPathQuery:@"//p[@class='tit']/a"] objectForKey:@"href"];
         NSString *wxID = [[accountHpple peekAtSearchWithXPathQuery:@"//label[@name='em_weixinhao']"] text];
 //        NSString *lastMonthArticleNum = ;
-        NSArray *dd = [accountHpple peekAtSearchWithXPathQuery:@"//dd"];
-        NSString *featureDescription = [[dd objectAtIndex:0] text];
-        NSString *wxCertification = [[dd objectAtIndex:1] text];
-        NSString *lastArticle = [[dd objectAtIndex:2] text];
+        NSArray *dl = [accountHpple searchWithXPathQuery:@"//dl"];
+        NSMutableArray *descriptions = [NSMutableArray array];
+        NSString *contentUrl = @"";
+        for (TFHppleElement *infoElement in dl) {
+            TFHpple *desHpple = [[TFHpple alloc] initWithHTMLData:[infoElement.raw dataUsingEncoding:NSUTF8StringEncoding]];
+            NSString *desKey = [[desHpple peekAtSearchWithXPathQuery:@"//dt"] text];
+            if ([desKey isEqualToString:@"最近文章："]) {
+                [descriptions addObject:[NSDictionary dictionaryWithObject:[[[desHpple peekAtSearchWithXPathQuery:@"//dd/a"] texts] componentsJoinedByString:@""] forKey:desKey]];
+                contentUrl = [[desHpple peekAtSearchWithXPathQuery:@"//dd/a"] objectForKey:@"href"];
+            } else {
+                [descriptions addObject:[NSDictionary dictionaryWithObject:[[[desHpple peekAtSearchWithXPathQuery:@"//dd"] texts] componentsJoinedByString:@""] forKey:desKey]];
+            }
+        }
         
         WWAcountModel *model = [[WWAcountModel alloc] init];
         model.iconUrl = iconUrl;
         model.author = author;
         model.authorMainUrl = authorMainUrl;
         model.wxID = wxID;
-//        model.lastMonthArticleNum = lastMonthArticleNum;
-        model.featureDescription = featureDescription;
-        model.wxCertification = wxCertification;
-        model.lastArticle = lastArticle;
+        model.descriptions = [descriptions copy];
+        model.contentUrl = contentUrl;
+        
+        [accountInfos addObject:model];
     }
     
-//    self.accountInfos = [accountInfos copy];
+    self.accountInfos = [accountInfos copy];
     
     if (self.block) {
         self.block(self);

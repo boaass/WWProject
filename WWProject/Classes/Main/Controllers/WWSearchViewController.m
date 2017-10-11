@@ -10,11 +10,13 @@
 #import "WWAcountSearchAPIManager.h"
 #import "WWSearchBar.h"
 #import "WWAcountModel.h"
+#import "KOGNetworkingConfiguration.h"
 
 @interface WWSearchViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) WWAcountSearchAPIManager *accountSearchManager;
+@property (nonatomic, strong) NSArray *searchResult;
 
 @end
 
@@ -35,15 +37,17 @@
         NSString *searchMethod = nil;
         switch (searchBar.searchType) {
             case WWAuthorSearchType:
-            {
-                self.articleSearchUrl
-            }
+                searchMethod = [[self.accountSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
                 break;
             case WWArticleSearchType:
-                
+                searchMethod = [[self.articleSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
                 break;
         }
-        [weakSelf.accountSearchManager loadDataWithUrl:<#(NSString *)#> block:<#^(WWAcountSearchAPIManager *)block#>]
+        [weakSelf.accountSearchManager loadDataWithUrl:searchMethod block:^(WWAcountSearchAPIManager *manager) {
+            if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+                weakSelf.searchResult = manager.accountInfos;
+            }
+        }];
     }];
     self.navigationItem.titleView = searchBar;
 }
@@ -53,8 +57,14 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return self.searchResult.count;
 }
+
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    
+//    return nil;
+//}
 
 #pragma mark - setter & getter
 - (UITableView *)tableView
@@ -75,6 +85,14 @@
         _accountSearchManager = [[WWAcountSearchAPIManager alloc] init];
     }
     return _accountSearchManager;
+}
+
+- (NSArray *)searchResult
+{
+    if (!_searchResult) {
+        _searchResult = [NSArray array];
+    }
+    return _searchResult;
 }
 
 @end

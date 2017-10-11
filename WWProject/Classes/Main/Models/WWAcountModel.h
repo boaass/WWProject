@@ -15,18 +15,14 @@
 @property (nonatomic, strong) NSString *authorMainUrl;
 // 微信号
 @property (nonatomic, strong) NSString *wxID;
-// 最近月发文数量
-@property (nonatomic, strong) NSString *lastMonthArticleNum;
 // 头像
 @property (nonatomic, strong) NSString *iconUrl;
-// 功能介绍
-@property (nonatomic, strong) NSString *featureDescription;
-// 微信认证
-@property (nonatomic, strong) NSString *wxCertification;
-// 最近文章
-@property (nonatomic, strong) NSString *lastArticle;
-// 最近发文时间
-@property (nonatomic, strong) NSString *time;
+/* 
+ 功能介绍
+ 微信认证
+ 最近文章 
+**/
+@property (nonatomic, strong) NSArray *descriptions;
 // 文章链接
 @property (nonatomic, strong) NSString *contentUrl;
 
