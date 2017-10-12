@@ -8,6 +8,6 @@
 
 #import "KOGService.h"
 
-@interface WWMainPageService : KOGService
+@interface WWMainPageService : KOGService <KOGServiceProtocol>
 
 @end

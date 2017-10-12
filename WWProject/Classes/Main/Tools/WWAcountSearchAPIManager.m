@@ -15,7 +15,6 @@
 
 @property (nonatomic, strong, readwrite) NSArray <WWAcountModel *> *accountInfos;
 @property (nonatomic, strong, readwrite) NSString *method;
-@property (nonatomic, assign) NSInteger pageIndex;
 @property (nonatomic, strong) NSString *nextPageMethod;
 @property (nonatomic, strong) CompleteBlock block;
 
@@ -38,14 +37,7 @@
 - (void)loadDataWithUrl:(NSString *)methodName block:(CompleteBlock)block
 {
     self.method = methodName;
-    NSMutableArray *comStrArr = [NSMutableArray arrayWithArray:[self.method componentsSeparatedByString:@"/"]];
-    NSString *rStr = [self.method stringByReplacingOccurrencesOfString:@".html" withString:@""];
-    self.pageIndex = [[rStr substringFromIndex:rStr.length-1] integerValue];
-    [comStrArr replaceObjectAtIndex:comStrArr.count-1 withObject:[NSString stringWithFormat:@"%ld.html", self.pageIndex+1]];
-    self.nextPageMethod = [comStrArr componentsJoinedByString:@"/"];
-    
     self.block = block;
-    
     [self loadData];
 }
 
@@ -66,7 +58,7 @@
 
 - (NSString *)serviceType
 {
-    return kWWMainPageService;
+    return kWWSearchService;
 }
 
 - (KOGAPIManagerRequestType)requestType
@@ -85,6 +77,7 @@
 {
     NSMutableArray *accountInfos = [NSMutableArray array];
     TFHpple *hpple = [[TFHpple alloc] initWithHTMLData:manager.response.responseData];
+    self.nextPageMethod = [[hpple peekAtSearchWithXPathQuery:@"//a[@class='np']"] objectForKey:@"href"];
     NSArray *accountElements = [hpple searchWithXPathQuery:@"//ul[@class='news-list2']/li"];
     for (TFHppleElement *element in accountElements) {
         TFHpple *accountHpple = [[TFHpple alloc] initWithXMLData:[element.raw dataUsingEncoding:NSUTF8StringEncoding]];

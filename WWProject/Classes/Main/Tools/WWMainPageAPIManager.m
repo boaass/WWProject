@@ -63,7 +63,6 @@
 - (void)managerCallAPIDidSuccess:(KOGAPIBaseManager *)manager
 {
     TFHpple *hpple = [[TFHpple alloc] initWithHTMLData:manager.response.responseData];
-    
     // 获取轮播图信息
     NSArray *carouselItems = [hpple searchWithXPathQuery:@"//a[@class='sd-slider-item']"];
     NSMutableArray *carouselImages = [NSMutableArray array];
@@ -115,7 +114,7 @@
     NSString *searchBaseUrl = [baseUrlElement objectForKey:@"href"];
     TFHppleElement *actionElement = [hpple peekAtSearchWithXPathQuery:@"//form[@name='searchForm']"];
     NSString *action = [actionElement objectForKey:@"action"];
-    NSString *searchUrl = [searchBaseUrl stringByAppendingString:action];
+    NSString *searchUrl = [[searchBaseUrl substringToIndex:searchBaseUrl.length-1] stringByAppendingString:action];
     NSArray *searchParmaElements = [hpple searchWithXPathQuery:@"//div[@class='qborder']/input"];
     NSMutableString *mString = [NSMutableString stringWithFormat:@"%@?", searchUrl];
     for (TFHppleElement *element in searchParmaElements) {

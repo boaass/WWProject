@@ -1,20 +1,16 @@
 //
-//  WWMainPageService.m
+//  WWSearchService.m
 //  WWProject
 //
-//  Created by zhai chunlin on 17/9/28.
+//  Created by zcl_kingsoft on 2017/10/12.
 //  Copyright © 2017年 zcl_kingsoft. All rights reserved.
 //
 
-#import "WWMainPageService.h"
+#import "WWSearchService.h"
 #import "KOGAppContext.h"
 #import "KOGNetworkingConfiguration.h"
 
-@interface WWMainPageService ()
-
-@end
-
-@implementation WWMainPageService
+@implementation WWSearchService
 
 - (BOOL)isOnline
 {
@@ -23,12 +19,12 @@
 
 - (NSString *)offlineApiBaseUrl
 {
-    return kWWMainPageServiceOfflineApiBaseUrl;
+    return kWWSearchServiceOfflineApiBaseUrl;
 }
 
 - (NSString *)onlineApiBaseUrl
 {
-    return kWWMainPageServiceOnlineApiBaseUrl;
+    return kWWSearchServiceOnlineApiBaseUrl;
 }
 
 - (NSDictionary<NSString *,NSString *> *)allHTTPHeaderFields

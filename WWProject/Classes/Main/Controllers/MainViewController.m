@@ -16,6 +16,7 @@
 #import "WWMainPageTagModel.h"
 #import "WWTagTableView.h"
 #import "WWSearchViewController.h"
+#import "KOGNetworkingConfiguration.h"
 
 @interface MainViewController () <iCarouselDelegate, iCarouselDataSource>
 
@@ -88,8 +89,10 @@
     WWTagTableView *tableView = nil;
     WWMainPageTagModel *model = self.tags[index];
     if (self.validViewPool.count <= index) {
+        NSString *url = model.url;
+        NSString *method = [url stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""];
         tableView = [[WWTagTableView alloc] initWithFrame:carousel.bounds];
-        [tableView loadWithMethodName:model.url];
+        [tableView loadWithMethodName:method params:nil];
         [self.validViewPool insertObject:tableView atIndex:index];
     } else {
         tableView = [self.validViewPool objectAtIndex:index];

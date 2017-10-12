@@ -10,6 +10,6 @@
 
 @interface WWTagTableView : UITableView
 
-- (void)loadWithMethodName:(NSString *)methodName;
+- (void)loadWithMethodName:(NSString *)methodName params:(NSDictionary *)params;
 
 @end

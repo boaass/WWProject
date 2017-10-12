@@ -15,6 +15,7 @@
 @interface WWTagTableView () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSString *methodName;
+@property (nonatomic, strong) NSDictionary *params;
 @property (nonatomic, strong) NSArray <WWArticleItemModel *> *articleInfo;
 @property (nonatomic, strong) WWArticleInfoManager *manager;
 
@@ -31,7 +32,7 @@
         
         __weak typeof(self) weakSelf = self;
         self.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            [weakSelf loadWithMethodName:weakSelf.methodName];
+            [weakSelf loadWithMethodName:weakSelf.methodName params:self.params];
         }];
         
         self.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
@@ -43,12 +44,13 @@
 }
 
 #pragma mark - public
-- (void)loadWithMethodName:(NSString *)methodName
+- (void)loadWithMethodName:(NSString *)methodName params:(NSDictionary *)params
 {
     self.methodName = methodName;
+    self.params = params;
     
     __weak typeof(self) weakSelf = self;
-    [self.manager loadDataWithUrl:self.methodName block:^(WWArticleInfoManager *manager) {
+    [self.manager loadDataWithUrl:self.methodName params:(NSDictionary *)params block:^(WWArticleInfoManager *manager) {
         [weakSelf.mj_header endRefreshing];
         weakSelf.articleInfo = manager.articleInfo;
         [weakSelf reloadData];

@@ -15,6 +15,7 @@
 
 @property (nonatomic, strong, readwrite) NSArray <WWArticleItemModel *> *articleInfo;
 @property (nonatomic, strong, readwrite) NSString *method;
+@property (nonatomic, strong, readwrite) NSDictionary *params;
 @property (nonatomic, assign) NSInteger pageIndex;
 @property (nonatomic, strong) NSString *nextPageMethod;
 @property (nonatomic, strong) CompleteBlock block;
@@ -35,9 +36,10 @@
 }
 
 #pragma mark - public
-- (void)loadDataWithUrl:(NSString *)methodName block:(CompleteBlock)block
+- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(CompleteBlock)block
 {
     self.method = methodName;
+    self.params = params;
     NSMutableArray *comStrArr = [NSMutableArray arrayWithArray:[self.method componentsSeparatedByString:@"/"]];
     NSString *rStr = [self.method stringByReplacingOccurrencesOfString:@".html" withString:@""];
     self.pageIndex = [[rStr substringFromIndex:rStr.length-1] integerValue];
@@ -51,7 +53,7 @@
 
 - (void)nextPage:(CompleteBlock)block
 {
-    [self loadDataWithUrl:self.nextPageMethod block:^(WWArticleInfoManager *manager) {
+    [self loadDataWithUrl:self.method params:self.params block:^(WWArticleInfoManager *manager) {
         block(manager);
     }];
 }
@@ -75,7 +77,7 @@
 #pragma mark - KOGAPIManagerParamSource
 - (NSDictionary *)paramsForApi:(KOGAPIBaseManager *)mamanger
 {
-    return nil;
+    return self.params;
 }
 
 #pragma mark - KOGAPIManagerCallBackDelegate

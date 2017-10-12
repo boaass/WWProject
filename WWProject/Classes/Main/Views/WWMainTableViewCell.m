@@ -94,7 +94,7 @@
 {
     if (!_overwriteLabel) {
         _overwriteLabel = [[UILabel alloc] init];
-        _overwriteLabel.numberOfLines = 2;
+        _overwriteLabel.numberOfLines = 3;
         _overwriteLabel.font = [UIFont systemFontOfSize:8];
         [self.contentView addSubview:_overwriteLabel];
     }

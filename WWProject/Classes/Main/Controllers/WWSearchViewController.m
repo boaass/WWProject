@@ -11,12 +11,14 @@
 #import "WWSearchBar.h"
 #import "WWAcountModel.h"
 #import "KOGNetworkingConfiguration.h"
+#import "WWSearchTableView.h"
 
 @interface WWSearchViewController () <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) WWSearchTableView *tableView;
 @property (nonatomic, strong) WWAcountSearchAPIManager *accountSearchManager;
 @property (nonatomic, strong) NSArray *searchResult;
+@property (nonatomic, strong) NSString *searchMethod;
 
 @end
 
@@ -25,8 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     [self ww_setupNavigationBarItem];
+    [self ww_setupTableView];
 }
 
 #pragma mark - private
@@ -34,25 +36,59 @@
 {
     __weak typeof(self) weakSelf = self;
     WWSearchBar *searchBar = [WWSearchBar searchBarWithBlock:^(WWSearchBar *searchBar) {
-        NSString *searchMethod = nil;
         switch (searchBar.searchType) {
             case WWAuthorSearchType:
-                searchMethod = [[self.accountSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
+                self.searchMethod = [[self.accountSearchUrl stringByReplacingOccurrencesOfString:kWWSearchServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
                 break;
             case WWArticleSearchType:
-                searchMethod = [[self.articleSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
+                self.searchMethod = [[self.articleSearchUrl stringByReplacingOccurrencesOfString:kWWSearchServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
                 break;
         }
-        [weakSelf.accountSearchManager loadDataWithUrl:searchMethod block:^(WWAcountSearchAPIManager *manager) {
-            if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
-                weakSelf.searchResult = manager.accountInfos;
-            }
-        }];
+        
+        [weakSelf ww_refreshData];
     }];
     self.navigationItem.titleView = searchBar;
 }
 
+- (void)ww_setupTableView
+{
+    __weak typeof(self) weakSelf = self;
+    self.tableView.pullDownRefreshBlock = ^{
+        [weakSelf ww_refreshData];
+    };
+    
+    self.tableView.pullUpRefreshBlock = ^{
+        [weakSelf ww_loadMoreData];
+    };
+}
+
+- (void)ww_refreshData
+{
+    __weak typeof(self) weakSelf = self;
+    [weakSelf.accountSearchManager loadDataWithUrl:self.searchMethod block:^(WWAcountSearchAPIManager *manager) {
+        if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+            weakSelf.searchResult = manager.accountInfos;
+            [weakSelf.tableView reloadData];
+        }
+    }];
+}
+
+- (void)ww_loadMoreData
+{
+    __weak typeof(self) weakSelf = self;
+    [weakSelf.accountSearchManager nextPage:^(WWAcountSearchAPIManager *manager) {
+        if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+            weakSelf.searchResult = [weakSelf.searchResult arrayByAddingObjectsFromArray:manager.accountInfos];
+            [weakSelf.tableView reloadData];
+        }
+    }];
+}
+
 #pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -60,20 +96,27 @@
     return self.searchResult.count;
 }
 
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    
-//    return nil;
-//}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    WWAcountModel *model = self.searchResult[indexPath.row];
+    static NSString *identifier = @"cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.textLabel.text = model.author;
+    return cell;
+}
 
 #pragma mark - setter & getter
-- (UITableView *)tableView
+- (WWSearchTableView *)tableView
 {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] init];
+        _tableView = [[WWSearchTableView alloc] init];
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.frame = self.view.bounds;
         [self.view addSubview:_tableView];
     }
     return _tableView;
