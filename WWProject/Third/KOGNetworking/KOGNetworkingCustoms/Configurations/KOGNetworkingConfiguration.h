@@ -18,8 +18,4 @@ extern NSString * const kWWMainPageService;
 extern NSString * const kWWMainPageServiceOfflineApiBaseUrl;
 extern NSString * const kWWMainPageServiceOnlineApiBaseUrl;
 
-extern NSString * const kWWSearchService;
-extern NSString * const kWWSearchServiceOfflineApiBaseUrl;
-extern NSString * const kWWSearchServiceOnlineApiBaseUrl;
-
 #endif /* KOGNetworkingConfiguration_h */

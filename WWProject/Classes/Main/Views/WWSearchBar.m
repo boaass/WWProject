@@ -50,7 +50,7 @@
 #pragma mark - selector
 - (void)swichSearchType
 {
-    self.searchType = self.searchType ? WWAuthorSearchType : WWArticleSearchType;
+    self.searchType = self.searchType ? WWAccountSearchType : WWArticleSearchType;
 }
 
 #pragma mark - UITextViewDelegate

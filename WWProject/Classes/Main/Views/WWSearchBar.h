@@ -11,7 +11,7 @@
 @class WWSearchBar;
 
 typedef enum : NSUInteger {
-    WWAuthorSearchType,
+    WWAccountSearchType,
     WWArticleSearchType,
 } WWSearchType;
 

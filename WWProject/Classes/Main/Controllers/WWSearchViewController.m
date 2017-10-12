@@ -19,6 +19,7 @@
 @property (nonatomic, strong) WWAcountSearchAPIManager *accountSearchManager;
 @property (nonatomic, strong) NSArray *searchResult;
 @property (nonatomic, strong) NSString *searchMethod;
+@property (nonatomic, strong) NSDictionary *searchParams;
 
 @end
 
@@ -37,17 +38,33 @@
     __weak typeof(self) weakSelf = self;
     WWSearchBar *searchBar = [WWSearchBar searchBarWithBlock:^(WWSearchBar *searchBar) {
         switch (searchBar.searchType) {
-            case WWAuthorSearchType:
-                self.searchMethod = [[self.accountSearchUrl stringByReplacingOccurrencesOfString:kWWSearchServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
+            case WWAccountSearchType:
+            {
+                NSString *fullUrl = [[self.accountSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageService withString:@""] stringByAppendingString:searchBar.searchContent];
+                [weakSelf ww_combinedParamsForRequestWithSearchUrl:fullUrl];
+            }
                 break;
             case WWArticleSearchType:
-                self.searchMethod = [[self.articleSearchUrl stringByReplacingOccurrencesOfString:kWWSearchServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
+            {
+                NSString *fullUrl = [[self.articleSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageService withString:@""] stringByAppendingString:searchBar.searchContent];
+                [weakSelf ww_combinedParamsForRequestWithSearchUrl:fullUrl];
+            }
                 break;
         }
         
         [weakSelf ww_refreshData];
     }];
     self.navigationItem.titleView = searchBar;
+}
+
+- (void)ww_combinedParamsForRequestWithSearchUrl:(NSString *)searchUrl
+{
+    NSString *fullUrl = [searchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""];
+    NSRange segRange = [fullUrl rangeOfString:@"?"];
+    self.searchMethod = [fullUrl substringToIndex:segRange.location];
+    NSString *paramsStr = [fullUrl substringFromIndex:segRange.location+1];
+    NSDictionary *params = [paramsStr paramStringToDictionary];
+    self.searchParams = params;
 }
 
 - (void)ww_setupTableView
@@ -65,7 +82,7 @@
 - (void)ww_refreshData
 {
     __weak typeof(self) weakSelf = self;
-    [weakSelf.accountSearchManager loadDataWithUrl:self.searchMethod block:^(WWAcountSearchAPIManager *manager) {
+    [weakSelf.accountSearchManager loadDataWithUrl:self.searchMethod params:self.searchParams block:^(WWAcountSearchAPIManager *manager) {
         if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
             weakSelf.searchResult = manager.accountInfos;
             [weakSelf.tableView reloadData];

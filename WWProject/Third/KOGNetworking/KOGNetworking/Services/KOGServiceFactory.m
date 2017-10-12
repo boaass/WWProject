@@ -8,16 +8,11 @@
 
 #import "KOGServiceFactory.h"
 #import "WWMainPageService.h"
-#import "WWSearchService.h"
 #import "KOGNetworkingConfiguration.h"
 
 NSString * const kWWMainPageService = @"kWWMainPageService";
 NSString * const kWWMainPageServiceOfflineApiBaseUrl = @"http://weixin.sogou.com/";
 NSString * const kWWMainPageServiceOnlineApiBaseUrl = @"http://weixin.sogou.com/";
-
-NSString * const kWWSearchService = @"kWWSearchService";
-NSString * const kWWSearchServiceOfflineApiBaseUrl = @"http://weixin.sogou.com/weixin";
-NSString * const kWWSearchServiceOnlineApiBaseUrl = @"http://weixin.sogou.com/weixin";
 
 @interface KOGServiceFactory ()
 
@@ -52,8 +47,6 @@ NSString * const kWWSearchServiceOnlineApiBaseUrl = @"http://weixin.sogou.com/we
 #warning 注册服务
     if ([identifier isEqualToString:kWWMainPageService]) {
         return [[WWMainPageService alloc] init];
-    } else if ([identifier isEqualToString:kWWSearchService]) {
-        return [[WWSearchService alloc] init];
     }
     
     return nil;

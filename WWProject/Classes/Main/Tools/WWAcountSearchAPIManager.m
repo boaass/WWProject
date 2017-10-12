@@ -15,7 +15,8 @@
 
 @property (nonatomic, strong, readwrite) NSArray <WWAcountModel *> *accountInfos;
 @property (nonatomic, strong, readwrite) NSString *method;
-@property (nonatomic, strong) NSString *nextPageMethod;
+@property (nonatomic, strong, readwrite) NSDictionary *params;
+@property (nonatomic, strong) NSDictionary *nextParams;
 @property (nonatomic, strong) CompleteBlock block;
 
 @end
@@ -34,16 +35,17 @@
 }
 
 #pragma mark - public
-- (void)loadDataWithUrl:(NSString *)methodName block:(CompleteBlock)block
+- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(CompleteBlock)block
 {
     self.method = methodName;
+    self.params = params;
     self.block = block;
     [self loadData];
 }
 
 - (void)nextPage:(CompleteBlock)block
 {
-    [self loadDataWithUrl:self.nextPageMethod block:^(WWAcountSearchAPIManager *manager) {
+    [self loadDataWithUrl:self.method params:self.nextParams block:^(WWAcountSearchAPIManager *manager) {
         if (block) {
             block(manager);
         }
@@ -58,7 +60,7 @@
 
 - (NSString *)serviceType
 {
-    return kWWSearchService;
+    return kWWMainPageService;
 }
 
 - (KOGAPIManagerRequestType)requestType
@@ -69,7 +71,7 @@
 #pragma mark - KOGAPIManagerParamSource
 - (NSDictionary *)paramsForApi:(KOGAPIBaseManager *)mamanger
 {
-    return nil;
+    return self.params;
 }
 
 #pragma mark - KOGAPIManagerCallBackDelegate
@@ -77,7 +79,10 @@
 {
     NSMutableArray *accountInfos = [NSMutableArray array];
     TFHpple *hpple = [[TFHpple alloc] initWithHTMLData:manager.response.responseData];
-    self.nextPageMethod = [[hpple peekAtSearchWithXPathQuery:@"//a[@class='np']"] objectForKey:@"href"];
+    NSString *nextParamsStr = [[hpple peekAtSearchWithXPathQuery:@"//a[@class='np']"] objectForKey:@"href"];
+    NSString *parseStr = [nextParamsStr hasPrefix:@"?"] ? [nextParamsStr substringFromIndex:1]:nextParamsStr;
+    self.nextParams = [parseStr paramStringToDictionary];
+    
     NSArray *accountElements = [hpple searchWithXPathQuery:@"//ul[@class='news-list2']/li"];
     for (TFHppleElement *element in accountElements) {
         TFHpple *accountHpple = [[TFHpple alloc] initWithXMLData:[element.raw dataUsingEncoding:NSUTF8StringEncoding]];

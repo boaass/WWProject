@@ -11,6 +11,7 @@
 
 #import "UIColor+Extension.h"
 #import "UIView+Extension.h"
+#import "NSString+Extension.h"
 #import "UIImageView+WebCache.h"
 
 #import "KOGAPIBaseManager.h"
