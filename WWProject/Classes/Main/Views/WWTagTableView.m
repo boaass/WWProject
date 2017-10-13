@@ -9,7 +9,7 @@
 #import "WWTagTableView.h"
 #import "WWMainPageTagInfoManager.h"
 #import "WWArticleItemModel.h"
-#import "WWMainTableViewCell.h"
+#import "WWArticleTableViewCell.h"
 #import "MJRefresh.h"
 
 @interface WWTagTableView () <UITableViewDelegate, UITableViewDataSource>
@@ -82,7 +82,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WWMainTableViewCell *cell = [WWMainTableViewCell cellWithTableView:tableView];
+    WWArticleTableViewCell *cell = [WWArticleTableViewCell cellWithTableView:tableView];
     WWArticleItemModel *model = self.articleInfo[indexPath.row];
     cell.model = model;
     return cell;

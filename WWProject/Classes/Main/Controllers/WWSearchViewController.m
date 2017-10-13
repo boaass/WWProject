@@ -7,18 +7,20 @@
 //
 
 #import "WWSearchViewController.h"
-#import "WWAcountSearchAPIManager.h"
+#import "WWAccountSearchAPIManager.h"
 #import "WWArticleSearchAPIManager.h"
 #import "WWSearchBar.h"
-#import "WWAcountModel.h"
+#import "WWAccountModel.h"
 #import "WWArticleItemModel.h"
 #import "KOGNetworkingConfiguration.h"
 #import "WWSearchTableView.h"
+#import "WWAccountTableViewCell.h"
+#import "WWArticleTableViewCell.h"
 
 @interface WWSearchViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) WWSearchTableView *tableView;
-@property (nonatomic, strong) WWAcountSearchAPIManager *accountSearchManager;
+@property (nonatomic, strong) WWAccountSearchAPIManager *accountSearchManager;
 @property (nonatomic, strong) WWArticleSearchAPIManager *articleSearchManager;
 @property (nonatomic, strong) NSArray *searchResult;
 @property (nonatomic, strong) NSString *searchMethod;
@@ -97,7 +99,7 @@
     switch (self.currentType) {
         case WWAccountSearchType:
         {
-            [weakSelf.accountSearchManager loadDataWithUrl:self.searchMethod params:self.searchParams block:^(WWAcountSearchAPIManager *manager) {
+            [weakSelf.accountSearchManager loadDataWithUrl:self.searchMethod params:self.searchParams block:^(WWAccountSearchAPIManager *manager) {
                 if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
                     weakSelf.searchResult = manager.accountInfos;
                     [weakSelf.tableView reloadData];
@@ -124,7 +126,7 @@
     switch (self.currentType) {
         case WWAccountSearchType:
         {
-            [weakSelf.accountSearchManager nextPage:^(WWAcountSearchAPIManager *manager) {
+            [weakSelf.accountSearchManager nextPage:^(WWAccountSearchAPIManager *manager) {
                 if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
                     weakSelf.searchResult = [weakSelf.searchResult arrayByAddingObjectsFromArray:manager.accountInfos];
                     [weakSelf.tableView reloadData];
@@ -149,7 +151,14 @@
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    if (self.currentType == WWAccountSearchType) {
+        WWAccountModel *model = self.searchResult[indexPath.row];
+        WWAccountTableViewCell *cell = [WWAccountTableViewCell cellWithTableView:tableView];
+        cell.model = model;
+        return [cell cellHeight];
+    } else {
+        return 100;
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -160,29 +169,24 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *text = @"";
     switch (self.currentType) {
         case WWAccountSearchType:
         {
-            WWAcountModel *model = self.searchResult[indexPath.row];
-            text = model.author;
+            WWAccountModel *model = self.searchResult[indexPath.row];
+            WWAccountTableViewCell *cell = [WWAccountTableViewCell cellWithTableView:tableView];
+            cell.model = model;
+            return cell;
         }
             break;
         case WWArticleSearchType:
         {
             WWArticleItemModel *model = self.searchResult[indexPath.row];
-            text = model.title;
+            WWArticleTableViewCell *cell = [WWArticleTableViewCell cellWithTableView:tableView];
+            cell.model = model;
+            return cell;
         }
             break;
     }
-    
-    static NSString *identifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
-    cell.textLabel.text = text;
-    return cell;
 }
 
 #pragma mark - action
@@ -205,10 +209,10 @@
     return _tableView;
 }
 
-- (WWAcountSearchAPIManager *)accountSearchManager
+- (WWAccountSearchAPIManager *)accountSearchManager
 {
     if (!_accountSearchManager) {
-        _accountSearchManager = [[WWAcountSearchAPIManager alloc] init];
+        _accountSearchManager = [[WWAccountSearchAPIManager alloc] init];
     }
     return _accountSearchManager;
 }

@@ -1,5 +1,5 @@
 //
-//  WWMainTableViewCell.h
+//  WWArticleTableViewCell.h
 //  WWProject
 //
 //  Created by zcl_kingsoft on 2017/10/10.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class WWArticleItemModel;
-@interface WWMainTableViewCell : UITableViewCell
+@interface WWArticleTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) WWArticleItemModel *model;
 

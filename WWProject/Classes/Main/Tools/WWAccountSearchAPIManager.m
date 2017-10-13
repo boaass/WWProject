@@ -1,27 +1,27 @@
 //
-//  WWAcountSearchAPIManager.m
+//  WWAccountSearchAPIManager.m
 //  WWProject
 //
 //  Created by zcl_kingsoft on 2017/10/11.
 //  Copyright © 2017年 zcl_kingsoft. All rights reserved.
 //
 
-#import "WWAcountSearchAPIManager.h"
+#import "WWAccountSearchAPIManager.h"
 #import "KOGNetworkingConfiguration.h"
-#import "WWAcountModel.h"
+#import "WWAccountModel.h"
 #import "TFHpple.h"
 
-@interface WWAcountSearchAPIManager ()<KOGAPIManager, KOGAPIManagerParamSource, KOGAPIManagerCallBackDelegate>
+@interface WWAccountSearchAPIManager ()<KOGAPIManager, KOGAPIManagerParamSource, KOGAPIManagerCallBackDelegate>
 
-@property (nonatomic, strong, readwrite) NSArray <WWAcountModel *> *accountInfos;
+@property (nonatomic, strong, readwrite) NSArray <WWAccountModel *> *accountInfos;
 @property (nonatomic, strong, readwrite) NSString *method;
 @property (nonatomic, strong, readwrite) NSDictionary *params;
 @property (nonatomic, strong) NSDictionary *nextParams;
-@property (nonatomic, strong) AcountInfoCompleteBlock block;
+@property (nonatomic, strong) AccountInfoCompleteBlock block;
 
 @end
 
-@implementation WWAcountSearchAPIManager
+@implementation WWAccountSearchAPIManager
 
 #pragma mark - life circle
 - (instancetype)init
@@ -35,7 +35,7 @@
 }
 
 #pragma mark - public
-- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(AcountInfoCompleteBlock)block
+- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(AccountInfoCompleteBlock)block
 {
     self.method = methodName;
     self.params = params;
@@ -43,9 +43,9 @@
     [self loadData];
 }
 
-- (void)nextPage:(AcountInfoCompleteBlock)block
+- (void)nextPage:(AccountInfoCompleteBlock)block
 {
-    [self loadDataWithUrl:self.method params:self.nextParams block:^(WWAcountSearchAPIManager *manager) {
+    [self loadDataWithUrl:self.method params:self.nextParams block:^(WWAccountSearchAPIManager *manager) {
         if (block) {
             block(manager);
         }
@@ -105,7 +105,7 @@
             }
         }
         
-        WWAcountModel *model = [[WWAcountModel alloc] init];
+        WWAccountModel *model = [[WWAccountModel alloc] init];
         model.iconUrl = iconUrl;
         model.author = author;
         model.authorMainUrl = authorMainUrl;

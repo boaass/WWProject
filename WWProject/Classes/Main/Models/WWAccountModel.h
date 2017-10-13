@@ -1,5 +1,5 @@
 //
-//  WWAcountModel.h
+//  WWAccountModel.h
 //  WWProject
 //
 //  Created by zcl_kingsoft on 2017/10/11.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface WWAcountModel : NSObject
+@interface WWAccountModel : NSObject
 // 公众号名称
 @property (nonatomic, strong) NSString *author;
 // 公众号主页

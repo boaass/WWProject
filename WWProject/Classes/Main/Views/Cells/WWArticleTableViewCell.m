@@ -1,15 +1,15 @@
 //
-//  WWMainTableViewCell.m
+//  WWArticleTableViewCell.m
 //  WWProject
 //
 //  Created by zcl_kingsoft on 2017/10/10.
 //  Copyright © 2017年 zcl_kingsoft. All rights reserved.
 //
 
-#import "WWMainTableViewCell.h"
+#import "WWArticleTableViewCell.h"
 #import "WWArticleItemModel.h"
 
-@interface WWMainTableViewCell ()
+@interface WWArticleTableViewCell ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *overwriteLabel;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation WWMainTableViewCell
+@implementation WWArticleTableViewCell
 
 #pragma mark - life circle
 - (void)layoutSubviews
@@ -52,9 +52,9 @@
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
     static NSString *identifier = @"WWMainTableViewCell";
-    WWMainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    WWArticleTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[WWMainTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[WWArticleTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     return cell;
 }
