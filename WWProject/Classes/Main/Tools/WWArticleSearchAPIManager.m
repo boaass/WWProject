@@ -1,28 +1,27 @@
 //
-//  WWArticleInfoManager.m
+//  WWArticleSearchAPIManager.m
 //  WWProject
 //
-//  Created by zcl_kingsoft on 2017/10/9.
+//  Created by zcl_kingsoft on 2017/10/13.
 //  Copyright © 2017年 zcl_kingsoft. All rights reserved.
 //
 
-#import "WWArticleInfoManager.h"
+#import "WWArticleSearchAPIManager.h"
 #import "KOGNetworkingConfiguration.h"
 #import "TFHpple.h"
 #import "WWArticleItemModel.h"
 
-@interface WWArticleInfoManager () <KOGAPIManager, KOGAPIManagerParamSource, KOGAPIManagerCallBackDelegate>
+@interface WWArticleSearchAPIManager () <KOGAPIManager, KOGAPIManagerParamSource, KOGAPIManagerCallBackDelegate>
 
-@property (nonatomic, strong, readwrite) NSArray <WWArticleItemModel *> *articleInfo;
+@property (nonatomic, strong, readwrite) NSArray <WWArticleItemModel *> *articleInfos;
 @property (nonatomic, strong, readwrite) NSString *method;
 @property (nonatomic, strong, readwrite) NSDictionary *params;
-@property (nonatomic, assign) NSInteger pageIndex;
-@property (nonatomic, strong) NSString *nextPageMethod;
-@property (nonatomic, strong) CompleteBlock block;
+@property (nonatomic, strong) NSDictionary *nextParams;
+@property (nonatomic, strong) ArticleInfoCompleteBlock block;
 
 @end
 
-@implementation WWArticleInfoManager
+@implementation WWArticleSearchAPIManager
 
 #pragma mark - life circle
 - (instancetype)init
@@ -36,25 +35,20 @@
 }
 
 #pragma mark - public
-- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(CompleteBlock)block
+- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(ArticleInfoCompleteBlock)block
 {
     self.method = methodName;
     self.params = params;
-    NSMutableArray *comStrArr = [NSMutableArray arrayWithArray:[self.method componentsSeparatedByString:@"/"]];
-    NSString *rStr = [self.method stringByReplacingOccurrencesOfString:@".html" withString:@""];
-    self.pageIndex = [[rStr substringFromIndex:rStr.length-1] integerValue];
-    [comStrArr replaceObjectAtIndex:comStrArr.count-1 withObject:[NSString stringWithFormat:@"%ld.html", self.pageIndex+1]];
-    self.nextPageMethod = [comStrArr componentsJoinedByString:@"/"];
-    
     self.block = block;
-    
     [self loadData];
 }
 
-- (void)nextPage:(CompleteBlock)block
+- (void)nextPage:(ArticleInfoCompleteBlock)block
 {
-    [self loadDataWithUrl:self.method params:self.params block:^(WWArticleInfoManager *manager) {
-        block(manager);
+    [self loadDataWithUrl:self.method params:self.nextParams block:^(WWArticleSearchAPIManager *manager) {
+        if (block) {
+            block(manager);
+        }
     }];
 }
 
@@ -84,15 +78,19 @@
 - (void)managerCallAPIDidSuccess:(KOGAPIBaseManager *)manager
 {
     TFHpple *hpple = [[TFHpple alloc] initWithHTMLData:manager.response.responseData];
-    NSArray *liElements = [hpple searchWithXPathQuery:@"//li"];
-    NSMutableArray <WWArticleItemModel *> *articleInfo = [NSMutableArray array];
+    NSString *nextParamsStr = [[hpple peekAtSearchWithXPathQuery:@"//a[@class='np']"] objectForKey:@"href"];
+    NSString *parseStr = [nextParamsStr hasPrefix:@"?"] ? [nextParamsStr substringFromIndex:1]:nextParamsStr;
+    self.nextParams = [parseStr paramStringToDictionary];
+    
+    NSArray *liElements = [hpple searchWithXPathQuery:@"//ul[@class='news-list']/li"];
+    NSMutableArray <WWArticleItemModel *> *articleInfos = [NSMutableArray array];
     for (TFHppleElement *element in liElements) {
         TFHpple *liHpple = [[TFHpple alloc] initWithHTMLData:[element.raw dataUsingEncoding:NSUTF8StringEncoding]];
         TFHppleElement *imageElement = [liHpple peekAtSearchWithXPathQuery:@"//img"];
         NSString *bigImageUrl = [imageElement objectForKey:@"src"];
         TFHppleElement *titleElement = [liHpple peekAtSearchWithXPathQuery:@"//h3/a"];
         NSString *contentUrl = [titleElement objectForKey:@"href"];
-        NSString *title = [titleElement text];
+        NSString *title = [[titleElement texts] componentsJoinedByString:@""];
         TFHppleElement *accountElement = [liHpple peekAtSearchWithXPathQuery:@"//a[@class='account']"];
         NSString *authorMainUrl = [accountElement objectForKey:@"href"];
         NSString *author = [accountElement text];
@@ -109,9 +107,9 @@
         model.author = author;
         model.timeStamp = timeStamp;
         model.overview = overview;
-        [articleInfo addObject:model];
+        [articleInfos addObject:model];
     }
-    self.articleInfo = [articleInfo copy];
+    self.articleInfos = [articleInfos copy];
     
     if (self.block) {
         self.block(self);

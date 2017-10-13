@@ -30,7 +30,8 @@
 		7749949B1F8E105B001F9E36 /* WWAcountSearchAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7749949A1F8E105B001F9E36 /* WWAcountSearchAPIManager.m */; };
 		7749949E1F8E1094001F9E36 /* WWAcountModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7749949D1F8E1094001F9E36 /* WWAcountModel.m */; };
 		774994CA1F8F5F5B001F9E36 /* WWSearchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 774994C91F8F5F5B001F9E36 /* WWSearchTableView.m */; };
-		77C898581F8B6E970046EA13 /* WWArticleInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898571F8B6E970046EA13 /* WWArticleInfoManager.m */; };
+		774994D01F908B35001F9E36 /* WWArticleSearchAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 774994CF1F908B35001F9E36 /* WWArticleSearchAPIManager.m */; };
+		77C898581F8B6E970046EA13 /* WWMainPageTagInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898571F8B6E970046EA13 /* WWMainPageTagInfoManager.m */; };
 		77C898591F8B76860046EA13 /* WWMainPageAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */; };
 		77C8985D1F8B7CB90046EA13 /* WWMainPageTagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8985C1F8B7CB90046EA13 /* WWMainPageTagModel.m */; };
 		77C898651F8B7D580046EA13 /* WWHotwordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898611F8B7D580046EA13 /* WWHotwordModel.m */; };
@@ -121,10 +122,12 @@
 		7749949D1F8E1094001F9E36 /* WWAcountModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWAcountModel.m; sourceTree = "<group>"; };
 		774994C81F8F5F5B001F9E36 /* WWSearchTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWSearchTableView.h; sourceTree = "<group>"; };
 		774994C91F8F5F5B001F9E36 /* WWSearchTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWSearchTableView.m; sourceTree = "<group>"; };
+		774994CE1F908B35001F9E36 /* WWArticleSearchAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWArticleSearchAPIManager.h; sourceTree = "<group>"; };
+		774994CF1F908B35001F9E36 /* WWArticleSearchAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWArticleSearchAPIManager.m; sourceTree = "<group>"; };
 		77C898541F8B6DB50046EA13 /* WWMainPageAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMainPageAPIManager.h; sourceTree = "<group>"; };
 		77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWMainPageAPIManager.m; sourceTree = "<group>"; };
-		77C898561F8B6E970046EA13 /* WWArticleInfoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWArticleInfoManager.h; sourceTree = "<group>"; };
-		77C898571F8B6E970046EA13 /* WWArticleInfoManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWArticleInfoManager.m; sourceTree = "<group>"; };
+		77C898561F8B6E970046EA13 /* WWMainPageTagInfoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMainPageTagInfoManager.h; sourceTree = "<group>"; };
+		77C898571F8B6E970046EA13 /* WWMainPageTagInfoManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWMainPageTagInfoManager.m; sourceTree = "<group>"; };
 		77C8985B1F8B7CB90046EA13 /* WWMainPageTagModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMainPageTagModel.h; sourceTree = "<group>"; };
 		77C8985C1F8B7CB90046EA13 /* WWMainPageTagModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWMainPageTagModel.m; sourceTree = "<group>"; };
 		77C898611F8B7D580046EA13 /* WWHotwordModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWHotwordModel.m; sourceTree = "<group>"; };
@@ -421,8 +424,10 @@
 			children = (
 				77C898541F8B6DB50046EA13 /* WWMainPageAPIManager.h */,
 				77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */,
-				77C898561F8B6E970046EA13 /* WWArticleInfoManager.h */,
-				77C898571F8B6E970046EA13 /* WWArticleInfoManager.m */,
+				77C898561F8B6E970046EA13 /* WWMainPageTagInfoManager.h */,
+				77C898571F8B6E970046EA13 /* WWMainPageTagInfoManager.m */,
+				774994CE1F908B35001F9E36 /* WWArticleSearchAPIManager.h */,
+				774994CF1F908B35001F9E36 /* WWArticleSearchAPIManager.m */,
 				774994991F8E105B001F9E36 /* WWAcountSearchAPIManager.h */,
 				7749949A1F8E105B001F9E36 /* WWAcountSearchAPIManager.m */,
 			);
@@ -811,7 +816,8 @@
 				7749949B1F8E105B001F9E36 /* WWAcountSearchAPIManager.m in Sources */,
 				8061F9641F7D44B600E7F4C8 /* NSURLRequest+KOGNetworking.m in Sources */,
 				77390FBA1F5FED850072324B /* BannerView.m in Sources */,
-				77C898581F8B6E970046EA13 /* WWArticleInfoManager.m in Sources */,
+				77C898581F8B6E970046EA13 /* WWMainPageTagInfoManager.m in Sources */,
+				774994D01F908B35001F9E36 /* WWArticleSearchAPIManager.m in Sources */,
 				77390F421F5FCFBE0072324B /* main.m in Sources */,
 				77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */,
 				8061F9691F7D44B600E7F4C8 /* KOGService.m in Sources */,

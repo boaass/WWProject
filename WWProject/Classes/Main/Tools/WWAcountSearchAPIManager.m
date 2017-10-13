@@ -17,7 +17,7 @@
 @property (nonatomic, strong, readwrite) NSString *method;
 @property (nonatomic, strong, readwrite) NSDictionary *params;
 @property (nonatomic, strong) NSDictionary *nextParams;
-@property (nonatomic, strong) CompleteBlock block;
+@property (nonatomic, strong) AcountInfoCompleteBlock block;
 
 @end
 
@@ -35,7 +35,7 @@
 }
 
 #pragma mark - public
-- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(CompleteBlock)block
+- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(AcountInfoCompleteBlock)block
 {
     self.method = methodName;
     self.params = params;
@@ -43,7 +43,7 @@
     [self loadData];
 }
 
-- (void)nextPage:(CompleteBlock)block
+- (void)nextPage:(AcountInfoCompleteBlock)block
 {
     [self loadDataWithUrl:self.method params:self.nextParams block:^(WWAcountSearchAPIManager *manager) {
         if (block) {

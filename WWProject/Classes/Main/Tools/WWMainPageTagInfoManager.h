@@ -1,5 +1,5 @@
 //
-//  WWArticleInfoManager.h
+//  WWMainPageTagInfoManager.h
 //  WWProject
 //
 //  Created by zcl_kingsoft on 2017/10/9.
@@ -8,19 +8,19 @@
 
 #import "KOGAPIBaseManager.h"
 
-@class WWArticleInfoManager;
+@class WWMainPageTagInfoManager;
 @class WWArticleItemModel;
 
-typedef void(^CompleteBlock)(WWArticleInfoManager *);
+typedef void(^ArticleInfoCompleteBlock)(WWMainPageTagInfoManager *);
 
-@interface WWArticleInfoManager : KOGAPIBaseManager
+@interface WWMainPageTagInfoManager : KOGAPIBaseManager
 
 @property (nonatomic, strong, readonly) NSString *method;
 @property (nonatomic, strong, readonly) NSDictionary *params;
 @property (nonatomic, strong, readonly) NSArray <WWArticleItemModel *> *articleInfo;
 
-- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(CompleteBlock)block;
+- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(ArticleInfoCompleteBlock)block;
 
-- (void)nextPage:(CompleteBlock)block;
+- (void)nextPage:(ArticleInfoCompleteBlock)block;
 
 @end

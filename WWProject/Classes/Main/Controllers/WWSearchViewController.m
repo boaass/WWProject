@@ -8,8 +8,10 @@
 
 #import "WWSearchViewController.h"
 #import "WWAcountSearchAPIManager.h"
+#import "WWArticleSearchAPIManager.h"
 #import "WWSearchBar.h"
 #import "WWAcountModel.h"
+#import "WWArticleItemModel.h"
 #import "KOGNetworkingConfiguration.h"
 #import "WWSearchTableView.h"
 
@@ -17,9 +19,11 @@
 
 @property (nonatomic, strong) WWSearchTableView *tableView;
 @property (nonatomic, strong) WWAcountSearchAPIManager *accountSearchManager;
+@property (nonatomic, strong) WWArticleSearchAPIManager *articleSearchManager;
 @property (nonatomic, strong) NSArray *searchResult;
 @property (nonatomic, strong) NSString *searchMethod;
 @property (nonatomic, strong) NSDictionary *searchParams;
+@property (nonatomic, assign) WWSearchType currentType;
 
 @end
 
@@ -52,9 +56,17 @@
                 break;
         }
         
+        if (weakSelf.currentType != searchBar.searchType) {
+            weakSelf.searchResult = [NSArray array];
+        }
+        self.currentType = searchBar.searchType;
         [weakSelf ww_refreshData];
     }];
     self.navigationItem.titleView = searchBar;
+    [self.navigationController.tabBarItem setTitlePositionAdjustment:UIOffsetMake(-self.navigationItem.titleView.x, 0)];
+    
+    UIBarButtonItem *rightBBItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(rightBarButtonAction)];
+    self.navigationItem.rightBarButtonItem = rightBBItem;
 }
 
 - (void)ww_combinedParamsForRequestWithSearchUrl:(NSString *)searchUrl
@@ -82,23 +94,56 @@
 - (void)ww_refreshData
 {
     __weak typeof(self) weakSelf = self;
-    [weakSelf.accountSearchManager loadDataWithUrl:self.searchMethod params:self.searchParams block:^(WWAcountSearchAPIManager *manager) {
-        if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
-            weakSelf.searchResult = manager.accountInfos;
-            [weakSelf.tableView reloadData];
+    switch (self.currentType) {
+        case WWAccountSearchType:
+        {
+            [weakSelf.accountSearchManager loadDataWithUrl:self.searchMethod params:self.searchParams block:^(WWAcountSearchAPIManager *manager) {
+                if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+                    weakSelf.searchResult = manager.accountInfos;
+                    [weakSelf.tableView reloadData];
+                }
+            }];
         }
-    }];
+            break;
+        case WWArticleSearchType:
+        {
+            [weakSelf.articleSearchManager loadDataWithUrl:self.searchMethod params:self.searchParams block:^(WWArticleSearchAPIManager *manager) {
+                if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+                    weakSelf.searchResult = manager.articleInfos;
+                    [weakSelf.tableView reloadData];
+                }
+            }];
+        }
+            break;
+    }
 }
 
 - (void)ww_loadMoreData
 {
     __weak typeof(self) weakSelf = self;
-    [weakSelf.accountSearchManager nextPage:^(WWAcountSearchAPIManager *manager) {
-        if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
-            weakSelf.searchResult = [weakSelf.searchResult arrayByAddingObjectsFromArray:manager.accountInfos];
-            [weakSelf.tableView reloadData];
+    switch (self.currentType) {
+        case WWAccountSearchType:
+        {
+            [weakSelf.accountSearchManager nextPage:^(WWAcountSearchAPIManager *manager) {
+                if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+                    weakSelf.searchResult = [weakSelf.searchResult arrayByAddingObjectsFromArray:manager.accountInfos];
+                    [weakSelf.tableView reloadData];
+                }
+            }];
         }
-    }];
+            break;
+        case WWArticleSearchType:
+        {
+            [weakSelf.articleSearchManager nextPage:^(WWArticleSearchAPIManager *manager) {
+                if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+                    weakSelf.searchResult = [weakSelf.searchResult arrayByAddingObjectsFromArray:manager.articleInfos];
+                    [weakSelf.tableView reloadData];
+                }
+            }];
+        }
+            break;
+    }
+    
 }
 
 #pragma mark - UITableViewDelegate
@@ -115,14 +160,35 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    WWAcountModel *model = self.searchResult[indexPath.row];
+    NSString *text = @"";
+    switch (self.currentType) {
+        case WWAccountSearchType:
+        {
+            WWAcountModel *model = self.searchResult[indexPath.row];
+            text = model.author;
+        }
+            break;
+        case WWArticleSearchType:
+        {
+            WWArticleItemModel *model = self.searchResult[indexPath.row];
+            text = model.title;
+        }
+            break;
+    }
+    
     static NSString *identifier = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.textLabel.text = model.author;
+    cell.textLabel.text = text;
     return cell;
+}
+
+#pragma mark - action
+- (void)rightBarButtonAction
+{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - setter & getter
@@ -145,6 +211,14 @@
         _accountSearchManager = [[WWAcountSearchAPIManager alloc] init];
     }
     return _accountSearchManager;
+}
+
+- (WWArticleSearchAPIManager *)articleSearchManager
+{
+    if (!_articleSearchManager) {
+        _articleSearchManager = [[WWArticleSearchAPIManager alloc] init];
+    }
+    return _articleSearchManager;
 }
 
 - (NSArray *)searchResult

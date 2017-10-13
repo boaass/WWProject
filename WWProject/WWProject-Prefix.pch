@@ -16,8 +16,9 @@
 
 #import "KOGAPIBaseManager.h"
 
-#define kScreen_Bounds [UIScreen mainScreen].bounds
-#define kScreen_Height [UIScreen mainScreen].bounds.size.height
-#define kScreen_Width [UIScreen mainScreen].bounds.size.width
+#define kScreen_Bounds  [UIScreen mainScreen].bounds
+#define kScreen_Height  [UIScreen mainScreen].bounds.size.height
+#define kScreen_Width   [UIScreen mainScreen].bounds.size.width
+#define kWWColor        [UIColor colorWithRed:47/255.0 green:129/255.0 blue:253/255.0 alpha:0.8]
 
 #endif /* WWProject_Prefix_pch */

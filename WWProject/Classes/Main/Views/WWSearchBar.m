@@ -39,7 +39,7 @@
         leftButton.frame = CGRectMake(0, 0, 70, 30);
         [leftButton setTitle:self.searchTypeDescriptions[self.searchType] forState:UIControlStateNormal];
         leftButton.layer.cornerRadius = leftButton.height/4;
-        leftButton.backgroundColor = [UIColor blueColor];
+        leftButton.backgroundColor = kWWColor;
         [leftButton addTarget:self action:@selector(swichSearchType) forControlEvents:UIControlEventTouchUpInside];
         self.leftView = leftButton;
         self.leftViewMode = UITextFieldViewModeAlways;

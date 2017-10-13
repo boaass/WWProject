@@ -7,7 +7,7 @@
 //
 
 #import "WWTagTableView.h"
-#import "WWArticleInfoManager.h"
+#import "WWMainPageTagInfoManager.h"
 #import "WWArticleItemModel.h"
 #import "WWMainTableViewCell.h"
 #import "MJRefresh.h"
@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSString *methodName;
 @property (nonatomic, strong) NSDictionary *params;
 @property (nonatomic, strong) NSArray <WWArticleItemModel *> *articleInfo;
-@property (nonatomic, strong) WWArticleInfoManager *manager;
+@property (nonatomic, strong) WWMainPageTagInfoManager *manager;
 
 @end
 
@@ -50,7 +50,7 @@
     self.params = params;
     
     __weak typeof(self) weakSelf = self;
-    [self.manager loadDataWithUrl:self.methodName params:(NSDictionary *)params block:^(WWArticleInfoManager *manager) {
+    [self.manager loadDataWithUrl:self.methodName params:(NSDictionary *)params block:^(WWMainPageTagInfoManager *manager) {
         [weakSelf.mj_header endRefreshing];
         weakSelf.articleInfo = manager.articleInfo;
         [weakSelf reloadData];
@@ -61,7 +61,7 @@
 - (void)ww_loadNext
 {
     __weak typeof(self) weakSelf = self;
-    [self.manager nextPage:^(WWArticleInfoManager *manager) {
+    [self.manager nextPage:^(WWMainPageTagInfoManager *manager) {
         [weakSelf.mj_footer endRefreshing];
         weakSelf.articleInfo = [weakSelf.articleInfo arrayByAddingObjectsFromArray:manager.articleInfo];
         [weakSelf reloadData];
@@ -89,10 +89,10 @@
 }
 
 #pragma mark - setter & getter
-- (WWArticleInfoManager *)manager
+- (WWMainPageTagInfoManager *)manager
 {
     if (!_manager) {
-        _manager = [[WWArticleInfoManager alloc] init];
+        _manager = [[WWMainPageTagInfoManager alloc] init];
     }
     
     return _manager;

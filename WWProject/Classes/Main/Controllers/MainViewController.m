@@ -53,7 +53,7 @@
 {
     NSLog(@"right");
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.searchVC];
-    [self presentViewController:navController animated:YES completion:nil];
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
 #pragma mark - iCarouselDelegate

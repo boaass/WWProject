@@ -11,7 +11,7 @@
 @class WWAcountSearchAPIManager;
 @class WWAcountModel;
 
-typedef void(^CompleteBlock)(WWAcountSearchAPIManager *);
+typedef void(^AcountInfoCompleteBlock)(WWAcountSearchAPIManager *);
 
 @interface WWAcountSearchAPIManager : KOGAPIBaseManager
 
@@ -19,8 +19,8 @@ typedef void(^CompleteBlock)(WWAcountSearchAPIManager *);
 @property (nonatomic, strong, readonly) NSDictionary *params;
 @property (nonatomic, strong, readonly) NSArray <WWAcountModel *> *accountInfos;
 
-- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(CompleteBlock)block;
+- (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(AcountInfoCompleteBlock)block;
 
-- (void)nextPage:(CompleteBlock)block;
+- (void)nextPage:(AcountInfoCompleteBlock)block;
 
 @end
