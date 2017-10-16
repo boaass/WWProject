@@ -21,19 +21,32 @@
         __weak typeof(self) weakSelf = self;
         self.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             if (weakSelf.pullDownRefreshBlock) {
-                weakSelf.pullDownRefreshBlock();
+                weakSelf.pullDownRefreshBlock(weakSelf);
             }
-            [weakSelf.mj_header endRefreshing];
         }];
         
         self.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             if (weakSelf.pullUpRefreshBlock) {
-                weakSelf.pullUpRefreshBlock();
+                weakSelf.pullUpRefreshBlock(weakSelf);
             }
-            [weakSelf.mj_footer endRefreshing];
         }];
+        self.mj_footer.automaticallyHidden = YES;
     }
     return self;
+}
+
+- (void)endRefreshingHeader
+{
+    [self.mj_header endRefreshing];
+}
+
+- (void)endRefreshingFooter:(BOOL)hasData
+{
+    if (hasData) {
+        [self.mj_footer endRefreshing];
+    } else {
+        [self.mj_footer endRefreshingWithNoMoreData];
+    }
 }
 
 @end

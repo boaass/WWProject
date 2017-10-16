@@ -8,12 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^WWSearchTableViewPullDownRefreshBlock)();
-typedef void(^WWSearchTableViewPullUpRefreshBlock)();
+@class WWSearchTableView;
+typedef void (^WWSearchTableViewPullDownRefreshBlock)(WWSearchTableView *);
+typedef void (^WWSearchTableViewPullUpRefreshBlock)(WWSearchTableView *);
 
 @interface WWSearchTableView : UITableView
 
 @property (nonatomic, strong) WWSearchTableViewPullDownRefreshBlock pullDownRefreshBlock;
 @property (nonatomic, strong) WWSearchTableViewPullUpRefreshBlock pullUpRefreshBlock;
+
+- (void)endRefreshingHeader;
+- (void)endRefreshingFooter:(BOOL)hasData;
 
 @end

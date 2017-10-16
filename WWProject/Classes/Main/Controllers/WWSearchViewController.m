@@ -20,6 +20,7 @@
 @interface WWSearchViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) WWSearchTableView *tableView;
+@property (nonatomic, strong) WWSearchBar *searchBar;
 @property (nonatomic, strong) WWAccountSearchAPIManager *accountSearchManager;
 @property (nonatomic, strong) WWArticleSearchAPIManager *articleSearchManager;
 @property (nonatomic, strong) NSArray *searchResult;
@@ -42,7 +43,7 @@
 - (void)ww_setupNavigationBarItem
 {
     __weak typeof(self) weakSelf = self;
-    WWSearchBar *searchBar = [WWSearchBar searchBarWithBlock:^(WWSearchBar *searchBar) {
+    self.searchBar = [WWSearchBar searchBarWithBlock:^(WWSearchBar *searchBar) {
         switch (searchBar.searchType) {
             case WWAccountSearchType:
             {
@@ -64,7 +65,7 @@
         self.currentType = searchBar.searchType;
         [weakSelf ww_refreshData];
     }];
-    self.navigationItem.titleView = searchBar;
+    self.navigationItem.titleView = self.searchBar;
     [self.navigationController.tabBarItem setTitlePositionAdjustment:UIOffsetMake(-self.navigationItem.titleView.x, 0)];
     
     UIBarButtonItem *rightBBItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(rightBarButtonAction)];
@@ -84,12 +85,15 @@
 - (void)ww_setupTableView
 {
     __weak typeof(self) weakSelf = self;
-    self.tableView.pullDownRefreshBlock = ^{
+    self.tableView.pullDownRefreshBlock = ^(WWSearchTableView *tableView){
         [weakSelf ww_refreshData];
+        [tableView endRefreshingHeader];
     };
     
-    self.tableView.pullUpRefreshBlock = ^{
-        [weakSelf ww_loadMoreData];
+    self.tableView.pullUpRefreshBlock = ^(WWSearchTableView *tableView){
+        [weakSelf ww_loadMoreData:^(BOOL hasData) {
+            [tableView endRefreshingFooter:hasData];
+        }];
     };
 }
 
@@ -120,13 +124,20 @@
     }
 }
 
-- (void)ww_loadMoreData
+- (void)ww_loadMoreData:(void (^)(BOOL hasData))block
 {
     __weak typeof(self) weakSelf = self;
     switch (self.currentType) {
         case WWAccountSearchType:
         {
             [weakSelf.accountSearchManager nextPage:^(WWAccountSearchAPIManager *manager) {
+                if (!manager.accountInfos || manager.accountInfos.count == 0) {
+                    block(NO);
+                    return;
+                } else {
+                    block(YES);
+                }
+                
                 if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
                     weakSelf.searchResult = [weakSelf.searchResult arrayByAddingObjectsFromArray:manager.accountInfos];
                     [weakSelf.tableView reloadData];
@@ -137,6 +148,13 @@
         case WWArticleSearchType:
         {
             [weakSelf.articleSearchManager nextPage:^(WWArticleSearchAPIManager *manager) {
+                if (!manager.articleInfos || manager.articleInfos.count == 0) {
+                    block(YES);
+                    return;
+                } else {
+                    block(NO);
+                }
+                
                 if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
                     weakSelf.searchResult = [weakSelf.searchResult arrayByAddingObjectsFromArray:manager.articleInfos];
                     [weakSelf.tableView reloadData];
@@ -159,6 +177,10 @@
     } else {
         return 100;
     }
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.searchBar resignFirstResponder];
 }
 
 #pragma mark - UITableViewDataSource
