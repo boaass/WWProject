@@ -38,6 +38,7 @@
 - (void)endRefreshingHeader
 {
     [self.mj_header endRefreshing];
+    [self.mj_footer resetNoMoreData];
 }
 
 - (void)endRefreshingFooter:(BOOL)hasData

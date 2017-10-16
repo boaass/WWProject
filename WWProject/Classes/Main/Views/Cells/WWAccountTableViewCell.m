@@ -128,8 +128,6 @@
         desLabel.text = des;
         desLabel.frame = CGRectMake(self.authorLabel.x, tagLabel.y, desLW, desLH);
         desLMaxY = CGRectGetMaxY(desLabel.frame);
-        
-        NSLog(@"tag y:%f, desLabel y:%f", tagLabel.y, desLabel.y);
     }
 }
 
