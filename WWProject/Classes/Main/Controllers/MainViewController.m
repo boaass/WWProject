@@ -92,6 +92,7 @@
         NSString *url = model.url;
         NSString *method = [url stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""];
         tableView = [[WWTagTableView alloc] initWithFrame:carousel.bounds];
+        tableView.superVC = self.navigationController;
         [tableView loadWithMethodName:method params:nil];
         [self.validViewPool insertObject:tableView atIndex:index];
     } else {

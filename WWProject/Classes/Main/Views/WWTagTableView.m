@@ -11,6 +11,7 @@
 #import "WWArticleItemModel.h"
 #import "WWArticleTableViewCell.h"
 #import "MJRefresh.h"
+#import "WWWebViewController.h"
 
 @interface WWTagTableView () <UITableViewDelegate, UITableViewDataSource>
 
@@ -52,6 +53,7 @@
     __weak typeof(self) weakSelf = self;
     [self.manager loadDataWithUrl:self.methodName params:(NSDictionary *)params block:^(WWMainPageTagInfoManager *manager) {
         [weakSelf.mj_header endRefreshing];
+        [weakSelf.mj_footer resetNoMoreData];
         weakSelf.articleInfo = manager.articleInfo;
         [weakSelf reloadData];
     }];
@@ -62,7 +64,12 @@
 {
     __weak typeof(self) weakSelf = self;
     [self.manager nextPage:^(WWMainPageTagInfoManager *manager) {
-        [weakSelf.mj_footer endRefreshing];
+        if (!manager.articleInfo || manager.articleInfo.count == 0) {
+            [weakSelf.mj_footer endRefreshingWithNoMoreData];
+            return ;
+        } else {
+            [weakSelf.mj_footer endRefreshing];
+        }
         weakSelf.articleInfo = [weakSelf.articleInfo arrayByAddingObjectsFromArray:manager.articleInfo];
         [weakSelf reloadData];
     }];
@@ -72,6 +79,14 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 100;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    WWArticleItemModel *model = self.articleInfo[indexPath.row];
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithModel:model];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+    [self.superVC presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDataSource

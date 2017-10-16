@@ -10,6 +10,7 @@
 
 @interface WWTagTableView : UITableView
 
+@property (nonatomic, strong) UIViewController *superVC;
 - (void)loadWithMethodName:(NSString *)methodName params:(NSDictionary *)params;
 
 @end

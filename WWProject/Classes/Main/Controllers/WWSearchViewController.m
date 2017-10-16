@@ -68,7 +68,7 @@
     self.navigationItem.titleView = self.searchBar;
     [self.navigationController.tabBarItem setTitlePositionAdjustment:UIOffsetMake(-self.navigationItem.titleView.x, 0)];
     
-    UIBarButtonItem *rightBBItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(rightBarButtonAction)];
+    UIBarButtonItem *rightBBItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonAction)];
     self.navigationItem.rightBarButtonItem = rightBBItem;
 }
 
