@@ -38,7 +38,7 @@
     CGFloat overwriteH = 40;
     CGFloat authorW = 50;
     CGFloat authorH = 10;
-    CGFloat timeW = 50;
+    CGFloat timeW = 100;
     CGFloat timeH = authorH;
     
     self.titleLabel.frame = CGRectMake(0, spaceH, titleW, titleH);
@@ -95,7 +95,7 @@
     if (!_overwriteLabel) {
         _overwriteLabel = [[UILabel alloc] init];
         _overwriteLabel.numberOfLines = 3;
-        _overwriteLabel.font = [UIFont systemFontOfSize:8];
+        _overwriteLabel.font = [UIFont systemFontOfSize:9];
         [self.contentView addSubview:_overwriteLabel];
     }
     return _overwriteLabel;
@@ -105,7 +105,7 @@
 {
     if (!_authorLabel) {
         _authorLabel = [[UILabel alloc] init];
-        _authorLabel.font = [UIFont systemFontOfSize:5];
+        _authorLabel.font = [UIFont systemFontOfSize:8];
         [self.contentView addSubview:_authorLabel];
     }
     return _authorLabel;
@@ -115,7 +115,7 @@
 {
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
-        _timeLabel.font = [UIFont systemFontOfSize:5];
+        _timeLabel.font = [UIFont systemFontOfSize:8];
         [self.contentView addSubview:_timeLabel];
     }
     return _timeLabel;

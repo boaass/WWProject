@@ -52,6 +52,7 @@
     [UIView animateWithDuration:0.7 animations:^{
         weakSelf.backgroundView.hidden = NO;
         weakSelf.scrollView.y = weakSelf.height - weakSelf.scrollView.height - weakSelf.cancelButton.height;
+        weakSelf.cancelButton.y = CGRectGetMaxY(weakSelf.scrollView.frame);
     } completion:^(BOOL finished) {
         weakSelf.isShowing = YES;
     }];
@@ -67,6 +68,7 @@
     [UIView animateWithDuration:0.7 animations:^{
         weakSelf.backgroundView.hidden = YES;
         weakSelf.scrollView.y = weakSelf.height;
+        weakSelf.cancelButton.y = CGRectGetMaxY(weakSelf.scrollView.frame);
     } completion:^(BOOL finished) {
         weakSelf.isShowing = NO;
         [weakSelf removeFromSuperview];
@@ -135,7 +137,11 @@
     if (!_cancelButton) {
         _cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_cancelButton setBackgroundColor:[UIColor whiteColor]];
-        [_cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+//        [_cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+        NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"取消"];
+        [attString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, 2)];
+        [_cancelButton setAttributedTitle:attString forState:UIControlStateNormal];
+        [_cancelButton addTarget:self action:@selector(dissmiss) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_cancelButton];
     }
     return _cancelButton;
