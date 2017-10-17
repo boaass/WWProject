@@ -8,6 +8,7 @@
 
 #import "WWWebViewController.h"
 #import "WWArticleItemModel.h"
+#import "WWWebPopView.h"
 
 @interface WWWebViewController () <UIWebViewDelegate>
 
@@ -64,7 +65,8 @@
 
 - (void)rightBarButtonAction
 {
-    
+    WWWebPopView *popView = [WWWebPopView webPopView];
+    [popView show];
 }
 
 #pragma mark - setter & getter
