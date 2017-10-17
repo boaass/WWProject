@@ -9,9 +9,7 @@
 #import "BannerView.h"
 #import "AutoSlideScrollView.h"
 #import "WWImageView.h"
-
-@implementation BannerData
-@end
+#import "WWArticleItemModel.h"
 
 @interface BannerView ()
 
@@ -23,17 +21,17 @@
 @implementation BannerView
 
 #pragma mark - public
-- (void)setBannerList:(NSArray<BannerData *> *)bannerList
+- (void)setArticleModelList:(NSArray<WWArticleItemModel *> *)articleModelList
 {
-    _bannerList = bannerList;
+    _articleModelList = articleModelList;
     
     [self reload];
 }
 
 - (void)reload
 {
-    self.hidden = self.bannerList.count <= 0;
-    if (self.bannerList.count <= 0) {
+    self.hidden = self.articleModelList.count <= 0;
+    if (self.articleModelList.count <= 0) {
         return;
     }
     
@@ -66,14 +64,14 @@
         _autoSlideSV.scrollView.scrollsToTop = NO;
         
         _autoSlideSV.totalPagesCount = ^NSInteger{
-            return weakSelf.bannerList.count;
+            return weakSelf.articleModelList.count;
         };
         
         _autoSlideSV.fetchContentViewAtIndex = ^UIView *(NSInteger pageIndex) {
-            if (weakSelf.bannerList.count > pageIndex) {
+            if (weakSelf.articleModelList.count > pageIndex) {
                 WWImageView *imageView = [weakSelf ww_reuseViewForIndex:pageIndex];
-                BannerData *bannerData = weakSelf.bannerList[pageIndex];
-                [imageView configImageUrl:bannerData.imageUrl title:bannerData.title];
+                WWArticleItemModel *model = weakSelf.articleModelList[pageIndex];
+                [imageView configImageUrl:model.bigImageUrl title:model.title];
                 return imageView;
             } else {
                 return [[UIView alloc] init];
@@ -81,8 +79,8 @@
         };
         
         _autoSlideSV.tapActionBlock = ^(NSInteger pageIndex) {
-            if (weakSelf.tapBlock && weakSelf.bannerList.count > pageIndex) {
-                weakSelf.tapBlock(weakSelf.bannerList[pageIndex]);
+            if (weakSelf.tapBlock && weakSelf.articleModelList.count > pageIndex) {
+                weakSelf.tapBlock(weakSelf.articleModelList[pageIndex]);
             }
         };
         

@@ -38,6 +38,9 @@
 {
     UIBarButtonItem *leftBBItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(leftBarButtonAction)];
     self.navigationItem.leftBarButtonItem = leftBBItem;
+    
+    UIBarButtonItem *rightBBItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"tabbar_icon"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonAction)];
+    self.navigationItem.rightBarButtonItem = rightBBItem;
 }
 
 - (void)ww_setupWebView
@@ -53,25 +56,15 @@
     return YES;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    
-}
-
 #pragma mark - action
 - (void)leftBarButtonAction
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)rightBarButtonAction
+{
+    
 }
 
 #pragma mark - setter & getter

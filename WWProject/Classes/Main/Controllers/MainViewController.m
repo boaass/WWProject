@@ -17,6 +17,7 @@
 #import "WWTagTableView.h"
 #import "WWSearchViewController.h"
 #import "KOGNetworkingConfiguration.h"
+#import "WWWebViewController.h"
 
 @interface MainViewController () <iCarouselDelegate, iCarouselDataSource>
 
@@ -135,6 +136,14 @@
         [weakSelf ww_setupHeaderView];
     }];
 }
+
+- (void)ww_pushVCWithModel:(WWArticleItemModel *)model
+{
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithModel:model];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+    [self.navigationController presentViewController:nav animated:YES completion:nil];
+}
+
 #pragma mark - setter & getter
 - (WWMainPageAPIManager *)manager
 {
@@ -148,17 +157,15 @@
 - (BannerView *)bannerView
 {
     if (!_bannerView) {
+        __weak typeof(self) weakSelf = self;
         _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Width * 214/640)];
-        NSMutableArray *bannerList = [NSMutableArray array];
+        NSMutableArray *articleModelList = [NSMutableArray array];
         for (WWArticleItemModel *model in self.carouselImages) {
-            BannerData *data = [[BannerData alloc] init];
-            data.imageUrl = model.bigImageUrl;
-            data.title = model.title;
-            [bannerList addObject:data];
+            [articleModelList addObject:model];
         }
-        _bannerView.bannerList = [bannerList copy];
-        _bannerView.tapBlock = ^(BannerData *bannerData) {
-            NSLog(@"tap url: %@", bannerData.imageUrl);
+        _bannerView.articleModelList = [articleModelList copy];
+        _bannerView.tapBlock = ^(WWArticleItemModel *model) {
+            [weakSelf ww_pushVCWithModel:model];
         };
     }
     

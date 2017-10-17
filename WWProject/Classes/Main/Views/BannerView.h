@@ -8,18 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BannerData : NSObject
-
-@property (nonatomic, strong) NSString *title;
-@property (nonatomic, strong) NSString *imageUrl;
-
-@end
-
+@class WWArticleItemModel;
 @interface BannerView : UIView
 
-@property (nonatomic, strong) NSArray <BannerData *> * bannerList;
+@property (nonatomic, strong) NSArray <WWArticleItemModel *> * articleModelList;
 
-@property (nonatomic, copy) void (^tapBlock)(BannerData *bannerData);
+@property (nonatomic, copy) void (^tapBlock)(WWArticleItemModel *model);
 
 - (void)reload;
 
