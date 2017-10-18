@@ -24,5 +24,7 @@
 // 文章搜索地址
 @property (nonatomic, strong) NSString *articleSearchUrl;
 
++ (instancetype)sharedInstance;
+
 
 @end

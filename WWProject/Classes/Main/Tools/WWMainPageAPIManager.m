@@ -130,7 +130,7 @@
     }
     [mString appendString:@"query="];
     
-    WWMainPageModel *model = [[WWMainPageModel alloc] init];
+    WWMainPageModel *model = [WWMainPageModel sharedInstance];
     model.carouselImages = [carouselImages copy];
     model.tags = [tags copy];
     model.hotWords = topwords;

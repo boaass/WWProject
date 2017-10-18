@@ -44,6 +44,9 @@
 #pragma mark - selector
 - (void)buttonClick
 {
+    if ([self.superview.superview respondsToSelector:@selector(dismiss)]) {
+        [self.superview.superview performSelector:@selector(dismiss)];
+    }
     if (self.clickBlock) {
         self.clickBlock();
     }

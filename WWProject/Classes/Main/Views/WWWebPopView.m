@@ -59,7 +59,7 @@
     }];
 }
 
-- (void)dissmiss
+- (void)dismiss
 {
     if (!self.isShowing) {
         return;
@@ -101,7 +101,7 @@
 #pragma mark - action
 - (void)backgroundViewClick
 {
-    [self dissmiss];
+    [self dismiss];
 }
 
 #pragma mark - setter & getter
@@ -137,7 +137,7 @@
         NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] initWithString:@"取消"];
         [attString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, 2)];
         [_cancelButton setAttributedTitle:attString forState:UIControlStateNormal];
-        [_cancelButton addTarget:self action:@selector(dissmiss) forControlEvents:UIControlEventTouchUpInside];
+        [_cancelButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_cancelButton];
     }
     return _cancelButton;

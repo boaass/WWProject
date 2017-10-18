@@ -10,4 +10,14 @@
 
 @implementation WWMainPageModel
 
++ (instancetype)sharedInstance
+{
+    static WWMainPageModel* model = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        model = [[WWMainPageModel alloc] init];
+    });
+    return model;
+}
+
 @end

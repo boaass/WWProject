@@ -13,6 +13,8 @@
 #import "WWArticleSearchAPIManager.h"
 #import "WWAccountSearchAPIManager.h"
 #import "WWPopViewItemButton.h"
+#import "KOGNetworkingConfiguration.h"
+#import "WWMainPageModel.h"
 
 @interface WWWebViewController () <UIWebViewDelegate>
 
@@ -72,6 +74,17 @@
     }
 }
 
+- (NSDictionary *)ww_combinedParamsForRequestWithSearchUrl:(NSString *)searchUrl
+{
+    NSString *fullUrl = [searchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""];
+    NSRange segRange = [fullUrl rangeOfString:@"?"];
+    NSString *searchMethod = [fullUrl substringToIndex:segRange.location];
+    NSString *paramsStr = [fullUrl substringFromIndex:segRange.location+1];
+    NSDictionary *params = [paramsStr paramStringToDictionary];
+    NSDictionary *searchParams = params;
+    return [NSDictionary dictionaryWithObject:searchParams forKey:searchMethod];
+}
+
 - (void)ww_setupWebView
 {
     self.webView.backgroundColor = [UIColor whiteColor];
@@ -83,6 +96,29 @@
 {
     NSString *url = request.URL.absoluteString;
     NSLog(@"url: %@", url);
+    if ([url isEqualToString:self.requestUrl]) {
+        return NO;
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    switch (self.type) {
+        case WWWebViewControllerTypeAccount:
+        {
+            NSString *fullUrl = [[[WWMainPageModel sharedInstance].accountSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageService withString:@""] stringByAppendingString:self.articleModel.author];
+            NSDictionary *requestData = [self ww_combinedParamsForRequestWithSearchUrl:fullUrl];
+            [self.accountManager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWAccountSearchAPIManager *manager) {
+                weakSelf.type = WWWebViewControllerTypeAccount;
+                weakSelf.accountModel = [manager.accountInfos firstObject];
+            }];
+        }
+            break;
+        case WWWebViewControllerTypeArticle:
+        {
+            
+        }
+            break;
+    }
+    
     return YES;
 }
 
@@ -119,10 +155,7 @@
         {
             WWPopViewItemButton *checkButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"查看公众号" clickBlock:^{
                 NSLog(@"查看公众号");
-                
-                [weakSelf.accountManager loadDataWithUrl:<#(NSString *)#> params:<#(NSDictionary *)#> block:<#^(WWAccountSearchAPIManager *)block#>]
-                weakSelf.type = WWWebViewControllerTypeAccount;
-                weakSelf.accountModel =
+                [weakSelf ww_setupWebView];
             }];
             
             WWPopViewItemButton *favoriteButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"收藏文章" clickBlock:^{
