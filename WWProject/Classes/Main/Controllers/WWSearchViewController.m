@@ -16,8 +16,9 @@
 #import "WWSearchTableView.h"
 #import "WWAccountTableViewCell.h"
 #import "WWArticleTableViewCell.h"
+#import "WWWebViewController.h"
 
-@interface WWSearchViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface WWSearchViewController () <UITableViewDelegate, UITableViewDataSource, UIViewControllerPreviewingDelegate>
 
 @property (nonatomic, strong) WWSearchTableView *tableView;
 @property (nonatomic, strong) WWSearchBar *searchBar;
@@ -197,6 +198,10 @@
             WWAccountModel *model = self.searchResult[indexPath.row];
             WWAccountTableViewCell *cell = [WWAccountTableViewCell cellWithTableView:tableView];
             cell.model = model;
+            // 3DTouch
+            if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+                [self registerForPreviewingWithDelegate:self sourceView:cell];
+            }
             return cell;
         }
             break;
@@ -205,10 +210,31 @@
             WWArticleItemModel *model = self.searchResult[indexPath.row];
             WWArticleTableViewCell *cell = [WWArticleTableViewCell cellWithTableView:tableView];
             cell.model = model;
+            // 3DTouch
+            if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+                [self registerForPreviewingWithDelegate:self sourceView:cell];
+            }
             return cell;
         }
             break;
     }
+}
+
+#pragma mark - UIViewControllerPreviewingDelegate
+- (nullable UIViewController *)previewingContext:(id <UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)[previewingContext sourceView]];
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithType:WWWebViewControllerTypeAccount];
+    webVC.accountModel = self.searchResult[indexPath.row];
+    return webVC;
+}
+
+- (void)previewingContext:(id <UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)[previewingContext sourceView]];
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithType:WWWebViewControllerTypeAccount];
+    webVC.accountModel = self.searchResult[indexPath.row];
+    [self showViewController:webVC sender:self];
 }
 
 #pragma mark - action

@@ -24,20 +24,21 @@
 
 @implementation WWWebPopView
 #pragma mark - life circle
-- (instancetype)init
+- (instancetype)initWithButtonList:(NSArray <WWPopViewItemButton *> *)buttonList
 {
     if (self = [super init]) {
         self.backgroundColor = [UIColor clearColor];
         self.isShowing = NO;
+        self.buttonList = buttonList;
         [self ww_setupUI];
     }
     return self;
 }
 
 #pragma mark - public
-+ (instancetype)webPopView
++ (instancetype)webPopViewWithButtonList:(NSArray <WWPopViewItemButton *> *)buttonList
 {
-    WWWebPopView *webPopView = [[WWWebPopView alloc] init];
+    WWWebPopView *webPopView = [[WWWebPopView alloc] initWithButtonList:buttonList];
     return webPopView;
 }
 
@@ -86,19 +87,14 @@
     CGFloat scrollViewW = self.width;
     CGFloat scrollViewH = 120;
     CGFloat spaceH = 10;
-    WWPopViewItemButton *checkButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"查看公众号" clickBlock:^{
-        NSLog(@"查看公众号");
-    }];
-    checkButton.frame = CGRectMake(spaceH, spaceH, checkButtonW, checkButtonH);
-    [self.scrollView addSubview:checkButton];
     
-    WWPopViewItemButton *favoriteButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"收藏" clickBlock:^{
-        NSLog(@"收藏");
+    [self.buttonList enumerateObjectsUsingBlock:^(WWPopViewItemButton * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        obj.frame = CGRectMake(spaceH+(spaceH+checkButtonW)*idx, spaceH, checkButtonW, checkButtonH);
+        [self.scrollView addSubview:obj];
     }];
-    favoriteButton.frame = CGRectMake(CGRectGetMaxX(checkButton.frame)+spaceH, spaceH, checkButtonW, checkButtonH);
+    
     self.scrollView.frame = CGRectMake(0, self.height, scrollViewW, scrollViewH);
-    [self.scrollView addSubview:favoriteButton];
-    [self.scrollView setContentSize:CGSizeMake(CGRectGetMaxX(favoriteButton.frame)+spaceH, 0)];
+    [self.scrollView setContentSize:CGSizeMake(self.buttonList.count*(spaceH+checkButtonW)+spaceH, 0)];
     self.cancelButton.frame = CGRectMake(0, CGRectGetMaxY(self.scrollView.frame), self.width, checkButtonW);
 }
 

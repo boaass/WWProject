@@ -83,8 +83,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     WWArticleItemModel *model = self.articleInfo[indexPath.row];
-    WWWebViewController *webVC = [WWWebViewController webViewControllerWithModel:model];
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithType:WWWebViewControllerTypeArticle];
+    webVC.articleModel = model;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
     [self.superVC presentViewController:nav animated:YES completion:nil];
 }

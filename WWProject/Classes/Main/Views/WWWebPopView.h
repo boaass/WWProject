@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class WWPopViewItemButton;
 @interface WWWebPopView : UIView
 
-+ (instancetype)webPopView;
+@property (nonatomic, strong) NSArray <WWPopViewItemButton *> *buttonList;
+
++ (instancetype)webPopViewWithButtonList:(NSArray <WWPopViewItemButton *> *)buttonList;
 
 - (void)show;
 

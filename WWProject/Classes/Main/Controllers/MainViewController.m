@@ -129,7 +129,8 @@
 
 - (void)ww_pushVCWithModel:(WWArticleItemModel *)model
 {
-    WWWebViewController *webVC = [WWWebViewController webViewControllerWithModel:model];
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithType:WWWebViewControllerTypeArticle];
+    webVC.articleModel = model;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
