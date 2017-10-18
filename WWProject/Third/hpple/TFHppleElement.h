@@ -97,9 +97,13 @@
 // Returns nil if there is no text node among the children
 - (TFHppleElement *) firstTextChild;
 
+- (TFHppleElement *) lastTextChild;
+
 // Returns the string contained by the first text node from this element's children
 // Convenience method which can be used instead of firstTextChild.content
 - (NSString *) text;
+
+- (NSString *)lastText;
 
 - (NSArray *) texts;
 

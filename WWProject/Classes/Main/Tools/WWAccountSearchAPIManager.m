@@ -96,10 +96,13 @@
         NSString *contentUrl = @"";
         for (TFHppleElement *infoElement in dl) {
             TFHpple *desHpple = [[TFHpple alloc] initWithHTMLData:[infoElement.raw dataUsingEncoding:NSUTF8StringEncoding]];
-            NSString *desKey = [[desHpple peekAtSearchWithXPathQuery:@"//dt"] text];
+            TFHppleElement *desElement = [desHpple peekAtSearchWithXPathQuery:@"//dt"];
+            NSString *desKey = [desElement lastText];
             if ([desKey isEqualToString:@"最近文章："]) {
                 [descriptions addObject:[NSDictionary dictionaryWithObject:[[[desHpple peekAtSearchWithXPathQuery:@"//dd/a"] texts] componentsJoinedByString:@""] forKey:desKey]];
                 contentUrl = [[desHpple peekAtSearchWithXPathQuery:@"//dd/a"] objectForKey:@"href"];
+            } else if ([desKey isEqualToString:@"认证："]) {
+                [descriptions addObject:[NSDictionary dictionaryWithObject:[[[desHpple peekAtSearchWithXPathQuery:@"//dd"] texts] componentsJoinedByString:@""] forKey:@"微信认证："]];
             } else {
                 [descriptions addObject:[NSDictionary dictionaryWithObject:[[[desHpple peekAtSearchWithXPathQuery:@"//dd"] texts] componentsJoinedByString:@""] forKey:desKey]];
             }

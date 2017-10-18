@@ -87,18 +87,8 @@
 
 - (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSInteger)index reusingView:(nullable UIView *)view
 {
-    WWTagTableView *tableView = nil;
-    WWMainPageTagModel *model = self.tags[index];
-    if (self.validViewPool.count <= index) {
-        NSString *url = model.url;
-        NSString *method = [url stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""];
-        tableView = [[WWTagTableView alloc] initWithFrame:carousel.bounds];
-        tableView.superVC = self.navigationController;
-        [tableView loadWithMethodName:method params:nil];
-        [self.validViewPool insertObject:tableView atIndex:index];
-    } else {
-        tableView = [self.validViewPool objectAtIndex:index];
-    }
+    WWTagTableView *tableView = [self.validViewPool objectAtIndex:index];
+    tableView.frame = carousel.frame;
     [tableView setSubScrollsToTop:index == carousel.currentItemIndex];
     return tableView;
 }
@@ -216,6 +206,15 @@
 {
     if (!_validViewPool) {
         _validViewPool = [NSMutableArray array];
+        for (int index = 0; index < self.tags.count; index++) {
+            WWMainPageTagModel *model = self.tags[index];
+            NSString *url = model.url;
+            NSString *method = [url stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""];
+            WWTagTableView *tableView = [[WWTagTableView alloc] init];
+            tableView.superVC = self.navigationController;
+            [tableView loadWithMethodName:method params:nil];
+            [_validViewPool addObject:tableView];
+        }
     }
     return _validViewPool;
 }

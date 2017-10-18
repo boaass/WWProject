@@ -197,6 +197,17 @@ static NSString * const TFHppleTextNodeName            = @"text";
     return [self firstChildWithTagName:TFHppleTextNodeName];
 }
 
+- (TFHppleElement *) lastTextChild
+{
+    for (TFHppleElement* child in [self.children reverseObjectEnumerator])
+    {
+        if ([child isTextNode])
+            return child;
+    }
+    
+    return [self firstChildWithTagName:TFHppleTextNodeName];
+}
+
 - (NSArray *) textChilds
 {
     NSMutableArray *childs = [NSMutableArray array];
@@ -212,6 +223,11 @@ static NSString * const TFHppleTextNodeName            = @"text";
 - (NSString *) text
 {
     return self.firstTextChild.content;
+}
+
+- (NSString *)lastText
+{
+    return self.lastTextChild.content;
 }
 
 - (NSArray *) texts
