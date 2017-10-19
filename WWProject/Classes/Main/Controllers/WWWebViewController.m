@@ -11,20 +11,16 @@
 #import "WWAccountModel.h"
 #import "WWWebPopView.h"
 #import "WWArticleSearchAPIManager.h"
-#import "WWAccountSearchAPIManager.h"
 #import "WWPopViewItemButton.h"
 #import "KOGNetworkingConfiguration.h"
 #import "WWMainPageModel.h"
+#import "WWAccountMainPageViewController.h"
 
 @interface WWWebViewController () <UIWebViewDelegate>
 
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic, strong) WWArticleItemModel *model;
+@property (nonatomic, strong, readwrite) WWArticleItemModel *articleModel;
 @property (nonatomic, strong) WWArticleSearchAPIManager *articleManager;
-@property (nonatomic, strong) WWAccountSearchAPIManager *accountManager;
-@property (nonatomic, assign) WWWebViewControllerType type;
-@property (nonatomic, strong) NSString *viewTitle;
-@property (nonatomic, strong) NSString *requestUrl;
 
 @end
 
@@ -39,10 +35,10 @@
     [self ww_setupWebView];
 }
 
-+ (instancetype)webViewControllerWithType:(WWWebViewControllerType)type
++ (instancetype)webViewControllerWithArticleModel:(WWArticleItemModel *)model
 {
     WWWebViewController *webVC = [[WWWebViewController alloc] init];
-    webVC.type = type;
+    webVC.articleModel = model;
     return webVC;
 }
 
@@ -58,7 +54,7 @@
 #pragma mark - private
 - (void)ww_setupNavBar
 {
-    self.title = self.viewTitle;
+    self.title = self.articleModel.author;
     if ([self.webView canGoBack]) {
         UIBarButtonItem *leftBBItem1 = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(returnBarButtonAction)];
         UIBarButtonItem *leftBBItem2 = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStylePlain target:self action:@selector(closeBarButtonAction)];
@@ -74,21 +70,10 @@
     }
 }
 
-- (NSDictionary *)ww_combinedParamsForRequestWithSearchUrl:(NSString *)searchUrl
-{
-    NSString *fullUrl = [searchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""];
-    NSRange segRange = [fullUrl rangeOfString:@"?"];
-    NSString *searchMethod = [fullUrl substringToIndex:segRange.location];
-    NSString *paramsStr = [fullUrl substringFromIndex:segRange.location+1];
-    NSDictionary *params = [paramsStr paramStringToDictionary];
-    NSDictionary *searchParams = params;
-    return [NSDictionary dictionaryWithObject:searchParams forKey:searchMethod];
-}
-
 - (void)ww_setupWebView
 {
     self.webView.backgroundColor = [UIColor whiteColor];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.requestUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.articleModel.contentUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:10]];
 }
 
 #pragma mark - UIWebViewDelegate
@@ -96,28 +81,6 @@
 {
     NSString *url = request.URL.absoluteString;
     NSLog(@"url: %@", url);
-    if ([url isEqualToString:self.requestUrl]) {
-        return NO;
-    }
-    
-    __weak typeof(self) weakSelf = self;
-    switch (self.type) {
-        case WWWebViewControllerTypeAccount:
-        {
-            NSString *fullUrl = [[[WWMainPageModel sharedInstance].accountSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageService withString:@""] stringByAppendingString:self.articleModel.author];
-            NSDictionary *requestData = [self ww_combinedParamsForRequestWithSearchUrl:fullUrl];
-            [self.accountManager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWAccountSearchAPIManager *manager) {
-                weakSelf.type = WWWebViewControllerTypeAccount;
-                weakSelf.accountModel = [manager.accountInfos firstObject];
-            }];
-        }
-            break;
-        case WWWebViewControllerTypeArticle:
-        {
-            
-        }
-            break;
-    }
     
     return YES;
 }
@@ -141,30 +104,21 @@
 - (void)rightBarButtonAction
 {
     __weak typeof(self) weakSelf = self;
-    NSArray *buttonList = nil;
-    switch (self.type) {
-        case WWWebViewControllerTypeAccount:
-        {
-            WWPopViewItemButton *focusButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"关注公众号" clickBlock:^{
-                NSLog(@"关注公众号");
-            }];
-            buttonList = @[focusButton];
-        }
-            break;
-        case WWWebViewControllerTypeArticle:
-        {
-            WWPopViewItemButton *checkButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"查看公众号" clickBlock:^{
-                NSLog(@"查看公众号");
-                [weakSelf ww_setupWebView];
-            }];
-            
-            WWPopViewItemButton *favoriteButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"收藏文章" clickBlock:^{
-                NSLog(@"收藏文章");
-            }];
-            buttonList = @[checkButton, favoriteButton];
-        }
-            break;
-    }
+    WWPopViewItemButton *checkButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"查看公众号" clickBlock:^{
+        NSLog(@"查看公众号");
+        // 跳转公众号主页
+        WWAccountMainPageViewController *vc = [[WWAccountMainPageViewController alloc] init];
+        vc.mainPageUrl = weakSelf.articleModel.authorMainUrl;
+        vc.title = weakSelf.articleModel.author;
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+        [weakSelf.navigationController presentViewController:nav animated:YES completion:nil];
+    }];
+    
+    WWPopViewItemButton *favoriteButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"收藏文章" clickBlock:^{
+        NSLog(@"收藏文章");
+    }];
+    NSArray *buttonList = @[checkButton, favoriteButton];
+    
     WWWebPopView *popView = [WWWebPopView webPopViewWithButtonList:buttonList];
     [popView show];
 }
@@ -187,48 +141,6 @@
         _articleManager = [[WWArticleSearchAPIManager alloc] init];
     }
     return _articleManager;
-}
-
-- (WWAccountSearchAPIManager *)accountManager
-{
-    if (!_accountManager) {
-        _accountManager = [[WWAccountSearchAPIManager alloc] init];
-    }
-    return _accountManager;
-}
-
-- (NSString *)viewTitle
-{
-    switch (self.type) {
-        case WWWebViewControllerTypeArticle:
-        {
-            self.viewTitle = self.articleModel.author;
-        }
-            break;
-        case WWWebViewControllerTypeAccount:
-        {
-            self.viewTitle = self.accountModel.author;
-        }
-            break;
-    }
-    return _viewTitle;
-}
-
-- (NSString *)requestUrl
-{
-    switch (self.type) {
-        case WWWebViewControllerTypeArticle:
-        {
-            _requestUrl = self.articleModel.contentUrl;
-        }
-            break;
-        case WWWebViewControllerTypeAccount:
-        {
-            _requestUrl = self.accountModel.authorMainUrl;
-        }
-            break;
-    }
-    return _requestUrl;
 }
 
 @end

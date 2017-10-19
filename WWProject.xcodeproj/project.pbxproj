@@ -34,6 +34,12 @@
 		774994DA1F90967C001F9E36 /* WWArticleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 774994D31F90917F001F9E36 /* WWArticleTableViewCell.m */; };
 		777A1AE91F95D6E700DCE9EA /* WWWebPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 777A1AE81F95D6E700DCE9EA /* WWWebPopView.m */; };
 		777A1AEC1F95E2CA00DCE9EA /* WWPopViewItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 777A1AEB1F95E2CA00DCE9EA /* WWPopViewItemButton.m */; };
+		777A1AFB1F984F0000DCE9EA /* WWAccountMainPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 777A1AFA1F984F0000DCE9EA /* WWAccountMainPageViewController.m */; };
+		777A1B011F9853CE00DCE9EA /* WWAccountMainPageAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 777A1B001F9853CE00DCE9EA /* WWAccountMainPageAPIManager.m */; };
+		777A1B041F9864BE00DCE9EA /* WWAccountMainPageTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 777A1B031F9864BE00DCE9EA /* WWAccountMainPageTableView.m */; };
+		777A1B071F987F7400DCE9EA /* WWAccountMainPageService.m in Sources */ = {isa = PBXBuildFile; fileRef = 777A1B061F987F7400DCE9EA /* WWAccountMainPageService.m */; };
+		777A1B0A1F98B03C00DCE9EA /* WWWXArticleAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 777A1B091F98B03C00DCE9EA /* WWWXArticleAPIManager.m */; };
+		777A1B0D1F98D27800DCE9EA /* WWTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 777A1B0C1F98D27800DCE9EA /* WWTools.m */; };
 		77C898581F8B6E970046EA13 /* WWMainPageTagInfoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898571F8B6E970046EA13 /* WWMainPageTagInfoManager.m */; };
 		77C898591F8B76860046EA13 /* WWMainPageAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */; };
 		77C8985D1F8B7CB90046EA13 /* WWMainPageTagModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 77C8985C1F8B7CB90046EA13 /* WWMainPageTagModel.m */; };
@@ -134,6 +140,18 @@
 		777A1AE81F95D6E700DCE9EA /* WWWebPopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWWebPopView.m; sourceTree = "<group>"; };
 		777A1AEA1F95E2CA00DCE9EA /* WWPopViewItemButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWPopViewItemButton.h; sourceTree = "<group>"; };
 		777A1AEB1F95E2CA00DCE9EA /* WWPopViewItemButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWPopViewItemButton.m; sourceTree = "<group>"; };
+		777A1AF61F98487300DCE9EA /* WWAccountMainPageAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWAccountMainPageAPIManager.h; sourceTree = "<group>"; };
+		777A1AF91F984F0000DCE9EA /* WWAccountMainPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWAccountMainPageViewController.h; sourceTree = "<group>"; };
+		777A1AFA1F984F0000DCE9EA /* WWAccountMainPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWAccountMainPageViewController.m; sourceTree = "<group>"; };
+		777A1B001F9853CE00DCE9EA /* WWAccountMainPageAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWAccountMainPageAPIManager.m; sourceTree = "<group>"; };
+		777A1B021F9864BE00DCE9EA /* WWAccountMainPageTableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWAccountMainPageTableView.h; sourceTree = "<group>"; };
+		777A1B031F9864BE00DCE9EA /* WWAccountMainPageTableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWAccountMainPageTableView.m; sourceTree = "<group>"; };
+		777A1B051F987F7400DCE9EA /* WWAccountMainPageService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWAccountMainPageService.h; sourceTree = "<group>"; };
+		777A1B061F987F7400DCE9EA /* WWAccountMainPageService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWAccountMainPageService.m; sourceTree = "<group>"; };
+		777A1B081F98B03C00DCE9EA /* WWWXArticleAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWWXArticleAPIManager.h; sourceTree = "<group>"; };
+		777A1B091F98B03C00DCE9EA /* WWWXArticleAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWWXArticleAPIManager.m; sourceTree = "<group>"; };
+		777A1B0B1F98D27800DCE9EA /* WWTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWTools.h; sourceTree = "<group>"; };
+		777A1B0C1F98D27800DCE9EA /* WWTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWTools.m; sourceTree = "<group>"; };
 		77C898541F8B6DB50046EA13 /* WWMainPageAPIManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMainPageAPIManager.h; sourceTree = "<group>"; };
 		77C898551F8B6DB50046EA13 /* WWMainPageAPIManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWMainPageAPIManager.m; sourceTree = "<group>"; };
 		77C898561F8B6E970046EA13 /* WWMainPageTagInfoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWMainPageTagInfoManager.h; sourceTree = "<group>"; };
@@ -384,6 +402,8 @@
 				774994911F8DED9E001F9E36 /* WWSearchViewController.m */,
 				807EAE8C1F95062B0001361D /* WWWebViewController.h */,
 				807EAE8D1F95062B0001361D /* WWWebViewController.m */,
+				777A1AF91F984F0000DCE9EA /* WWAccountMainPageViewController.h */,
+				777A1AFA1F984F0000DCE9EA /* WWAccountMainPageViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -406,6 +426,8 @@
 				777A1AE81F95D6E700DCE9EA /* WWWebPopView.m */,
 				777A1AEA1F95E2CA00DCE9EA /* WWPopViewItemButton.h */,
 				777A1AEB1F95E2CA00DCE9EA /* WWPopViewItemButton.m */,
+				777A1B021F9864BE00DCE9EA /* WWAccountMainPageTableView.h */,
+				777A1B031F9864BE00DCE9EA /* WWAccountMainPageTableView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -458,6 +480,12 @@
 				774994CF1F908B35001F9E36 /* WWArticleSearchAPIManager.m */,
 				774994991F8E105B001F9E36 /* WWAccountSearchAPIManager.h */,
 				7749949A1F8E105B001F9E36 /* WWAccountSearchAPIManager.m */,
+				777A1AF61F98487300DCE9EA /* WWAccountMainPageAPIManager.h */,
+				777A1B001F9853CE00DCE9EA /* WWAccountMainPageAPIManager.m */,
+				777A1B081F98B03C00DCE9EA /* WWWXArticleAPIManager.h */,
+				777A1B091F98B03C00DCE9EA /* WWWXArticleAPIManager.m */,
+				777A1B0B1F98D27800DCE9EA /* WWTools.h */,
+				777A1B0C1F98D27800DCE9EA /* WWTools.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -612,6 +640,8 @@
 			children = (
 				8061F96F1F7D45B100E7F4C8 /* WWMainPageService.h */,
 				8061F9701F7D45B100E7F4C8 /* WWMainPageService.m */,
+				777A1B051F987F7400DCE9EA /* WWAccountMainPageService.h */,
+				777A1B061F987F7400DCE9EA /* WWAccountMainPageService.m */,
 			);
 			path = CustomServices;
 			sourceTree = "<group>";
@@ -821,7 +851,9 @@
 				805E48871F8FB08C009C7C0A /* TFHppleElement.m in Sources */,
 				77390FB61F5FEB790072324B /* MainViewController.m in Sources */,
 				774994981F8DF01D001F9E36 /* WWSearchBar.m in Sources */,
+				777A1B071F987F7400DCE9EA /* WWAccountMainPageService.m in Sources */,
 				8061F9681F7D44B600E7F4C8 /* KOGRequestGenerator.m in Sources */,
+				777A1AFB1F984F0000DCE9EA /* WWAccountMainPageViewController.m in Sources */,
 				80A2192A1F8BB46F003E3361 /* WWTagTableView.m in Sources */,
 				77390F951F5FE3720072324B /* XTSegmentControl.m in Sources */,
 				77390FA51F5FEA640072324B /* NSTimer+Addition.m in Sources */,
@@ -837,6 +869,8 @@
 				77C898651F8B7D580046EA13 /* WWHotwordModel.m in Sources */,
 				77390FB71F5FEB790072324B /* RootTabBarViewController.m in Sources */,
 				8061F9651F7D44B600E7F4C8 /* KOGAPIProxy.m in Sources */,
+				777A1B011F9853CE00DCE9EA /* WWAccountMainPageAPIManager.m in Sources */,
+				777A1B0A1F98B03C00DCE9EA /* WWWXArticleAPIManager.m in Sources */,
 				777A1AEC1F95E2CA00DCE9EA /* WWPopViewItemButton.m in Sources */,
 				77390FB51F5FEB790072324B /* FavoriteTableViewController.m in Sources */,
 				774994DA1F90967C001F9E36 /* WWArticleTableViewCell.m in Sources */,
@@ -848,6 +882,8 @@
 				8061F9641F7D44B600E7F4C8 /* NSURLRequest+KOGNetworking.m in Sources */,
 				77390FBA1F5FED850072324B /* BannerView.m in Sources */,
 				77C898581F8B6E970046EA13 /* WWMainPageTagInfoManager.m in Sources */,
+				777A1B041F9864BE00DCE9EA /* WWAccountMainPageTableView.m in Sources */,
+				777A1B0D1F98D27800DCE9EA /* WWTools.m in Sources */,
 				807EAE8E1F95062B0001361D /* WWWebViewController.m in Sources */,
 				774994D01F908B35001F9E36 /* WWArticleSearchAPIManager.m in Sources */,
 				77390F421F5FCFBE0072324B /* main.m in Sources */,

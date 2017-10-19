@@ -14,7 +14,8 @@
 #import "NSString+Extension.h"
 #import "UIImageView+WebCache.h"
 
-#import "KOGAPIBaseManager.h"
+//#import "KOGAPIBaseManager.h"
+#import "WWTools.h"
 
 #define kScreen_Bounds  [UIScreen mainScreen].bounds
 #define kScreen_Height  [UIScreen mainScreen].bounds.size.height

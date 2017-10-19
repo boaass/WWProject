@@ -48,14 +48,14 @@
         switch (searchBar.searchType) {
             case WWAccountSearchType:
             {
-                NSString *fullUrl = [[self.accountSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageService withString:@""] stringByAppendingString:searchBar.searchContent];
-                [weakSelf ww_combinedParamsForRequestWithSearchUrl:fullUrl];
+                NSString *fullUrl = [[self.accountSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
+                [WWTools combinedParamsForRequestWithSearchUrl:fullUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
             }
                 break;
             case WWArticleSearchType:
             {
-                NSString *fullUrl = [[self.articleSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageService withString:@""] stringByAppendingString:searchBar.searchContent];
-                [weakSelf ww_combinedParamsForRequestWithSearchUrl:fullUrl];
+                NSString *fullUrl = [[self.articleSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
+                [WWTools combinedParamsForRequestWithSearchUrl:fullUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
             }
                 break;
         }
@@ -71,16 +71,6 @@
     
     UIBarButtonItem *rightBBItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonAction)];
     self.navigationItem.rightBarButtonItem = rightBBItem;
-}
-
-- (void)ww_combinedParamsForRequestWithSearchUrl:(NSString *)searchUrl
-{
-    NSString *fullUrl = [searchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""];
-    NSRange segRange = [fullUrl rangeOfString:@"?"];
-    self.searchMethod = [fullUrl substringToIndex:segRange.location];
-    NSString *paramsStr = [fullUrl substringFromIndex:segRange.location+1];
-    NSDictionary *params = [paramsStr paramStringToDictionary];
-    self.searchParams = params;
 }
 
 - (void)ww_setupTableView
@@ -224,16 +214,14 @@
 - (nullable UIViewController *)previewingContext:(id <UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)[previewingContext sourceView]];
-    WWWebViewController *webVC = [WWWebViewController webViewControllerWithType:WWWebViewControllerTypeAccount];
-    webVC.accountModel = self.searchResult[indexPath.row];
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
     return webVC;
 }
 
 - (void)previewingContext:(id <UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)[previewingContext sourceView]];
-    WWWebViewController *webVC = [WWWebViewController webViewControllerWithType:WWWebViewControllerTypeAccount];
-    webVC.accountModel = self.searchResult[indexPath.row];
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
     [self showViewController:webVC sender:self];
 }
 

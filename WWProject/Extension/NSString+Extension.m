@@ -14,6 +14,11 @@
 {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     for (NSString *param in [self componentsSeparatedByString:@"&"]) {
+        if ([param hasPrefix:@"signature"]) {
+            NSRange range = [param rangeOfString:@"="];
+            [params setValue:[param substringFromIndex:range.location+1] forKey:[param substringToIndex:range.location]];
+            continue;
+        }
         NSArray *kv = [param componentsSeparatedByString:@"="];
         [params setValue:[kv objectAtIndex:1] forKey:[kv objectAtIndex:0]];
     }

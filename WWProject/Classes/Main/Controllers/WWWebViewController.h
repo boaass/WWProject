@@ -8,18 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger, WWWebViewControllerType) {
-    WWWebViewControllerTypeAccount,
-    WWWebViewControllerTypeArticle,
-};
-
 @class WWArticleItemModel;
-@class WWAccountModel;
+
 @interface WWWebViewController : UIViewController
 
-@property (nonatomic, strong) WWAccountModel *accountModel;
-@property (nonatomic, strong) WWArticleItemModel *articleModel;
+@property (nonatomic, strong, readonly) WWArticleItemModel *articleModel;
 
-+ (instancetype)webViewControllerWithType:(WWWebViewControllerType)type;
++ (instancetype)webViewControllerWithArticleModel:(WWArticleItemModel *)model;
 
 @end
