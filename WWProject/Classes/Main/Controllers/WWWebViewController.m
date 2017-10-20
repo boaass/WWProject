@@ -39,6 +39,7 @@
 {
     WWWebViewController *webVC = [[WWWebViewController alloc] init];
     webVC.articleModel = model;
+    webVC.isOpened = NO;
     return webVC;
 }
 
@@ -106,12 +107,17 @@
     __weak typeof(self) weakSelf = self;
     WWPopViewItemButton *checkButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"查看公众号" clickBlock:^{
         NSLog(@"查看公众号");
-        // 跳转公众号主页
-        WWAccountMainPageViewController *vc = [[WWAccountMainPageViewController alloc] init];
-        vc.mainPageUrl = weakSelf.articleModel.authorMainUrl;
-        vc.title = weakSelf.articleModel.author;
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
-        [weakSelf.navigationController presentViewController:nav animated:YES completion:nil];
+        if (!self.isOpened) {
+            // 跳转公众号主页
+            WWAccountMainPageViewController *vc = [[WWAccountMainPageViewController alloc] init];
+            vc.mainPageUrl = weakSelf.articleModel.authorMainUrl;
+            vc.title = weakSelf.articleModel.author;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            [weakSelf.navigationController presentViewController:nav animated:YES completion:nil];
+        } else {
+            [weakSelf closeBarButtonAction];
+        }
+        
     }];
     
     WWPopViewItemButton *favoriteButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"收藏文章" clickBlock:^{

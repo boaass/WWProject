@@ -52,6 +52,7 @@
 - (void)ww_pushVCWithModel:(WWArticleItemModel *)model
 {
     WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:model];
+    webVC.isOpened = YES;
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
@@ -90,6 +91,7 @@
         
         __weak typeof(self) weakSelf = self;
         NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:url replaceString:kWWAccountMainPageServiceOnlineApiBaseUrl];
+        self.manager.contentUrl = url;
         [self.manager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWWXArticleAPIManager *manager) {
             if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
                 weakSelf.articleModel = manager.articleInfo;
@@ -115,21 +117,13 @@
     
     self.webView.backgroundColor = [UIColor whiteColor];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:mainPageUrl]]];
-    
-//    __weak typeof(self) weakSelf = self;
-//    NSDictionary *requestParam = [self ww_combinedParamsForRequestWithSearchUrl:mainPageUrl];
-//    [self.manager loadDataWithUrl:[[requestParam allKeys] firstObject] params:[[requestParam allValues] firstObject] block:^(WWAccountMainPageAPIManager *manager) {
-//        if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
-//            weakSelf.accountModel = manager.accountInfo;
-//            weakSelf.articleInfos = manager.articleInfos;
-//        }
-//    }];
 }
 
 - (WWWXArticleAPIManager *)manager
 {
     if (!_manager) {
         _manager = [[WWWXArticleAPIManager alloc] init];
+        _manager.authorMainUrl = self.mainPageUrl;
     }
     return _manager;
 }

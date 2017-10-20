@@ -12,6 +12,7 @@
 
 @interface WWWebViewController : UIViewController
 
+@property (nonatomic, assign) BOOL isOpened;
 @property (nonatomic, strong, readonly) WWArticleItemModel *articleModel;
 
 + (instancetype)webViewControllerWithArticleModel:(WWArticleItemModel *)model;

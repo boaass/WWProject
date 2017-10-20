@@ -15,6 +15,8 @@ typedef void(^WXArticleInfoCompleteBlock)(WWWXArticleAPIManager *);
 
 @interface WWWXArticleAPIManager : KOGAPIBaseManager
 
+@property (nonatomic, strong) NSString *authorMainUrl;
+@property (nonatomic, strong) NSString *contentUrl;
 @property (nonatomic, strong, readonly) NSString *method;
 @property (nonatomic, strong, readonly) NSDictionary *params;
 @property (nonatomic, strong, readonly) WWArticleItemModel *articleInfo;

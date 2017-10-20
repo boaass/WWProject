@@ -10,7 +10,6 @@
 #import "KOGNetworkingConfiguration.h"
 #import "TFHpple.h"
 #import "WWArticleItemModel.h"
-#import "WWArticleSearchAPIManager.h"
 #import "WWMainPageModel.h"
 
 @interface WWWXArticleAPIManager () <KOGAPIManager, KOGAPIManagerParamSource, KOGAPIManagerCallBackDelegate>
@@ -19,7 +18,6 @@
 @property (nonatomic, strong, readwrite) NSString *method;
 @property (nonatomic, strong, readwrite) NSDictionary *params;
 @property (nonatomic, strong) WXArticleInfoCompleteBlock block;
-@property (nonatomic, strong) WWArticleSearchAPIManager *articleSearchManager;
 
 @end
 
@@ -70,17 +68,56 @@
 #pragma mark - KOGAPIManagerCallBackDelegate
 - (void)managerCallAPIDidSuccess:(KOGAPIBaseManager *)manager
 {
-    __weak typeof(self) weakSelf = self;
+    NSString *contentString = manager.response.contentString;
     TFHpple *hpple = [[TFHpple alloc] initWithHTMLData:manager.response.responseData];
     NSString *title = [[hpple peekAtSearchWithXPathQuery:@"//title"] text];
-    NSString *fullUrl = [[[WWMainPageModel sharedInstance].articleSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:title];
-    NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:fullUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
-    [self.articleSearchManager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWArticleSearchAPIManager *manager) {
-        if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
-            weakSelf.articleInfo = [manager.articleInfos firstObject];
-        }
-        self.block(weakSelf);
-    }];
+    NSString *author = [[hpple peekAtSearchWithXPathQuery:@"//strong[@class='profile_nickname']"] text];
+    // 获取 bigImageUrl
+    NSString *bigImageUrlRegex = @"var\\smsg_cdn_url\\s=\\s\"(.*)\"";
+    NSRegularExpression *bigImageUrlRegular = [NSRegularExpression regularExpressionWithPattern:bigImageUrlRegex options:NSRegularExpressionCaseInsensitive error:nil];
+    NSArray *bigImageUrlMatches = [bigImageUrlRegular matchesInString:contentString options:0 range:NSMakeRange(0, contentString.length)];
+    NSString *bigImageUrl = nil;
+    if (bigImageUrlMatches && bigImageUrlMatches.count>0) {
+        NSRange range = [[bigImageUrlMatches firstObject] rangeAtIndex:1];
+        bigImageUrl = [contentString substringWithRange:range];
+    }
+    
+    // 获取 overwrite
+    NSString *overviewRegex = @"var\\smsg_desc\\s=\\s\"(.*)\"";
+    NSRegularExpression *overviewRegular = [NSRegularExpression regularExpressionWithPattern:overviewRegex options:NSRegularExpressionCaseInsensitive error:nil];
+    NSArray *overviewMatches = [overviewRegular matchesInString:contentString options:0 range:NSMakeRange(0, contentString.length)];
+    NSString *overview = nil;
+    if (overviewMatches && overviewMatches.count>0) {
+        NSRange range = [[overviewMatches firstObject] rangeAtIndex:1];
+        overview = [contentString substringWithRange:range];
+    }
+    
+    // 获取 stamp
+    NSString *timeStampRegex = @"var\\sct\\s=\\s\"(.*)\"";
+    NSRegularExpression *timeStampRegular = [NSRegularExpression regularExpressionWithPattern:timeStampRegex options:NSRegularExpressionCaseInsensitive error:nil];
+    NSArray *timeStampMatches = [timeStampRegular matchesInString:contentString options:0 range:NSMakeRange(0, contentString.length)];
+    NSString *timeStamp = nil;
+    if (timeStampMatches && timeStampMatches.count>0) {
+        NSRange range = [[timeStampMatches firstObject] rangeAtIndex:1];
+        timeStamp = [contentString substringWithRange:range];
+    }
+    
+//    NSString *fullUrl = [[[WWMainPageModel sharedInstance].articleSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:[title stringByAppendingString:author]];
+//    NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:fullUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
+    
+    WWArticleItemModel *model = [[WWArticleItemModel alloc] init];
+    model.title = title;
+    model.author = author;
+    model.authorMainUrl = self.authorMainUrl;
+    model.contentUrl = self.contentUrl;
+    model.bigImageUrl = bigImageUrl;
+    model.overview = overview;
+    model.timeStamp = timeStamp;
+    self.articleInfo = model;
+    
+    if (self.block) {
+        self.block(self);
+    }
 }
 
 - (void)managerCallAPIDidFailed:(KOGAPIBaseManager *)manager
@@ -92,12 +129,5 @@
 }
 
 #pragma mark - setter & getter
-- (WWArticleSearchAPIManager *)articleSearchManager
-{
-    if (!_articleSearchManager) {
-        _articleSearchManager = [[WWArticleSearchAPIManager alloc] init];
-    }
-    return _articleSearchManager;
-}
 
 @end
