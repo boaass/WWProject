@@ -13,7 +13,7 @@
 
 @interface WWMainPageTagInfoManager () <KOGAPIManager, KOGAPIManagerParamSource, KOGAPIManagerCallBackDelegate>
 
-@property (nonatomic, strong, readwrite) NSArray <WWArticleItemModel *> *articleInfo;
+@property (nonatomic, strong, readwrite) NSArray <WWArticleItemModel *> *articleInfos;
 @property (nonatomic, strong, readwrite) NSString *method;
 @property (nonatomic, strong, readwrite) NSDictionary *params;
 @property (nonatomic, assign) NSInteger pageIndex;
@@ -86,7 +86,7 @@
     TFHpple *hpple = [[TFHpple alloc] initWithHTMLData:manager.response.responseData];
     
     NSArray *liElements = [hpple searchWithXPathQuery:@"//ul[@class='news-list']/li"];
-    NSMutableArray <WWArticleItemModel *> *articleInfo = [NSMutableArray array];
+    NSMutableArray <WWArticleItemModel *> *articleInfos = [NSMutableArray array];
     for (TFHppleElement *element in liElements) {
         TFHpple *liHpple = [[TFHpple alloc] initWithHTMLData:[element.raw dataUsingEncoding:NSUTF8StringEncoding]];
         TFHppleElement *imageElement = [liHpple peekAtSearchWithXPathQuery:@"//img"];
@@ -110,9 +110,9 @@
         model.author = author;
         model.timeStamp = timeStamp;
         model.overview = overview;
-        [articleInfo addObject:model];
+        [articleInfos addObject:model];
     }
-    self.articleInfo = [articleInfo copy];
+    self.articleInfos = [articleInfos copy];
     
     if (self.block) {
         self.block(self);

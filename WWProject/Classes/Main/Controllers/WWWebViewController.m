@@ -45,8 +45,8 @@
 
 - (NSArray<id<UIPreviewActionItem>> *)previewActionItems
 {
-    UIPreviewAction *action = [UIPreviewAction actionWithTitle:@"关注" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
-        NSLog(@"关注");
+    UIPreviewAction *action = [UIPreviewAction actionWithTitle:@"收藏" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        NSLog(@"收藏");
     }];
     NSArray *items = @[action];
     return items;

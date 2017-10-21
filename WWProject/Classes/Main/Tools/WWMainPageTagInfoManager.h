@@ -17,7 +17,7 @@ typedef void(^ArticleInfoCompleteBlock)(WWMainPageTagInfoManager *);
 
 @property (nonatomic, strong, readonly) NSString *method;
 @property (nonatomic, strong, readonly) NSDictionary *params;
-@property (nonatomic, strong, readonly) NSArray <WWArticleItemModel *> *articleInfo;
+@property (nonatomic, strong, readonly) NSArray <WWArticleItemModel *> *articleInfos;
 
 - (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(ArticleInfoCompleteBlock)block;
 

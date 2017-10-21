@@ -31,6 +31,15 @@
     [self ww_setupNavigationBar];
 }
 
+- (NSArray<id<UIPreviewActionItem>> *)previewActionItems
+{
+    UIPreviewAction *action = [UIPreviewAction actionWithTitle:@"关注" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+        NSLog(@"关注");
+    }];
+    NSArray *items = @[action];
+    return items;
+}
+
 #pragma mark - private
 - (void)ww_setupNavigationBar
 {
@@ -65,7 +74,6 @@
 
 - (void)rightBarButtonAction
 {
-    __weak typeof(self) weakSelf = self;
     WWPopViewItemButton *checkButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"关注公众号" clickBlock:^{
         NSLog(@"关注公众号");
     }];

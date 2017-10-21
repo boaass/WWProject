@@ -17,6 +17,7 @@
 #import "WWAccountTableViewCell.h"
 #import "WWArticleTableViewCell.h"
 #import "WWWebViewController.h"
+#import "WWAccountMainPageViewController.h"
 
 @interface WWSearchViewController () <UITableViewDelegate, UITableViewDataSource, UIViewControllerPreviewingDelegate>
 
@@ -45,21 +46,23 @@
 {
     __weak typeof(self) weakSelf = self;
     self.searchBar = [WWSearchBar searchBarWithBlock:^(WWSearchBar *searchBar) {
+        NSDictionary *requestParam = nil;
         switch (searchBar.searchType) {
             case WWAccountSearchType:
             {
                 NSString *fullUrl = [[self.accountSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
-                [WWTools combinedParamsForRequestWithSearchUrl:fullUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
+                requestParam = [WWTools combinedParamsForRequestWithSearchUrl:fullUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
             }
                 break;
             case WWArticleSearchType:
             {
                 NSString *fullUrl = [[self.articleSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:searchBar.searchContent];
-                [WWTools combinedParamsForRequestWithSearchUrl:fullUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
+                requestParam = [WWTools combinedParamsForRequestWithSearchUrl:fullUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
             }
                 break;
         }
-        
+        self.searchMethod = [[requestParam allKeys] firstObject];
+        self.searchParams = [[requestParam allValues] firstObject];
         if (weakSelf.currentType != searchBar.searchType) {
             weakSelf.searchResult = [NSArray array];
         }
@@ -169,6 +172,30 @@
         return 100;
     }
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    switch (self.currentType) {
+        case WWAccountSearchType:
+        {
+            WWAccountMainPageViewController *webVC = [[WWAccountMainPageViewController alloc] init];
+            WWAccountModel *model = self.searchResult[indexPath.row];
+            webVC.mainPageUrl = model.authorMainUrl;
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+            [self presentViewController:nav animated:YES completion:nil];
+        }
+            break;
+        case WWArticleSearchType:
+        {
+            WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+            [self presentViewController:nav animated:YES completion:nil];
+        }
+            break;
+    }
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.searchBar resignFirstResponder];
@@ -188,9 +215,11 @@
             WWAccountModel *model = self.searchResult[indexPath.row];
             WWAccountTableViewCell *cell = [WWAccountTableViewCell cellWithTableView:tableView];
             cell.model = model;
-            // 3DTouch
-            if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
-                [self registerForPreviewingWithDelegate:self sourceView:cell];
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+                // 3DTouch
+                if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+                    [self registerForPreviewingWithDelegate:self sourceView:cell];
+                }
             }
             return cell;
         }
@@ -200,9 +229,11 @@
             WWArticleItemModel *model = self.searchResult[indexPath.row];
             WWArticleTableViewCell *cell = [WWArticleTableViewCell cellWithTableView:tableView];
             cell.model = model;
-            // 3DTouch
-            if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
-                [self registerForPreviewingWithDelegate:self sourceView:cell];
+            if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+                // 3DTouch
+                if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+                    [self registerForPreviewingWithDelegate:self sourceView:cell];
+                }
             }
             return cell;
         }
@@ -213,16 +244,35 @@
 #pragma mark - UIViewControllerPreviewingDelegate
 - (nullable UIViewController *)previewingContext:(id <UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)[previewingContext sourceView]];
-    WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
-    return webVC;
+    UIView *cell = [previewingContext sourceView];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)cell];
+    if ([cell isKindOfClass:[WWArticleTableViewCell class]]) {
+        WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
+        return webVC;
+    } else if ([cell isKindOfClass:[WWAccountTableViewCell class]]) {
+        WWAccountMainPageViewController *webVC = [[WWAccountMainPageViewController alloc] init];
+        WWAccountModel *model = self.searchResult[indexPath.row];
+        webVC.mainPageUrl = model.authorMainUrl;
+        return webVC;
+    }
+    return nil;
 }
 
 - (void)previewingContext:(id <UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit
 {
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)[previewingContext sourceView]];
-    WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
-    [self showViewController:webVC sender:self];
+    UIView *cell = [previewingContext sourceView];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)cell];
+    if ([cell isKindOfClass:[WWArticleTableViewCell class]]) {
+        WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+        [self showViewController:nav sender:self.navigationController];
+    } else if ([cell isKindOfClass:[WWAccountTableViewCell class]]) {
+        WWAccountMainPageViewController *webVC = [[WWAccountMainPageViewController alloc] init];
+        WWAccountModel *model = self.searchResult[indexPath.row];
+        webVC.mainPageUrl = model.authorMainUrl;
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+        [self showViewController:nav sender:self.navigationController];
+    }
 }
 
 #pragma mark - action

@@ -13,11 +13,11 @@
 #import "MJRefresh.h"
 #import "WWWebViewController.h"
 
-@interface WWTagTableView () <UITableViewDelegate, UITableViewDataSource>
+@interface WWTagTableView () <UITableViewDelegate, UITableViewDataSource, UIViewControllerPreviewingDelegate>
 
 @property (nonatomic, strong) NSString *methodName;
 @property (nonatomic, strong) NSDictionary *params;
-@property (nonatomic, strong) NSArray <WWArticleItemModel *> *articleInfo;
+@property (nonatomic, strong) NSArray <WWArticleItemModel *> *articleInfos;
 @property (nonatomic, strong) WWMainPageTagInfoManager *manager;
 
 @end
@@ -54,7 +54,7 @@
     [self.manager loadDataWithUrl:self.methodName params:(NSDictionary *)params block:^(WWMainPageTagInfoManager *manager) {
         [weakSelf.mj_header endRefreshing];
         [weakSelf.mj_footer resetNoMoreData];
-        weakSelf.articleInfo = manager.articleInfo;
+        weakSelf.articleInfos = manager.articleInfos;
         [weakSelf reloadData];
     }];
 }
@@ -64,13 +64,13 @@
 {
     __weak typeof(self) weakSelf = self;
     [self.manager nextPage:^(WWMainPageTagInfoManager *manager) {
-        if (!manager.articleInfo || manager.articleInfo.count == 0) {
+        if (!manager.articleInfos || manager.articleInfos.count == 0) {
             [weakSelf.mj_footer endRefreshingWithNoMoreData];
             return ;
         } else {
             [weakSelf.mj_footer endRefreshing];
         }
-        weakSelf.articleInfo = [weakSelf.articleInfo arrayByAddingObjectsFromArray:manager.articleInfo];
+        weakSelf.articleInfos = [weakSelf.articleInfos arrayByAddingObjectsFromArray:manager.articleInfos];
         [weakSelf reloadData];
     }];
 }
@@ -85,7 +85,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    WWArticleItemModel *model = self.articleInfo[indexPath.row];
+    WWArticleItemModel *model = self.articleInfos[indexPath.row];
     WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:model];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
     [self.superVC presentViewController:nav animated:YES completion:nil];
@@ -94,15 +94,38 @@
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.articleInfo.count;
+    return self.articleInfos.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     WWArticleTableViewCell *cell = [WWArticleTableViewCell cellWithTableView:tableView];
-    WWArticleItemModel *model = self.articleInfo[indexPath.row];
+    WWArticleItemModel *model = self.articleInfos[indexPath.row];
     cell.model = model;
+    
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"9")) {
+        // 3DTouch
+        if (self.traitCollection.forceTouchCapability == UIForceTouchCapabilityAvailable) {
+            [self.superVC registerForPreviewingWithDelegate:self sourceView:cell];
+        }
+    }
     return cell;
+}
+
+#pragma mark - UIViewControllerPreviewingDelegate
+- (nullable UIViewController *)previewingContext:(id <UIViewControllerPreviewing>)previewingContext viewControllerForLocation:(CGPoint)location
+{
+    NSIndexPath *indexPath = [self indexPathForCell:(UITableViewCell *)[previewingContext sourceView]];
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:[self.articleInfos objectAtIndex:indexPath.row]];
+    return webVC;
+}
+
+- (void)previewingContext:(id <UIViewControllerPreviewing>)previewingContext commitViewController:(UIViewController *)viewControllerToCommit
+{
+    NSIndexPath *indexPath = [self indexPathForCell:(UITableViewCell *)[previewingContext sourceView]];
+    WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:[self.articleInfos objectAtIndex:indexPath.row]];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+    [self.superVC showViewController:nav sender:self];
 }
 
 #pragma mark - setter & getter

@@ -50,7 +50,7 @@
     
     [[[UIApplication sharedApplication] keyWindow] addSubview:self];
     __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.7 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         weakSelf.backgroundView.hidden = NO;
         weakSelf.scrollView.y = weakSelf.height - weakSelf.scrollView.height - weakSelf.cancelButton.height;
         weakSelf.cancelButton.y = CGRectGetMaxY(weakSelf.scrollView.frame);
@@ -66,7 +66,7 @@
     }
     
     __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:0.7 animations:^{
+    [UIView animateWithDuration:0.3 animations:^{
         weakSelf.backgroundView.hidden = YES;
         weakSelf.scrollView.y = weakSelf.height;
         weakSelf.cancelButton.y = CGRectGetMaxY(weakSelf.scrollView.frame);
