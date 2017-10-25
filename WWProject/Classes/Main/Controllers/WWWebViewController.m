@@ -53,9 +53,9 @@
     UIPreviewAction *action = [UIPreviewAction actionWithTitle:hasCache?@"取消收藏":@"收藏" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
         NSLog(@"收藏");
         if (hasCache) {
-            [WWTools archiveFavoriteArticle:weakSelf.articleModel];
-        } else {
             [WWTools removeFavoriteArticle:weakSelf.articleModel];
+        } else {
+            [WWTools archiveFavoriteArticle:weakSelf.articleModel];
         }
     }];
     NSArray *items = @[action];

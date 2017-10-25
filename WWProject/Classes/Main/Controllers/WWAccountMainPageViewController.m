@@ -40,8 +40,7 @@
 {
     BOOL hasCache = [WWTools hasCacheFavoriteAccount:self.accounteModel];
     __weak typeof(self) weakSelf = self;
-    UIPreviewAction *action = [UIPreviewAction actionWithTitle:@"关注" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
-        NSLog(@"关注");
+    UIPreviewAction *action = [UIPreviewAction actionWithTitle:hasCache?@"取消关注":@"关注公众号" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
         if (hasCache) {
             [WWTools removeFavoriteAccount:weakSelf.accounteModel];
         } else {
@@ -102,7 +101,6 @@
     BOOL hasCache = [WWTools hasCacheFavoriteAccount:self.accounteModel];
     __weak typeof(self) weakSelf = self;
     WWPopViewItemButton *checkButton = [WWPopViewItemButton buttonWithImageName:@"" title:hasCache?@"取消关注":@"关注公众号" clickBlock:^{
-        NSLog(@"关注公众号");
         if (hasCache) {
             [WWTools removeFavoriteAccount:weakSelf.accounteModel];
         } else {
@@ -126,7 +124,9 @@
 {
     NSString *url = request.URL.absoluteString;
     NSLog(@"url: %@", url);
-    
+    if (!url || url.length == 0) {
+        return NO;
+    }
     __weak typeof(self) weakSelf = self;
     if (![url isEqualToString:self.accounteModel.authorMainUrl]) {
         NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:url replaceString:kWWAccountMainPageServiceOnlineApiBaseUrl];
