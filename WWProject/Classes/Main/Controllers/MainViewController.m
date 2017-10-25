@@ -47,12 +47,20 @@
 {
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(rightBarButtonAction)];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+    
+    UIBarButtonItem *leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(leftBarButtonAction)];
+    self.navigationItem.leftBarButtonItem = leftBarButtonItem;
 }
 
 #pragma mark - selector
+- (void)leftBarButtonAction
+{
+    [self ww_refreshBannerView];
+    [self.carousel reloadData];
+}
+
 - (void)rightBarButtonAction
 {
-    NSLog(@"right");
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.searchVC];
     [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
@@ -148,7 +156,7 @@
 {
     if (!_bannerView) {
         __weak typeof(self) weakSelf = self;
-        _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Width * 214/640)];
+        _bannerView = [[BannerView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kScreen_Width * 280/640)];
         NSMutableArray *articleModelList = [NSMutableArray array];
         for (WWArticleItemModel *model in self.carouselImages) {
             [articleModelList addObject:model];
@@ -170,7 +178,7 @@
         for (WWMainPageTagModel *model in self.tags) {
             [tagNames addObject:model.tagName];
         }
-        _segmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), kScreen_Width, 70) Items:[tagNames copy] selectedBlock:^(NSInteger index) {
+        _segmentControl = [[XTSegmentControl alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), kScreen_Width, 50) Items:[tagNames copy] segmentControlItemCount:4 selectedBlock:^(NSInteger index) {
             [weakSelf.carousel scrollToItemAtIndex:index animated:NO];
         }];
         

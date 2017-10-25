@@ -18,7 +18,7 @@
 
 #define XTSegmentControlIconWidth (50.0)
 
-#define XTSegmentControlItemCount 4
+//#define XTSegmentControlItemCount 4
 
 typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 {
@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 
 @implementation XTSegmentControl
 
-- (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem
+- (id)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem segmentControlItemCount:(NSInteger)segmentControlItemCount
 {
     if (self = [super initWithFrame:frame]) {
         _contentView = ({
@@ -126,6 +126,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             scrollView;
         });
         
+        self.segmentControlItemCount = segmentControlItemCount;
         [self initItemsWithTitleArray:titleItem];
         
     }
@@ -141,17 +142,18 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
     }
 }
 
-- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem delegate:(id<XTSegmentControlDelegate>)delegate
+- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem segmentControlItemCount:(NSInteger)segmentControlItemCount delegate:(id<XTSegmentControlDelegate>)delegate
 {
-    if (self = [self initWithFrame:frame Items:titleItem]) {
+    if (self = [self initWithFrame:frame Items:titleItem segmentControlItemCount:segmentControlItemCount]) {
+        self.segmentControlItemCount = segmentControlItemCount;
         self.delegate = delegate;
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem selectedBlock:(XTSegmentControlBlock)selectedHandle
+- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem segmentControlItemCount:(NSInteger)segmentControlItemCount selectedBlock:(XTSegmentControlBlock)selectedHandle
 {
-    if (self = [self initWithFrame:frame Items:titleItem]) {
+    if (self = [self initWithFrame:frame Items:titleItem segmentControlItemCount:segmentControlItemCount]) {
         self.block = selectedHandle;
     }
     return self;
@@ -206,7 +208,7 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
             float x = i > 0 ? CGRectGetMaxX([_itemFrames[i-1] CGRectValue]) : 0;
             float width = 2 * XTSegmentControlHspace + size.width;
             CGRect rect = CGRectMake(x, y, width, height);
-            CGFloat minW = (kScreen_Width - XTSegmentControlHspace)/XTSegmentControlItemCount;
+            CGFloat minW = (kScreen_Width - XTSegmentControlHspace)/self.segmentControlItemCount;
             if (rect.size.width < minW) {
                 rect = CGRectMake(rect.origin.x, rect.origin.y, minW, rect.size.height);
             }
@@ -292,12 +294,12 @@ typedef NS_ENUM(NSInteger, XTSegmentControlItemType)
 
 - (void)setScrollOffset:(NSInteger)index
 {
-    CGFloat minW = (kScreen_Width - XTSegmentControlHspace)/XTSegmentControlItemCount;
+    CGFloat minW = (kScreen_Width - XTSegmentControlHspace)/self.segmentControlItemCount;
     
     // 当前偏移量换算成index, 手动滑动contentView时会使 contentOffset.x 少一个XTSegmentControlHspace
     NSUInteger offsetIndex = (self.contentView.contentOffset.x+XTSegmentControlHspace)/minW;
     // 最大可视的index
-    NSUInteger maxOffsetIndex = (offsetIndex + XTSegmentControlItemCount - 1);
+    NSUInteger maxOffsetIndex = (offsetIndex + self.segmentControlItemCount - 1);
     
     if (index < offsetIndex || (index == offsetIndex && index != 0)) {
         [UIView animateWithDuration:XTSegmentControlAnimationTime animations:^{

@@ -179,9 +179,8 @@
     switch (self.currentType) {
         case WWAccountSearchType:
         {
-            WWAccountMainPageViewController *webVC = [[WWAccountMainPageViewController alloc] init];
             WWAccountModel *model = self.searchResult[indexPath.row];
-            webVC.mainPageUrl = model.authorMainUrl;
+            WWAccountMainPageViewController *webVC = [WWAccountMainPageViewController accountMainPageWithAccountModel:model];
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
             [self presentViewController:nav animated:YES completion:nil];
         }
@@ -250,9 +249,8 @@
         WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
         return webVC;
     } else if ([cell isKindOfClass:[WWAccountTableViewCell class]]) {
-        WWAccountMainPageViewController *webVC = [[WWAccountMainPageViewController alloc] init];
         WWAccountModel *model = self.searchResult[indexPath.row];
-        webVC.mainPageUrl = model.authorMainUrl;
+        WWAccountMainPageViewController *webVC = [WWAccountMainPageViewController accountMainPageWithAccountModel:model];
         return webVC;
     }
     return nil;
@@ -267,9 +265,8 @@
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
         [self showViewController:nav sender:self.navigationController];
     } else if ([cell isKindOfClass:[WWAccountTableViewCell class]]) {
-        WWAccountMainPageViewController *webVC = [[WWAccountMainPageViewController alloc] init];
         WWAccountModel *model = self.searchResult[indexPath.row];
-        webVC.mainPageUrl = model.authorMainUrl;
+        WWAccountMainPageViewController *webVC = [WWAccountMainPageViewController accountMainPageWithAccountModel:model];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
         [self showViewController:nav sender:self.navigationController];
     }

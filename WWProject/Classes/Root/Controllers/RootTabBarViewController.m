@@ -9,7 +9,7 @@
 #import "RootTabBarViewController.h"
 #import "RDVTabBarItem.h"
 #import "MainViewController.h"
-#import "FavoriteTableViewController.h"
+#import "WWFavoriteViewController.h"
 #import "WWMainNavigationController.h"
 
 @interface RootTabBarViewController ()
@@ -34,8 +34,10 @@
     MainViewController *mainTVC = [[MainViewController alloc] init];
     mainTVC.title = [self.titles firstObject];
     WWMainNavigationController *mainNavController = [[WWMainNavigationController alloc] initWithRootViewController:mainTVC];
-    FavoriteTableViewController *favoriteTVC = [[FavoriteTableViewController alloc] init];
-    [self setViewControllers:@[mainNavController, favoriteTVC]];
+    WWFavoriteViewController *favoriteTVC = [[WWFavoriteViewController alloc] init];
+    favoriteTVC.title = [self.titles lastObject];
+    WWMainNavigationController *favoriteNavController = [[WWMainNavigationController alloc] initWithRootViewController:favoriteTVC];
+    [self setViewControllers:@[mainNavController, favoriteNavController]];
 }
 
 - (void)ww_setupCustomTabBarItems

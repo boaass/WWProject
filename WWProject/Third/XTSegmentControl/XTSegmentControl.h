@@ -26,11 +26,12 @@ typedef void(^XTSegmentControlBlock)(NSInteger index);
 
 @interface XTSegmentControl : UIView
 
+@property (nonatomic, assign) NSInteger segmentControlItemCount;
 @property (nonatomic) NSInteger currentIndex;
 
-- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem delegate:(id <XTSegmentControlDelegate>)delegate;
+- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem segmentControlItemCount:(NSInteger)segmentControlItemCount delegate:(id <XTSegmentControlDelegate>)delegate;
 
-- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem selectedBlock:(XTSegmentControlBlock)selectedHandle;
+- (instancetype)initWithFrame:(CGRect)frame Items:(NSArray *)titleItem segmentControlItemCount:(NSInteger)segmentControlItemCount selectedBlock:(XTSegmentControlBlock)selectedHandle;
 
 - (void)selectIndex:(NSInteger)index;
 

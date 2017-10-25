@@ -11,6 +11,8 @@
 @class WWAccountModel;
 @interface WWAccountMainPageViewController : UIViewController
 
-@property (nonatomic, strong) NSString *mainPageUrl;
+@property (nonatomic, strong, readonly) WWAccountModel *accounteModel;
+
++ (instancetype)accountMainPageWithAccountModel:(WWAccountModel *)accounteModel;
 
 @end

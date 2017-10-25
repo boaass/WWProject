@@ -18,9 +18,10 @@ typedef void(^AccountMainPageInfoCompleteBlock)(WWAccountMainPageAPIManager *man
 
 @property (nonatomic, strong, readonly) NSString *method;
 @property (nonatomic, strong, readonly) NSDictionary *params;
-@property (nonatomic, strong) NSString *authorMainPageUrl;
 @property (nonatomic, strong, readonly) NSArray <WWArticleItemModel *> *articleInfos;
 @property (nonatomic, strong, readonly) WWAccountModel *accountInfo;
+// 必传
+@property (nonatomic, strong) NSString *authorMainPageUrl;
 
 - (void)loadDataWithUrl:(NSString *)methodName params:(NSDictionary *)params block:(AccountMainPageInfoCompleteBlock)block;
 

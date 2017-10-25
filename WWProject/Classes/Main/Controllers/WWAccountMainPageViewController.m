@@ -12,12 +12,16 @@
 #import "WWWebPopView.h"
 #import "WWWebViewController.h"
 #import "WWWXArticleAPIManager.h"
+#import "WWAccountMainPageAPIManager.h"
 #import "WWArticleItemModel.h"
+#import "WWAccountModel.h"
 
 @interface WWAccountMainPageViewController () <UIWebViewDelegate>
 
 @property (nonatomic, strong) WWArticleItemModel *articleModel;
-@property (nonatomic, strong) WWWXArticleAPIManager *manager;
+@property (nonatomic, strong, readwrite) WWAccountModel *accounteModel;
+@property (nonatomic, strong) WWWXArticleAPIManager *articleManager;
+@property (nonatomic, strong) WWAccountMainPageAPIManager *accountManager;
 @property (nonatomic, strong) UIWebView *webView;
 
 @end
@@ -29,15 +33,30 @@
     // Do any additional setup after loading the view.
     
     [self ww_setupNavigationBar];
+    [self ww_loadWebView];
 }
 
 - (NSArray<id<UIPreviewActionItem>> *)previewActionItems
 {
+    BOOL hasCache = [WWTools hasCacheFavoriteAccount:self.accounteModel];
+    __weak typeof(self) weakSelf = self;
     UIPreviewAction *action = [UIPreviewAction actionWithTitle:@"关注" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
         NSLog(@"关注");
+        if (hasCache) {
+            [WWTools removeFavoriteAccount:weakSelf.accounteModel];
+        } else {
+            [WWTools archiveFavoriteAccount:weakSelf.accounteModel];
+        }
     }];
     NSArray *items = @[action];
     return items;
+}
+
++ (instancetype)accountMainPageWithAccountModel:(WWAccountModel *)accounteModel
+{
+    WWAccountMainPageViewController *vc = [[WWAccountMainPageViewController alloc] init];
+    vc.accounteModel = accounteModel;
+    return vc;
 }
 
 #pragma mark - private
@@ -58,6 +77,12 @@
     }
 }
 
+- (void)ww_loadWebView
+{
+    self.webView.backgroundColor = [UIColor whiteColor];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.accounteModel.authorMainUrl]]];
+}
+
 - (void)ww_pushVCWithModel:(WWArticleItemModel *)model
 {
     WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:model];
@@ -74,8 +99,15 @@
 
 - (void)rightBarButtonAction
 {
-    WWPopViewItemButton *checkButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"关注公众号" clickBlock:^{
+    BOOL hasCache = [WWTools hasCacheFavoriteAccount:self.accounteModel];
+    __weak typeof(self) weakSelf = self;
+    WWPopViewItemButton *checkButton = [WWPopViewItemButton buttonWithImageName:@"" title:hasCache?@"取消关注":@"关注公众号" clickBlock:^{
         NSLog(@"关注公众号");
+        if (hasCache) {
+            [WWTools removeFavoriteAccount:weakSelf.accounteModel];
+        } else {
+            [WWTools archiveFavoriteAccount:weakSelf.accounteModel];
+        }
     }];
     
     NSArray *buttonList = @[checkButton];
@@ -95,18 +127,17 @@
     NSString *url = request.URL.absoluteString;
     NSLog(@"url: %@", url);
     
-    if (![url isEqualToString:self.mainPageUrl]) {
-        
-        __weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
+    if (![url isEqualToString:self.accounteModel.authorMainUrl]) {
         NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:url replaceString:kWWAccountMainPageServiceOnlineApiBaseUrl];
-        self.manager.contentUrl = url;
-        [self.manager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWWXArticleAPIManager *manager) {
+        self.articleManager.contentUrl = url;
+        [self.articleManager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWWXArticleAPIManager *manager) {
             if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
                 weakSelf.articleModel = manager.articleInfo;
                 [weakSelf ww_pushVCWithModel:manager.articleInfo];
             }
         }];
-        
+
         return NO;
     }
     
@@ -118,22 +149,28 @@
     [self ww_setupNavigationBar];
 }
 
-#pragma mark - setter & getter
-- (void)setMainPageUrl:(NSString *)mainPageUrl
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    _mainPageUrl = mainPageUrl;
-    
-    self.webView.backgroundColor = [UIColor whiteColor];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:mainPageUrl]]];
+    NSLog(@"error: %@", error);
 }
 
-- (WWWXArticleAPIManager *)manager
+#pragma mark - setter & getter
+- (WWWXArticleAPIManager *)articleManager
 {
-    if (!_manager) {
-        _manager = [[WWWXArticleAPIManager alloc] init];
-        _manager.authorMainUrl = self.mainPageUrl;
+    if (!_articleManager) {
+        _articleManager = [[WWWXArticleAPIManager alloc] init];
+        _articleManager.authorMainUrl = self.accounteModel.authorMainUrl;
     }
-    return _manager;
+    return _articleManager;
+}
+
+- (WWAccountMainPageAPIManager *)accountManager
+{
+    if (!_accountManager) {
+        _accountManager = [[WWAccountMainPageAPIManager alloc] init];
+        _accountManager.authorMainPageUrl = self.accounteModel.authorMainUrl;
+    }
+    return _accountManager;
 }
 
 - (UIWebView *)webView

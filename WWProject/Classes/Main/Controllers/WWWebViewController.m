@@ -11,6 +11,7 @@
 #import "WWAccountModel.h"
 #import "WWWebPopView.h"
 #import "WWArticleSearchAPIManager.h"
+#import "WWAccountMainPageAPIManager.h"
 #import "WWPopViewItemButton.h"
 #import "KOGNetworkingConfiguration.h"
 #import "WWMainPageModel.h"
@@ -20,7 +21,9 @@
 
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, strong, readwrite) WWArticleItemModel *articleModel;
+@property (nonatomic, strong) WWAccountModel *accountModel;
 @property (nonatomic, strong) WWArticleSearchAPIManager *articleManager;
+@property (nonatomic, strong) WWAccountMainPageAPIManager *accountManager;
 
 @end
 
@@ -45,8 +48,15 @@
 
 - (NSArray<id<UIPreviewActionItem>> *)previewActionItems
 {
-    UIPreviewAction *action = [UIPreviewAction actionWithTitle:@"收藏" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
+    BOOL hasCache = [WWTools hasCacheFavoriteArticle:self.articleModel];
+    __weak typeof(self) weakSelf = self;
+    UIPreviewAction *action = [UIPreviewAction actionWithTitle:hasCache?@"取消收藏":@"收藏" style:UIPreviewActionStyleDefault handler:^(UIPreviewAction * _Nonnull action, UIViewController * _Nonnull previewViewController) {
         NSLog(@"收藏");
+        if (hasCache) {
+            [WWTools archiveFavoriteArticle:weakSelf.articleModel];
+        } else {
+            [WWTools removeFavoriteArticle:weakSelf.articleModel];
+        }
     }];
     NSArray *items = @[action];
     return items;
@@ -109,8 +119,7 @@
         NSLog(@"查看公众号");
         if (!self.isOpened) {
             // 跳转公众号主页
-            WWAccountMainPageViewController *vc = [[WWAccountMainPageViewController alloc] init];
-            vc.mainPageUrl = weakSelf.articleModel.authorMainUrl;
+            WWAccountMainPageViewController *vc = [WWAccountMainPageViewController accountMainPageWithAccountModel:weakSelf.accountModel];
             vc.title = weakSelf.articleModel.author;
             UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             [weakSelf.navigationController presentViewController:nav animated:YES completion:nil];
@@ -120,11 +129,16 @@
         
     }];
     
-    WWPopViewItemButton *favoriteButton = [WWPopViewItemButton buttonWithImageName:@"" title:@"收藏文章" clickBlock:^{
+    BOOL hasCache = [WWTools hasCacheFavoriteArticle:self.articleModel];
+    WWPopViewItemButton *favoriteButton = [WWPopViewItemButton buttonWithImageName:@"" title:hasCache?@"取消收藏":@"收藏文章" clickBlock:^{
         NSLog(@"收藏文章");
+        if (hasCache) {
+            [WWTools removeFavoriteArticle:weakSelf.articleModel];
+        } else {
+            [WWTools archiveFavoriteArticle:weakSelf.articleModel];
+        }
     }];
     NSArray *buttonList = @[checkButton, favoriteButton];
-    
     WWWebPopView *popView = [WWWebPopView webPopViewWithButtonList:buttonList];
     [popView show];
 }
@@ -147,6 +161,28 @@
         _articleManager = [[WWArticleSearchAPIManager alloc] init];
     }
     return _articleManager;
+}
+
+- (WWAccountMainPageAPIManager *)accountManager
+{
+    if (!_accountManager) {
+        _accountManager = [[WWAccountMainPageAPIManager alloc] init];
+        _accountManager.authorMainPageUrl = self.articleModel.authorMainUrl;
+    }
+    return _accountManager;
+}
+
+- (void)setArticleModel:(WWArticleItemModel *)articleModel
+{
+    _articleModel = articleModel;
+    
+    __weak typeof(self) weakSelf = self;
+    NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:_articleModel.authorMainUrl replaceString:kWWAccountMainPageServiceOnlineApiBaseUrl];
+    [self.accountManager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWAccountMainPageAPIManager *manager) {
+        if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+            weakSelf.accountModel = manager.accountInfo;
+        }
+    }];
 }
 
 @end
