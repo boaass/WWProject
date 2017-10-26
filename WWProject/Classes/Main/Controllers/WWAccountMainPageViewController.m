@@ -15,6 +15,7 @@
 #import "WWAccountMainPageAPIManager.h"
 #import "WWArticleItemModel.h"
 #import "WWAccountModel.h"
+#import "WWAccountCacheModel.h"
 
 @interface WWAccountMainPageViewController () <UIWebViewDelegate>
 
@@ -44,7 +45,13 @@
         if (hasCache) {
             [WWTools removeFavoriteAccount:weakSelf.accounteModel];
         } else {
-            [WWTools archiveFavoriteAccount:weakSelf.accounteModel];
+            WWAccountCacheModel *cacheModel = [[WWAccountCacheModel alloc] init];
+            cacheModel.accountModel = weakSelf.accounteModel;
+            cacheModel.cacheTimeStamp = [NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
+            [WWTools archiveFavoriteAccount:cacheModel];
+        }
+        if (weakSelf.touchBlock) {
+            weakSelf.touchBlock();
         }
     }];
     NSArray *items = @[action];
@@ -86,7 +93,7 @@
 {
     WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:model];
     webVC.isOpened = YES;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+    WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 
@@ -104,7 +111,10 @@
         if (hasCache) {
             [WWTools removeFavoriteAccount:weakSelf.accounteModel];
         } else {
-            [WWTools archiveFavoriteAccount:weakSelf.accounteModel];
+            WWAccountCacheModel *cacheModel = [[WWAccountCacheModel alloc] init];
+            cacheModel.accountModel = weakSelf.accounteModel;
+            cacheModel.cacheTimeStamp = [NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
+            [WWTools archiveFavoriteAccount:cacheModel];
         }
     }];
     

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class WWArticleCacheModel;
+@class WWAccountCacheModel;
 @class WWArticleItemModel;
 @class WWAccountModel;
 
@@ -15,9 +17,9 @@
 
 + (NSDictionary *)combinedParamsForRequestWithSearchUrl:(NSString *)searchUrl replaceString:(NSString *)replaceString;
 
-+ (void)archiveFavoriteArticle:(WWArticleItemModel *)model;
++ (void)archiveFavoriteArticle:(WWArticleCacheModel *)model;
 
-+ (void)archiveFavoriteAccount:(WWAccountModel *)model;
++ (void)archiveFavoriteAccount:(WWAccountCacheModel *)model;
 
 + (void)removeFavoriteArticle:(WWArticleItemModel *)model;
 
@@ -27,8 +29,12 @@
 
 + (BOOL)hasCacheFavoriteAccount:(WWAccountModel *)model;
 
-+ (NSArray <WWArticleItemModel *> *)cacheFavoriteArticles;
++ (void)refreshCacheFavoriteArticleWithBlcok:(void (^)())block;
 
-+ (NSArray <WWAccountModel *> *)cacheFavoriteAccounts;
++ (void)refreshCacheFavoriteAccountWithBlock:(void (^)())block;
+
++ (NSArray <WWArticleCacheModel *> *)cacheFavoriteArticles;
+
++ (NSArray <WWAccountCacheModel *> *)cacheFavoriteAccounts;
 
 @end

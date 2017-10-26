@@ -16,6 +16,8 @@
 
 //#import "KOGAPIBaseManager.h"
 #import "WWTools.h"
+#import "KOGNetworkingConfiguration.h"
+#import "WWMainNavigationController.h"
 
 #define kScreen_Bounds  [UIScreen mainScreen].bounds
 #define kScreen_Height  [UIScreen mainScreen].bounds.size.height

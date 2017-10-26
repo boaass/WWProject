@@ -87,7 +87,7 @@
     
     WWArticleItemModel *model = self.articleInfos[indexPath.row];
     WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:model];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+    WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
     [self.superVC presentViewController:nav animated:YES completion:nil];
 }
 
@@ -124,7 +124,7 @@
 {
     NSIndexPath *indexPath = [self indexPathForCell:(UITableViewCell *)[previewingContext sourceView]];
     WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:[self.articleInfos objectAtIndex:indexPath.row]];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+    WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
     [self.superVC showViewController:nav sender:self];
 }
 

@@ -41,6 +41,14 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self ww_setupNavigationBar];
     [self ww_loadData];
+    
+    [WWTools refreshCacheFavoriteAccountWithBlock:^{
+        NSLog(@"refreshCacheFavoriteAccountWithBlock");
+    }];
+    
+    [WWTools refreshCacheFavoriteArticleWithBlcok:^{
+        NSLog(@"refreshCacheFavoriteArticleWithBlcok");
+    }];
 }
 
 #pragma mark - private
@@ -61,7 +69,7 @@
 
 - (void)rightBarButtonAction
 {
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.searchVC];
+    WWMainNavigationController *navController = [[WWMainNavigationController alloc] initWithRootViewController:self.searchVC];
     [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
@@ -136,7 +144,7 @@
 - (void)ww_pushVCWithModel:(WWArticleItemModel *)model
 {
     WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:model];
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+    WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
     [self.navigationController presentViewController:nav animated:YES completion:nil];
 }
 

@@ -84,7 +84,7 @@
 {
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc] init];
-        _timeLabel.font = [UIFont systemFontOfSize:10];
+        _titleLabel.font = [UIFont systemFontOfSize:16];
         [self.contentView addSubview:_titleLabel];
     }
     return _titleLabel;
@@ -95,7 +95,7 @@
     if (!_overwriteLabel) {
         _overwriteLabel = [[UILabel alloc] init];
         _overwriteLabel.numberOfLines = 3;
-        _overwriteLabel.font = [UIFont systemFontOfSize:9];
+        _overwriteLabel.font = [UIFont systemFontOfSize:11];
         [self.contentView addSubview:_overwriteLabel];
     }
     return _overwriteLabel;
@@ -105,7 +105,7 @@
 {
     if (!_authorLabel) {
         _authorLabel = [[UILabel alloc] init];
-        _authorLabel.font = [UIFont systemFontOfSize:8];
+        _authorLabel.font = [UIFont systemFontOfSize:10];
         [self.contentView addSubview:_authorLabel];
     }
     return _authorLabel;
@@ -115,7 +115,7 @@
 {
     if (!_timeLabel) {
         _timeLabel = [[UILabel alloc] init];
-        _timeLabel.font = [UIFont systemFontOfSize:8];
+        _timeLabel.font = [UIFont systemFontOfSize:10];
         [self.contentView addSubview:_timeLabel];
     }
     return _timeLabel;

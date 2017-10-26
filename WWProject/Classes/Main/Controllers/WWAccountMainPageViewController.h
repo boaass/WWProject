@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class WWAccountModel;
+typedef void(^WWAccountMainPageVC3DTouchBlock)();
 @interface WWAccountMainPageViewController : UIViewController
 
 @property (nonatomic, strong, readonly) WWAccountModel *accounteModel;
+@property (nonatomic, strong) WWAccountMainPageVC3DTouchBlock touchBlock;
 
 + (instancetype)accountMainPageWithAccountModel:(WWAccountModel *)accounteModel;
 

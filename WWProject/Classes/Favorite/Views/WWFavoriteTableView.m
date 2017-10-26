@@ -12,7 +12,9 @@
 #import "WWWebViewController.h"
 #import "WWAccountMainPageViewController.h"
 #import "WWArticleItemModel.h"
+#import "WWArticleCacheModel.h"
 #import "WWAccountModel.h"
+#import "WWAccountCacheModel.h"
 #import "MJRefresh.h"
 
 @interface WWFavoriteTableView () <UITableViewDataSource, UITableViewDelegate, UIViewControllerPreviewingDelegate>
@@ -78,7 +80,7 @@
         {
             WWArticleItemModel *model = self.cellDatas[indexPath.row];
             WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:model];
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+            WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
             [self.superVC presentViewController:nav animated:YES completion:nil];
         }
             break;
@@ -86,7 +88,7 @@
         {
             WWAccountModel *model = self.cellDatas[indexPath.row];
             WWAccountMainPageViewController *webVC = [WWAccountMainPageViewController accountMainPageWithAccountModel:model];
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+            WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
             [self.superVC presentViewController:nav animated:YES completion:nil];
         }
             break;
@@ -139,12 +141,19 @@
 {
     UIView *cell = [previewingContext sourceView];
     NSIndexPath *indexPath = [self indexPathForCell:(UITableViewCell *)cell];
+    __weak typeof(self) weakSelf = self;
     if ([cell isKindOfClass:[WWArticleTableViewCell class]]) {
         WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.cellDatas[indexPath.row]];
+        webVC.touchBlock = ^{
+            [weakSelf reloadData];
+        };
         return webVC;
     } else if ([cell isKindOfClass:[WWAccountTableViewCell class]]) {
         WWAccountModel *model = self.cellDatas[indexPath.row];
         WWAccountMainPageViewController *webVC = [WWAccountMainPageViewController accountMainPageWithAccountModel:model];
+        webVC.touchBlock = ^{
+            [weakSelf reloadData];
+        };
         return webVC;
     }
     return nil;
@@ -156,12 +165,12 @@
     NSIndexPath *indexPath = [self indexPathForCell:(UITableViewCell *)cell];
     if ([cell isKindOfClass:[WWArticleTableViewCell class]]) {
         WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.cellDatas[indexPath.row]];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+        WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
         [self.superVC showViewController:nav sender:self.superVC.navigationController];
     } else if ([cell isKindOfClass:[WWAccountTableViewCell class]]) {
         WWAccountModel *model = self.cellDatas[indexPath.row];
         WWAccountMainPageViewController *webVC = [WWAccountMainPageViewController accountMainPageWithAccountModel:model];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+        WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
         [self.superVC showViewController:nav sender:self.superVC.navigationController];
     }
 }
@@ -169,18 +178,25 @@
 #pragma mark - setter & getter
 - (NSArray *)cellDatas
 {
+    NSMutableArray *datas = [NSMutableArray array];
     switch (self.currentFavoriteType) {
         case WWFavoriteArticleType:
         {
-            NSArray *datas = [WWTools cacheFavoriteArticles];
-            _cellDatas = datas;
+            NSArray *cacheDatas = [WWTools cacheFavoriteArticles];
+            [cacheDatas enumerateObjectsUsingBlock:^(WWArticleCacheModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [datas addObject:obj.articleModel];
+            }];
+            _cellDatas = [datas copy];
             return datas;
         }
             break;
         case WWFavoriteAccountType:
         {
-            NSArray *datas = [WWTools cacheFavoriteAccounts];
-            _cellDatas = datas;
+            NSArray *cacheDatas = [WWTools cacheFavoriteAccounts];
+            [cacheDatas enumerateObjectsUsingBlock:^(WWAccountCacheModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [datas addObject:obj.accountModel];
+            }];
+            _cellDatas = [datas copy];
             return datas;
         }
             break;

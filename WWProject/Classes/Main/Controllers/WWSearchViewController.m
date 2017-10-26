@@ -181,14 +181,14 @@
         {
             WWAccountModel *model = self.searchResult[indexPath.row];
             WWAccountMainPageViewController *webVC = [WWAccountMainPageViewController accountMainPageWithAccountModel:model];
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+            WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
             [self presentViewController:nav animated:YES completion:nil];
         }
             break;
         case WWArticleSearchType:
         {
             WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+            WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
             [self presentViewController:nav animated:YES completion:nil];
         }
             break;
@@ -262,12 +262,12 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)cell];
     if ([cell isKindOfClass:[WWArticleTableViewCell class]]) {
         WWWebViewController *webVC = [WWWebViewController webViewControllerWithArticleModel:self.searchResult[indexPath.row]];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+        WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
         [self showViewController:nav sender:self.navigationController];
     } else if ([cell isKindOfClass:[WWAccountTableViewCell class]]) {
         WWAccountModel *model = self.searchResult[indexPath.row];
         WWAccountMainPageViewController *webVC = [WWAccountMainPageViewController accountMainPageWithAccountModel:model];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:webVC];
+        WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:webVC];
         [self showViewController:nav sender:self.navigationController];
     }
 }

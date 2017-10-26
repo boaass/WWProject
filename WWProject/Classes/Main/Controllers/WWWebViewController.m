@@ -17,6 +17,7 @@
 #import "WWPopViewItemButton.h"
 #import "KOGNetworkingConfiguration.h"
 #import "WWMainPageModel.h"
+#import "WWArticleCacheModel.h"
 #import "WWAccountMainPageViewController.h"
 
 @interface WWWebViewController () <UIWebViewDelegate>
@@ -59,7 +60,13 @@
         if (hasCache) {
             [WWTools removeFavoriteArticle:weakSelf.articleModel];
         } else {
-            [WWTools archiveFavoriteArticle:weakSelf.articleModel];
+            WWArticleCacheModel *cacheModel = [[WWArticleCacheModel alloc] init];
+            cacheModel.cacheTimeStamp = [NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
+            cacheModel.articleModel = weakSelf.articleModel;
+            [WWTools archiveFavoriteArticle:cacheModel];
+        }
+        if (weakSelf.touchBlock) {
+            weakSelf.touchBlock();
         }
     }];
     NSArray *items = @[action];
@@ -125,7 +132,7 @@
             // 跳转公众号主页
             WWAccountMainPageViewController *vc = [WWAccountMainPageViewController accountMainPageWithAccountModel:weakSelf.accountModel];
             vc.title = weakSelf.articleModel.author;
-            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            WWMainNavigationController *nav = [[WWMainNavigationController alloc] initWithRootViewController:vc];
             [weakSelf.navigationController presentViewController:nav animated:YES completion:nil];
         } else {
             [weakSelf closeBarButtonAction];
@@ -139,7 +146,10 @@
         if (hasCache) {
             [WWTools removeFavoriteArticle:weakSelf.articleModel];
         } else {
-            [WWTools archiveFavoriteArticle:weakSelf.articleModel];
+            WWArticleCacheModel *cacheModel = [[WWArticleCacheModel alloc] init];
+            cacheModel.articleModel = weakSelf.articleModel;
+            cacheModel.cacheTimeStamp = [NSString stringWithFormat:@"%f", [[NSDate date] timeIntervalSince1970]];
+            [WWTools archiveFavoriteArticle:cacheModel];
         }
     }];
     NSArray *buttonList = @[checkButton, favoriteButton];

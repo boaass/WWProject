@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7738BDE41FA1CA5500CCF097 /* WWArticleCacheModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7738BDE31FA1CA5500CCF097 /* WWArticleCacheModel.m */; };
+		7738BDE81FA1CAAE00CCF097 /* WWAccountCacheModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7738BDE71FA1CAAE00CCF097 /* WWAccountCacheModel.m */; };
 		77390F421F5FCFBE0072324B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390F411F5FCFBE0072324B /* main.m */; };
 		77390F451F5FCFBE0072324B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390F441F5FCFBE0072324B /* AppDelegate.m */; };
 		77390F4D1F5FCFBE0072324B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 77390F4C1F5FCFBE0072324B /* Assets.xcassets */; };
@@ -84,6 +86,10 @@
 
 /* Begin PBXFileReference section */
 		006C4DA9572F4CE946E74556 /* Pods-WWProject.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WWProject.release.xcconfig"; path = "Pods/Target Support Files/Pods-WWProject/Pods-WWProject.release.xcconfig"; sourceTree = "<group>"; };
+		7738BDE21FA1CA5500CCF097 /* WWArticleCacheModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWArticleCacheModel.h; sourceTree = "<group>"; };
+		7738BDE31FA1CA5500CCF097 /* WWArticleCacheModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWArticleCacheModel.m; sourceTree = "<group>"; };
+		7738BDE61FA1CAAE00CCF097 /* WWAccountCacheModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WWAccountCacheModel.h; sourceTree = "<group>"; };
+		7738BDE71FA1CAAE00CCF097 /* WWAccountCacheModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WWAccountCacheModel.m; sourceTree = "<group>"; };
 		77390F3D1F5FCFBE0072324B /* WWProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WWProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77390F411F5FCFBE0072324B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		77390F431F5FCFBE0072324B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -236,6 +242,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		7738BDE51FA1CA8B00CCF097 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				7738BDE21FA1CA5500CCF097 /* WWArticleCacheModel.h */,
+				7738BDE31FA1CA5500CCF097 /* WWArticleCacheModel.m */,
+				7738BDE61FA1CAAE00CCF097 /* WWAccountCacheModel.h */,
+				7738BDE71FA1CAAE00CCF097 /* WWAccountCacheModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		77390F341F5FCFBE0072324B = {
 			isa = PBXGroup;
 			children = (
@@ -361,6 +378,7 @@
 			children = (
 				77390FA71F5FEB790072324B /* Controllers */,
 				77390FAA1F5FEB790072324B /* Views */,
+				7738BDE51FA1CA8B00CCF097 /* Models */,
 			);
 			path = Favorite;
 			sourceTree = "<group>";
@@ -866,6 +884,7 @@
 				779277041FA06A5400D3E55B /* WWArticleSearchAPIManager.m in Sources */,
 				8061F96A1F7D44B600E7F4C8 /* KOGServiceFactory.m in Sources */,
 				774994D91F909410001F9E36 /* WWAccountTableViewCell.m in Sources */,
+				7738BDE41FA1CA5500CCF097 /* WWArticleCacheModel.m in Sources */,
 				7749949E1F8E1094001F9E36 /* WWAccountModel.m in Sources */,
 				8061F9661F7D44B600E7F4C8 /* KOGAPIBaseManager.m in Sources */,
 				77C898651F8B7D580046EA13 /* WWHotwordModel.m in Sources */,
@@ -891,6 +910,7 @@
 				8061F9691F7D44B600E7F4C8 /* KOGService.m in Sources */,
 				7749948F1F8DCC99001F9E36 /* WWMainNavigationController.m in Sources */,
 				8061F96B1F7D44B600E7F4C8 /* KOGAppContext.m in Sources */,
+				7738BDE81FA1CAAE00CCF097 /* WWAccountCacheModel.m in Sources */,
 				774994881F8C6869001F9E36 /* WWImageView.m in Sources */,
 				779277051FA06A5400D3E55B /* WWMainPageAPIManager.m in Sources */,
 				779277081FA06A5400D3E55B /* WWWXArticleAPIManager.m in Sources */,
