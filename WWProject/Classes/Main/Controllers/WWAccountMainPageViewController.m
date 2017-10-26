@@ -129,7 +129,7 @@
     }
     __weak typeof(self) weakSelf = self;
     if (![url isEqualToString:self.accounteModel.authorMainUrl]) {
-        NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:url replaceString:kWWAccountMainPageServiceOnlineApiBaseUrl];
+        NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:url replaceString:kWWWXServiceOnlineApiBaseUrl];
         self.articleManager.contentUrl = url;
         [self.articleManager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWWXArticleAPIManager *manager) {
             if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {

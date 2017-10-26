@@ -8,7 +8,7 @@
 
 #import "RootTabBarViewController.h"
 #import "RDVTabBarItem.h"
-#import "MainViewController.h"
+#import "WWMainViewController.h"
 #import "WWFavoriteViewController.h"
 #import "WWMainNavigationController.h"
 
@@ -31,7 +31,7 @@
 #pragma mark - private
 - (void)ww_setupChildrenVCs
 {
-    MainViewController *mainTVC = [[MainViewController alloc] init];
+    WWMainViewController *mainTVC = [[WWMainViewController alloc] init];
     mainTVC.title = [self.titles firstObject];
     WWMainNavigationController *mainNavController = [[WWMainNavigationController alloc] initWithRootViewController:mainTVC];
     WWFavoriteViewController *favoriteTVC = [[WWFavoriteViewController alloc] init];

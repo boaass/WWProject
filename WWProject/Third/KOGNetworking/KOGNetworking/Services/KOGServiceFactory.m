@@ -15,9 +15,9 @@ NSString * const kWWMainPageService = @"kWWMainPageService";
 NSString * const kWWMainPageServiceOfflineApiBaseUrl = @"http://weixin.sogou.com/";
 NSString * const kWWMainPageServiceOnlineApiBaseUrl = @"http://weixin.sogou.com/";
 
-NSString * const kWWAccountMainPageService = @"kWWAccountMainPageService";
-NSString * const kWWAccountMainPageServiceOfflineApiBaseUrl = @"http://mp.weixin.qq.com/";
-NSString * const kWWAccountMainPageServiceOnlineApiBaseUrl = @"http://mp.weixin.qq.com/";
+NSString * const kWWWXService = @"kWWWXService";
+NSString * const kWWWXServiceOfflineApiBaseUrl = @"http://mp.weixin.qq.com/";
+NSString * const kWWWXServiceOnlineApiBaseUrl = @"http://mp.weixin.qq.com/";
 
 @interface KOGServiceFactory ()
 
@@ -52,7 +52,7 @@ NSString * const kWWAccountMainPageServiceOnlineApiBaseUrl = @"http://mp.weixin.
 #warning 注册服务
     if ([identifier isEqualToString:kWWMainPageService]) {
         return [[WWMainPageService alloc] init];
-    } else if ([identifier isEqualToString:kWWAccountMainPageService]) {
+    } else if ([identifier isEqualToString:kWWWXService]) {
         return [[WWAccountMainPageService alloc] init];
     }
     

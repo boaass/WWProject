@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSString *bigImageUrl;
 // 作者
 @property (nonatomic, strong) NSString *author;
+// 微信id
+@property (nonatomic, strong) NSString *wxID;
 // 发布时间戳
 @property (nonatomic, strong) NSString *timeStamp;
 // 概述

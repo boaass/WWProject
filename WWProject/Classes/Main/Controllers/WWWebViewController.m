@@ -11,7 +11,9 @@
 #import "WWAccountModel.h"
 #import "WWWebPopView.h"
 #import "WWArticleSearchAPIManager.h"
+#import "WWWXArticleAPIManager.h"
 #import "WWAccountMainPageAPIManager.h"
+#import "WWAccountSearchAPIManager.h"
 #import "WWPopViewItemButton.h"
 #import "KOGNetworkingConfiguration.h"
 #import "WWMainPageModel.h"
@@ -23,7 +25,9 @@
 @property (nonatomic, strong, readwrite) WWArticleItemModel *articleModel;
 @property (nonatomic, strong) WWAccountModel *accountModel;
 @property (nonatomic, strong) WWArticleSearchAPIManager *articleManager;
+@property (nonatomic, strong) WWWXArticleAPIManager *wxArticleManager;
 @property (nonatomic, strong) WWAccountMainPageAPIManager *accountManager;
+@property (nonatomic, strong) WWAccountSearchAPIManager *accountSearchManager;
 
 @end
 
@@ -163,6 +167,14 @@
     return _articleManager;
 }
 
+- (WWWXArticleAPIManager *)wxArticleManager
+{
+    if (!_wxArticleManager) {
+        _wxArticleManager = [[WWWXArticleAPIManager alloc] init];
+    }
+    return _wxArticleManager;
+}
+
 - (WWAccountMainPageAPIManager *)accountManager
 {
     if (!_accountManager) {
@@ -172,17 +184,39 @@
     return _accountManager;
 }
 
+- (WWAccountSearchAPIManager *)accountSearchManager
+{
+    if (!_accountSearchManager) {
+        _accountSearchManager = [[WWAccountSearchAPIManager alloc] init];
+    }
+    return _accountSearchManager;
+}
+
 - (void)setArticleModel:(WWArticleItemModel *)articleModel
 {
     _articleModel = articleModel;
-    
     __weak typeof(self) weakSelf = self;
-    NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:_articleModel.authorMainUrl replaceString:kWWAccountMainPageServiceOnlineApiBaseUrl];
-    [self.accountManager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWAccountMainPageAPIManager *manager) {
-        if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
-            weakSelf.accountModel = manager.accountInfo;
-        }
-    }];
+    if (!articleModel.authorMainUrl || articleModel.authorMainUrl.length==0) {
+        // 点击轮播图跳转到该页面
+        NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:articleModel.contentUrl replaceString:kWWWXServiceOnlineApiBaseUrl];
+        self.wxArticleManager.contentUrl = articleModel.contentUrl;
+        [self.wxArticleManager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWWXArticleAPIManager *manager) {
+            if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+                NSString *searchUrl = [[[WWMainPageModel sharedInstance].accountSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:manager.articleInfo.wxID];
+                NSDictionary *requestParam = [WWTools combinedParamsForRequestWithSearchUrl:searchUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
+                [weakSelf.accountSearchManager loadDataWithUrl:[[requestParam allKeys] firstObject] params:[[requestParam allValues] firstObject] block:^(WWAccountSearchAPIManager *manager) {
+                    weakSelf.accountModel = [manager.accountInfos firstObject];
+                }];
+            }
+        }];
+    } else {
+        NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:articleModel.authorMainUrl replaceString:kWWWXServiceOnlineApiBaseUrl];
+        [self.accountManager loadDataWithUrl:[[requestData allKeys] firstObject] params:[[requestData allValues] firstObject] block:^(WWAccountMainPageAPIManager *manager) {
+            if (manager.errorType == KOGAPIManagerErrorTypeSuccess) {
+                weakSelf.accountModel = manager.accountInfo;
+            }
+        }];
+    }
 }
 
 @end

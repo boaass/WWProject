@@ -23,7 +23,5 @@
  最近文章 
 **/
 @property (nonatomic, strong) NSArray *descriptions;
-// 文章链接
-//@property (nonatomic, strong) NSString *contentUrl;
 
 @end

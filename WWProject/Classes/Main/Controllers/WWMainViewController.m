@@ -1,12 +1,12 @@
 //
-//  MainTableViewController.m
+//  WWMainTableViewController.m
 //  WWProject
 //
 //  Created by zcl_kingsoft on 2017/9/6.
 //  Copyright © 2017年 zcl_kingsoft. All rights reserved.
 //
 
-#import "MainViewController.h"
+#import "WWMainViewController.h"
 #import "BannerView.h"
 #import "XTSegmentControl.h"
 #import "iCarousel.h"
@@ -19,7 +19,7 @@
 #import "KOGNetworkingConfiguration.h"
 #import "WWWebViewController.h"
 
-@interface MainViewController () <iCarouselDelegate, iCarouselDataSource>
+@interface WWMainViewController () <iCarouselDelegate, iCarouselDataSource>
 
 @property (nonatomic, strong) WWMainPageAPIManager *manager;
 @property (nonatomic, strong) BannerView *bannerView;
@@ -29,10 +29,11 @@
 @property (nonatomic, strong) NSArray <WWMainPageTagModel *> *tags;
 @property (nonatomic, strong) NSMutableArray <WWTagTableView *> *validViewPool;
 @property (nonatomic, strong) WWSearchViewController *searchVC;
+@property (nonatomic, strong) UIView *headerView;
 
 @end
 
-@implementation MainViewController
+@implementation WWMainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -55,8 +56,7 @@
 #pragma mark - selector
 - (void)leftBarButtonAction
 {
-    [self ww_refreshBannerView];
-    [self.carousel reloadData];
+    [self ww_loadData];
 }
 
 - (void)rightBarButtonAction
@@ -102,19 +102,17 @@
 }
 
 #pragma mark - private
-- (void)ww_refreshBannerView
-{
-    [self.bannerView reload];
-}
-
 - (void)ww_setupHeaderView
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, self.bannerView.height+self.segmentControl.height)];
-    [view addSubview:self.bannerView];
-    [view addSubview:self.segmentControl];
-    [self.view addSubview:view];
+    if (!self.headerView) {
+        self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, self.bannerView.height+self.segmentControl.height)];
+        [self.headerView addSubview:self.bannerView];
+        [self.headerView addSubview:self.segmentControl];
+        [self.view addSubview:self.headerView];
+    }
     
     [self.carousel reloadData];
+    [self.bannerView reload];
 }
 
 - (void)ww_loadData

@@ -51,7 +51,7 @@
 
 - (NSString *)serviceType
 {
-    return kWWAccountMainPageService;
+    return kWWWXService;
 }
 
 - (KOGAPIManagerRequestType)requestType
@@ -72,6 +72,7 @@
     TFHpple *hpple = [[TFHpple alloc] initWithHTMLData:manager.response.responseData];
     NSString *title = [[hpple peekAtSearchWithXPathQuery:@"//title"] text];
     NSString *author = [[hpple peekAtSearchWithXPathQuery:@"//strong[@class='profile_nickname']"] text];
+    NSString *wxID = [[hpple peekAtSearchWithXPathQuery:@"//span[@class='profile_meta_value']"] text];
     // 获取 bigImageUrl
     NSString *bigImageUrlRegex = @"var\\smsg_cdn_url\\s=\\s\"(.*)\"";
     NSRegularExpression *bigImageUrlRegular = [NSRegularExpression regularExpressionWithPattern:bigImageUrlRegex options:NSRegularExpressionCaseInsensitive error:nil];
@@ -102,12 +103,10 @@
         timeStamp = [contentString substringWithRange:range];
     }
     
-//    NSString *fullUrl = [[[WWMainPageModel sharedInstance].articleSearchUrl stringByReplacingOccurrencesOfString:kWWMainPageServiceOnlineApiBaseUrl withString:@""] stringByAppendingString:[title stringByAppendingString:author]];
-//    NSDictionary *requestData = [WWTools combinedParamsForRequestWithSearchUrl:fullUrl replaceString:kWWMainPageServiceOnlineApiBaseUrl];
-    
     WWArticleItemModel *model = [[WWArticleItemModel alloc] init];
     model.title = title;
     model.author = author;
+    model.wxID = wxID;
     model.authorMainUrl = self.authorMainUrl;
     model.contentUrl = self.contentUrl;
     model.bigImageUrl = bigImageUrl;

@@ -53,7 +53,7 @@
 
 - (NSString *)serviceType
 {
-    return kWWAccountMainPageService;
+    return kWWWXService;
 }
 
 - (KOGAPIManagerRequestType)requestType
@@ -100,7 +100,7 @@
         NSString *style = [iconElement objectForKey:@"style"];
         NSRange range = [style rangeOfString:@"("];
         NSString *bigImageUrl = [[style substringFromIndex:range.location+1] stringByReplacingOccurrencesOfString:@")" withString:@""];
-        NSString *contentUrl = [kWWAccountMainPageServiceOnlineApiBaseUrl stringByAppendingPathComponent:[iconElement objectForKey:@"hrefs"]];
+        NSString *contentUrl = [kWWWXServiceOnlineApiBaseUrl stringByAppendingPathComponent:[iconElement objectForKey:@"hrefs"]];
         NSString *title = [[[elementHpple peekAtSearchWithXPathQuery:@"//h4[@class='weui_media_title']"] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         NSString *overview = [[elementHpple peekAtSearchWithXPathQuery:@"//p[@class='weui_media_desc']"] text];
         

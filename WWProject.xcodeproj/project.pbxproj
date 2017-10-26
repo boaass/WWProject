@@ -17,7 +17,7 @@
 		77390F9E1F5FE9130072324B /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390F9D1F5FE9130072324B /* UIColor+Extension.m */; };
 		77390FA41F5FEA640072324B /* AutoSlideScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FA11F5FEA640072324B /* AutoSlideScrollView.m */; };
 		77390FA51F5FEA640072324B /* NSTimer+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FA31F5FEA640072324B /* NSTimer+Addition.m */; };
-		77390FB61F5FEB790072324B /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FAE1F5FEB790072324B /* MainViewController.m */; };
+		77390FB61F5FEB790072324B /* WWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FAE1F5FEB790072324B /* WWMainViewController.m */; };
 		77390FB71F5FEB790072324B /* RootTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB31F5FEB790072324B /* RootTabBarViewController.m */; };
 		77390FBA1F5FED850072324B /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FB91F5FED850072324B /* BannerView.m */; };
 		77390FBD1F5FFAA70072324B /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 77390FBC1F5FFAA70072324B /* UIView+Extension.m */; };
@@ -106,8 +106,8 @@
 		77390FA11F5FEA640072324B /* AutoSlideScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoSlideScrollView.m; sourceTree = "<group>"; };
 		77390FA21F5FEA640072324B /* NSTimer+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Addition.h"; sourceTree = "<group>"; };
 		77390FA31F5FEA640072324B /* NSTimer+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+Addition.m"; sourceTree = "<group>"; };
-		77390FAD1F5FEB790072324B /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		77390FAE1F5FEB790072324B /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		77390FAD1F5FEB790072324B /* WWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWMainViewController.h; sourceTree = "<group>"; };
+		77390FAE1F5FEB790072324B /* WWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWMainViewController.m; sourceTree = "<group>"; };
 		77390FB21F5FEB790072324B /* RootTabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootTabBarViewController.h; sourceTree = "<group>"; };
 		77390FB31F5FEB790072324B /* RootTabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTabBarViewController.m; sourceTree = "<group>"; };
 		77390FB81F5FED850072324B /* BannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerView.h; sourceTree = "<group>"; };
@@ -396,8 +396,8 @@
 		77390FAC1F5FEB790072324B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				77390FAD1F5FEB790072324B /* MainViewController.h */,
-				77390FAE1F5FEB790072324B /* MainViewController.m */,
+				77390FAD1F5FEB790072324B /* WWMainViewController.h */,
+				77390FAE1F5FEB790072324B /* WWMainViewController.m */,
 				7749948D1F8DCC99001F9E36 /* WWMainNavigationController.h */,
 				7749948E1F8DCC99001F9E36 /* WWMainNavigationController.m */,
 				774994901F8DED9E001F9E36 /* WWSearchViewController.h */,
@@ -849,7 +849,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				805E48871F8FB08C009C7C0A /* TFHppleElement.m in Sources */,
-				77390FB61F5FEB790072324B /* MainViewController.m in Sources */,
+				77390FB61F5FEB790072324B /* WWMainViewController.m in Sources */,
 				774994981F8DF01D001F9E36 /* WWSearchBar.m in Sources */,
 				777A1B071F987F7400DCE9EA /* WWAccountMainPageService.m in Sources */,
 				8061F9681F7D44B600E7F4C8 /* KOGRequestGenerator.m in Sources */,
@@ -1051,6 +1051,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksyun.WWProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1069,6 +1070,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ksyun.WWProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

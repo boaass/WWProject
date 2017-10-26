@@ -19,12 +19,12 @@
 
 - (NSString *)offlineApiBaseUrl
 {
-    return kWWAccountMainPageServiceOfflineApiBaseUrl;
+    return kWWWXServiceOfflineApiBaseUrl;
 }
 
 - (NSString *)onlineApiBaseUrl
 {
-    return kWWAccountMainPageServiceOnlineApiBaseUrl;
+    return kWWWXServiceOnlineApiBaseUrl;
 }
 
 - (NSDictionary<NSString *,NSString *> *)allHTTPHeaderFields
