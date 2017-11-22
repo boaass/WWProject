@@ -36,7 +36,7 @@
     CGFloat titleW = maxW - 3*spaceW - imageViewWH;
     CGFloat overwriteW = titleW;
     CGFloat overwriteH = 40;
-    CGFloat authorW = 50;
+    CGFloat authorW = 100;
     CGFloat authorH = 10;
     CGFloat timeW = 100;
     CGFloat timeH = authorH;
